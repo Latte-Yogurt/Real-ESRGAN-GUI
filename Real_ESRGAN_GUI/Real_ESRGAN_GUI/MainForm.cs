@@ -459,7 +459,7 @@ namespace Real_ESRGAN_GUI
             extension = selectedExtension;
         }
 
-        private void MAINMENU_OPENFILES_CLICK(object sender, EventArgs e)
+        private async void MAINMENU_OPENFILES_CLICK(object sender, EventArgs e)
         {
             // 创建 OpenFileDialog 实例
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -485,12 +485,12 @@ namespace Real_ESRGAN_GUI
                     string command = $"{realesrganPath} -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
                     if (processHidden == "true")
                     {
-                        EXECUTE_COMMAND_HIDDEN(command);
+                        await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
                     }
 
                     if (processHidden == "false")
                     {
-                        EXECUTE_COMMAND_UNHIDDEN(command);
+                        await Task.Run(() => EXECUTE_COMMAND_UNHIDDEN(command));
                     }
                 }
             }
