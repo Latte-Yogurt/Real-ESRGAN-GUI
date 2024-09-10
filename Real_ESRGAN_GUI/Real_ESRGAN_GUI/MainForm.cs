@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 /*
 using System.Xml;
 using System.Collections.Generic;
@@ -368,9 +369,11 @@ namespace Real_ESRGAN_GUI
             {
                 e.Effect = DragDropEffects.None; // 不允许拖拽
             }
+            // 恢复鼠标指针到正常状态
+            Cursor.Current = Cursors.Default; // 设置鼠标指针为默认状态
         }
 
-        private void MAINFORM_DRAGDROP(object sender, DragEventArgs e)
+        private async void MAINFORM_DRAGDROP(object sender, DragEventArgs e)
         {
             // 获取拖拽的文件路径
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -392,16 +395,20 @@ namespace Real_ESRGAN_GUI
                     string command = $"{realesrganPath} -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
                     if (processHidden == "true")
                     {
-                        EXECUTE_COMMAND_HIDDEN(command);
+                        await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
                     }
 
                     if (processHidden == "false")
                     {
-                        EXECUTE_COMMAND_UNHIDDEN(command);
+                        await Task.Run(() => EXECUTE_COMMAND_UNHIDDEN(command));
                     }
                 }
             }
+        }
 
+        private void MAINFORM_DRAGOVER(object sender, DragEventArgs e)
+        {
+            MAINFORM_DRAGENTER(sender, e); // 复用已有的逻辑
         }
 
         private void BUTTON_CONFIG_CLICK(object sender, EventArgs e)
