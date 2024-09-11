@@ -94,7 +94,7 @@ namespace Real_ESRGAN_GUI
 
                 else
                 {
-                    string command = $"{realesrganPath} -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
+                    string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
                     if (processHidden == "true")
                     {
                         EXECUTE_COMMAND_HIDDEN(command);
@@ -127,10 +127,10 @@ namespace Real_ESRGAN_GUI
         {
             // 创建进程
             var process = new Process();
-            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.FileName = @"cmd.exe";
             process.StartInfo.Arguments = $"/C \"{command}\""; // /K 表示执行后保留窗口 /C 表示执行后不保留窗口(注意！！！给command添加双引号才可以正常运行！！！)
             process.StartInfo.RedirectStandardOutput = true; // 重定向输出
-            process.StartInfo.UseShellExecute = false; // 使用操作系统外壳启动
+            process.StartInfo.UseShellExecute = false; // 不使用操作系统外壳启动
             process.StartInfo.CreateNoWindow = false; // 显示命令行窗口
 
             // 启动进程
@@ -143,9 +143,9 @@ namespace Real_ESRGAN_GUI
         {
             // 创建进程
             var process = new Process();
-            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.FileName = @"cmd.exe"; // 调用系统文件夹中的cmd而非从工作路径调用cmd，避免工作路径下空格带来的影响
             process.StartInfo.Arguments = $"/C \"{command}\""; // /C 表示执行后不保留窗口(注意！！！给command添加双引号才可以正常运行！！！)
-            process.StartInfo.UseShellExecute = false; // 使用操作系统外壳启动
+            process.StartInfo.UseShellExecute = false; // 不使用操作系统外壳启动
             process.StartInfo.CreateNoWindow = true; // 不显示命令行窗口
 
             // 启动进程
@@ -392,7 +392,7 @@ namespace Real_ESRGAN_GUI
 
                 else
                 {
-                    string command = $"{realesrganPath} -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
+                    string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
                     if (processHidden == "true")
                     {
                         await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
@@ -482,7 +482,7 @@ namespace Real_ESRGAN_GUI
 
                 else
                 {
-                    string command = $"{realesrganPath} -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
+                    string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
                     if (processHidden == "true")
                     {
                         await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
