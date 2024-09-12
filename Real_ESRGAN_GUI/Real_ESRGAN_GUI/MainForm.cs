@@ -23,7 +23,6 @@ namespace Real_ESRGAN_GUI
         private Dictionary<string, Dictionary<string, string>> languageTexts;
 
         public static string currentLanguage;
-        public string aboutLanguage;
         public string filePath;
         public string fileName;
         public string directoryPath;
