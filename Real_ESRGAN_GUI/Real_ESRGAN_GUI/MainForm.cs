@@ -269,6 +269,18 @@ namespace Real_ESRGAN_GUI
             defaultConfig.Save(configFilePath);
         }
 
+        private void UPDATE_CONFIG(string filePath, string key, string newValue)
+        {
+            XDocument xdoc = XDocument.Load(filePath); // 加载 XML 文件
+
+            var element = xdoc.Descendants(key).FirstOrDefault(); // 查找指定节点
+            if (element != null)
+            {
+                element.Value = newValue; // 修改节点值
+                xdoc.Save(filePath); // 保存文件
+            }
+        }
+
         private string GET_CURRENT_LANGUAGE(string configFilePath)
         {
             // 检查文件是否存在
@@ -555,16 +567,10 @@ namespace Real_ESRGAN_GUI
                     break;
             }
 
-            XElement defaultConfig = new XElement("Configuration",
-                new XElement("Language", $"{currentLanguage}"),
-                new XElement("Scale", $"{scale}"),
-                new XElement("Model", $"{model}"),
-                new XElement("Extension", $"{extension}"),
-                new XElement("ProcessHidden", $"{processHidden}")
-                );
-
-            // 保存默认配置到文件
-            defaultConfig.Save(xmlPath);
+            UPDATE_CONFIG($"{xmlPath}", "Scale", $"{scale}");
+            UPDATE_CONFIG($"{xmlPath}", "Model", $"{model}");
+            UPDATE_CONFIG($"{xmlPath}", "Extension", $"{extension}");
+            UPDATE_CONFIG($"{xmlPath}", "ProcessHidden", $"{processHidden}");
         }
 
         private void CHECKBOX_HIDE_PROCESS_CHECKED_CHANGED(object sender, EventArgs e)
@@ -657,18 +663,21 @@ namespace Real_ESRGAN_GUI
         {
             currentLanguage = "CHS";
             UpdateLanguage();
+            UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
         }
 
         private void LANGUAGE_MENU_SELECT_CHT_CLICK(object sender, EventArgs e)
         {
             currentLanguage = "CHT";
             UpdateLanguage();
+            UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
         }
 
         private void LANGUAGE_MENU_SELECT_EN_CLICK(object sender, EventArgs e)
         {
             currentLanguage = "EN";
             UpdateLanguage();
+            UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
         }
 
         private void ABOUTMENU_ABOUT(object sender, EventArgs e)
