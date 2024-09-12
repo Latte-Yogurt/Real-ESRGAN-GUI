@@ -44,17 +44,17 @@ namespace Real_ESRGAN_GUI
             this.MainMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuOpenFiles = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.LagnuageMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.LanguageMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.LanguageMenuSelect = new System.Windows.Forms.ToolStripMenuItem();
+            this.LanguageMenuSelectCHS = new System.Windows.Forms.ToolStripMenuItem();
+            this.LanguageMenuSelectCHT = new System.Windows.Forms.ToolStripMenuItem();
+            this.LanguageMenuSelectEN = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainContextMenuStripExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguageMenuSelectCHS = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguageMenuSelectCHT = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguageMenuSelectEN = new System.Windows.Forms.ToolStripMenuItem();
             this.MainPanel.SuspendLayout();
             this.MenuStrip.SuspendLayout();
             this.MainContextMenuStrip.SuspendLayout();
@@ -187,7 +187,7 @@ namespace Real_ESRGAN_GUI
             this.MenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MainMenu,
-            this.LagnuageMenu,
+            this.LanguageMenu,
             this.AboutMenu,
             this.toolStripMenuItem1});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
@@ -211,24 +211,24 @@ namespace Real_ESRGAN_GUI
             // MainMenuOpenFiles
             // 
             this.MainMenuOpenFiles.Name = "MainMenuOpenFiles";
-            this.MainMenuOpenFiles.Size = new System.Drawing.Size(270, 34);
+            this.MainMenuOpenFiles.Size = new System.Drawing.Size(146, 34);
             this.MainMenuOpenFiles.Text = "打开";
             this.MainMenuOpenFiles.Click += new System.EventHandler(this.MAINMENU_OPENFILES_CLICK);
             // 
             // MainMenuExit
             // 
             this.MainMenuExit.Name = "MainMenuExit";
-            this.MainMenuExit.Size = new System.Drawing.Size(270, 34);
+            this.MainMenuExit.Size = new System.Drawing.Size(146, 34);
             this.MainMenuExit.Text = "退出";
             this.MainMenuExit.Click += new System.EventHandler(this.MAINMENU_EXIT_CLICK);
             // 
-            // LagnuageMenu
+            // LanguageMenu
             // 
-            this.LagnuageMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.LanguageMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LanguageMenuSelect});
-            this.LagnuageMenu.Name = "LagnuageMenu";
-            this.LagnuageMenu.Size = new System.Drawing.Size(62, 28);
-            this.LagnuageMenu.Text = "语言";
+            this.LanguageMenu.Name = "LanguageMenu";
+            this.LanguageMenu.Size = new System.Drawing.Size(62, 28);
+            this.LanguageMenu.Text = "语言";
             // 
             // LanguageMenuSelect
             // 
@@ -239,6 +239,27 @@ namespace Real_ESRGAN_GUI
             this.LanguageMenuSelect.Name = "LanguageMenuSelect";
             this.LanguageMenuSelect.Size = new System.Drawing.Size(270, 34);
             this.LanguageMenuSelect.Text = "选择语言";
+            // 
+            // LanguageMenuSelectCHS
+            // 
+            this.LanguageMenuSelectCHS.Name = "LanguageMenuSelectCHS";
+            this.LanguageMenuSelectCHS.Size = new System.Drawing.Size(182, 34);
+            this.LanguageMenuSelectCHS.Text = "简体中文";
+            this.LanguageMenuSelectCHS.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_CHS_CLICK);
+            // 
+            // LanguageMenuSelectCHT
+            // 
+            this.LanguageMenuSelectCHT.Name = "LanguageMenuSelectCHT";
+            this.LanguageMenuSelectCHT.Size = new System.Drawing.Size(182, 34);
+            this.LanguageMenuSelectCHT.Text = "繁體中文";
+            this.LanguageMenuSelectCHT.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_CHT_CLICK);
+            // 
+            // LanguageMenuSelectEN
+            // 
+            this.LanguageMenuSelectEN.Name = "LanguageMenuSelectEN";
+            this.LanguageMenuSelectEN.Size = new System.Drawing.Size(182, 34);
+            this.LanguageMenuSelectEN.Text = "English";
+            this.LanguageMenuSelectEN.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_EN_CLICK);
             // 
             // AboutMenu
             // 
@@ -280,30 +301,9 @@ namespace Real_ESRGAN_GUI
             // 
             this.MainContextMenuStripExit.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MainContextMenuStripExit.Name = "MainContextMenuStripExit";
-            this.MainContextMenuStripExit.Size = new System.Drawing.Size(240, 30);
+            this.MainContextMenuStripExit.Size = new System.Drawing.Size(116, 30);
             this.MainContextMenuStripExit.Text = "退出";
             this.MainContextMenuStripExit.Click += new System.EventHandler(this.MAIN_CONTEXT_MENU_STRIP_EXIT_CLICK);
-            // 
-            // LanguageMenuSelectCHS
-            // 
-            this.LanguageMenuSelectCHS.Name = "LanguageMenuSelectCHS";
-            this.LanguageMenuSelectCHS.Size = new System.Drawing.Size(270, 34);
-            this.LanguageMenuSelectCHS.Text = "简体中文";
-            this.LanguageMenuSelectCHS.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_CHS_CLICK);
-            // 
-            // LanguageMenuSelectCHT
-            // 
-            this.LanguageMenuSelectCHT.Name = "LanguageMenuSelectCHT";
-            this.LanguageMenuSelectCHT.Size = new System.Drawing.Size(270, 34);
-            this.LanguageMenuSelectCHT.Text = "繁體中文";
-            this.LanguageMenuSelectCHT.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_CHT_CLICK);
-            // 
-            // LanguageMenuSelectEN
-            // 
-            this.LanguageMenuSelectEN.Name = "LanguageMenuSelectEN";
-            this.LanguageMenuSelectEN.Size = new System.Drawing.Size(270, 34);
-            this.LanguageMenuSelectEN.Text = "English";
-            this.LanguageMenuSelectEN.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_EN_CLICK);
             // 
             // MainForm
             // 
@@ -351,7 +351,7 @@ namespace Real_ESRGAN_GUI
         private System.Windows.Forms.ToolStripMenuItem AboutMenuAbout;
         private System.Windows.Forms.ContextMenuStrip MainContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem MainContextMenuStripExit;
-        private System.Windows.Forms.ToolStripMenuItem LagnuageMenu;
+        private System.Windows.Forms.ToolStripMenuItem LanguageMenu;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelect;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelectCHS;

@@ -191,7 +191,7 @@ namespace Real_ESRGAN_GUI
                         { "MainMenuText","文件" },
                         { "MainMenuOpenFiles","打开" },
                         { "MainMenuExit","退出" },
-                        { "LagnuageMenu","语言" },
+                        { "LanguageMenu","语言" },
                         { "LanguageMenuSelect","选择语言" },
                         { "AboutMenu","关于" },
                         { "LabelScale","放大倍数" },
@@ -207,7 +207,7 @@ namespace Real_ESRGAN_GUI
                         { "MainMenuText","文件" },
                         { "MainMenuOpenFiles","打開" },
                         { "MainMenuExit","退出" },
-                        { "LagnuageMenu","語言" },
+                        { "LanguageMenu","語言" },
                         { "LanguageMenuSelect","選擇語言" },
                         { "AboutMenu","關於" },
                         { "LabelScale","放大倍數" },
@@ -223,7 +223,7 @@ namespace Real_ESRGAN_GUI
                         { "MainMenuText","Files" },
                         { "MainMenuOpenFiles","Open" },
                         { "MainMenuExit","Exit" },
-                        { "LagnuageMenu","Language" },
+                        { "LanguageMenu","Language" },
                         { "LanguageMenuSelect","Select Language" },
                         { "AboutMenu","About" },
                         { "LabelScale","Scale" },
@@ -242,7 +242,7 @@ namespace Real_ESRGAN_GUI
             MainMenu.Text = languageTexts[currentLanguage]["MainMenuText"];
             MainMenuOpenFiles.Text = languageTexts[currentLanguage]["MainMenuOpenFiles"];
             MainMenuExit.Text = languageTexts[currentLanguage]["MainMenuExit"];
-            LagnuageMenu.Text = languageTexts[currentLanguage]["LagnuageMenu"];
+            LanguageMenu.Text = languageTexts[currentLanguage]["LanguageMenu"];
             LanguageMenuSelect.Text = languageTexts[currentLanguage]["LanguageMenuSelect"];
             AboutMenu.Text = languageTexts[currentLanguage]["AboutMenu"];
             LabelScale.Text = languageTexts[currentLanguage]["LabelScale"];
