@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Diagnostics;
@@ -8,12 +9,10 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 /*
 using System.Xml;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 */
 
@@ -21,6 +20,10 @@ namespace Real_ESRGAN_GUI
 {
     public partial class MainForm : Form
     {
+        private Dictionary<string, Dictionary<string, string>> languageTexts;
+
+        public static string currentLanguage;
+        public string aboutLanguage;
         public string filePath;
         public string fileName;
         public string directoryPath;
@@ -37,6 +40,15 @@ namespace Real_ESRGAN_GUI
         public MainForm(string[] args)
         {
             InitializeComponent();
+
+            string workPath = GET_WORK_PATH(); // 获取程序路径
+            string xml = @"config.xml";
+            xmlPath = Path.Combine(workPath, xml);
+
+            currentLanguage = GET_CURRENT_LANGUAGE(xmlPath);
+
+            InitializeLanguageTexts();
+            UpdateLanguage();
 
             this.FormBorderStyle = FormBorderStyle.FixedDialog; // 隐藏最大化按钮
             this.DragEnter += new DragEventHandler(MAINFORM_DRAGENTER);
@@ -58,10 +70,6 @@ namespace Real_ESRGAN_GUI
                 fileName = Path.GetFileNameWithoutExtension(filePath);
                 directoryPath = Path.GetDirectoryName(filePath);
             }
-
-            string workPath = GET_WORK_PATH(); // 获取程序路径
-            string xml = @"config.xml";
-            xmlPath = Path.Combine(workPath, xml);
 
             string realesrgan = @"realesrgan.exe";
             realesrganPath = Path.Combine(workPath, realesrgan);
@@ -89,7 +97,18 @@ namespace Real_ESRGAN_GUI
             {
                 if (!CHECK_REAL_ESRGAN_EXIST())
                 {
-                    MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    switch (currentLanguage)
+                    {
+                        case "CHS":
+                            MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case "CHT":
+                            MessageBox.Show("程式工作路徑下Real ESRGAN組件不完整，無法啓動Real ESRGAN處理流程。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case "EN":
+                            MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                    }
                 }
 
                 else
@@ -152,10 +171,82 @@ namespace Real_ESRGAN_GUI
             process.Start();
         }
 
+        private void InitializeLanguageTexts()
+        {
+            languageTexts = new Dictionary<string, Dictionary<string, string>>
+            {
+                { "CHS", new Dictionary<string, string>
+                    {
+                        { "MainMenuText","文件" },
+                        { "MainMenuOpenFiles","打开" },
+                        { "MainMenuExit","退出" },
+                        { "LagnuageMenu","语言" },
+                        { "LanguageMenuSelect","选择语言" },
+                        { "AboutMenu","关于" },
+                        { "LabelScale","放大倍数" },
+                        { "LabelModel","放大算法" },
+                        { "LabelExtension","生成格式" },
+                        { "CheckBoxHideProcess","后台运行" },
+                        { "ButtonConfig","保存配置" },
+                        { "MainContextMenuStripExit","退出" }
+                    }
+                },
+                { "CHT", new Dictionary<string, string>
+                    {
+                        { "MainMenuText","文件" },
+                        { "MainMenuOpenFiles","打開" },
+                        { "MainMenuExit","退出" },
+                        { "LagnuageMenu","語言" },
+                        { "LanguageMenuSelect","選擇語言" },
+                        { "AboutMenu","關於" },
+                        { "LabelScale","放大倍數" },
+                        { "LabelModel","放大算法" },
+                        { "LabelExtension","生成格式" },
+                        { "CheckBoxHideProcess","後臺運行" },
+                        { "ButtonConfig","保存配置" },
+                        { "MainContextMenuStripExit","退出" }
+                    }
+                },
+                { "EN", new Dictionary<string, string>
+                    {
+                        { "MainMenuText","Files" },
+                        { "MainMenuOpenFiles","Open" },
+                        { "MainMenuExit","Exit" },
+                        { "LagnuageMenu","Language" },
+                        { "LanguageMenuSelect","Select Language" },
+                        { "AboutMenu","About" },
+                        { "LabelScale","Scale" },
+                        { "LabelModel","Model" },
+                        { "LabelExtension","Extension" },
+                        { "CheckBoxHideProcess","Hide Process" },
+                        { "ButtonConfig","Save Config" },
+                        { "MainContextMenuStripExit","Exit" }
+                    }
+                }
+            };
+        }
+
+        private void UpdateLanguage()
+        {
+            MainMenu.Text = languageTexts[currentLanguage]["MainMenuText"];
+            MainMenuOpenFiles.Text = languageTexts[currentLanguage]["MainMenuOpenFiles"];
+            MainMenuExit.Text = languageTexts[currentLanguage]["MainMenuExit"];
+            LagnuageMenu.Text = languageTexts[currentLanguage]["LagnuageMenu"];
+            LanguageMenuSelect.Text = languageTexts[currentLanguage]["LanguageMenuSelect"];
+            AboutMenu.Text = languageTexts[currentLanguage]["AboutMenu"];
+            LabelScale.Text = languageTexts[currentLanguage]["LabelScale"];
+            LabelModel.Text = languageTexts[currentLanguage]["LabelModel"];
+            LabelExtension.Text = languageTexts[currentLanguage]["LabelExtension"];
+            CheckBoxHideProcess.Text = languageTexts[currentLanguage]["CheckBoxHideProcess"];
+            ButtonConfig.Text = languageTexts[currentLanguage]["ButtonConfig"];
+            MainContextMenuStripExit.Text = languageTexts[currentLanguage]["MainContextMenuStripExit"];
+        }
+
         private void CREATE_DEFAULT_CONFIG(string configFilePath)
         {
             // 创建默认的 XML 结构
             XElement defaultConfig = new XElement("Configuration",
+                new XElement("Language", "CHS"),
                 new XElement("Scale", "4"),
                 new XElement("Model", "realesrgan-x4plus"),
                 new XElement("Extension", "png"),
@@ -164,6 +255,20 @@ namespace Real_ESRGAN_GUI
 
             // 保存默认配置到文件
             defaultConfig.Save(configFilePath);
+        }
+
+        private string GET_CURRENT_LANGUAGE(string configFilePath)
+        {
+            // 检查文件是否存在
+            if (!File.Exists(configFilePath))
+            {
+                // 如果不存在，创建默认配置文件
+                CREATE_DEFAULT_CONFIG(configFilePath);
+            }
+            XDocument xdoc = XDocument.Load(configFilePath);
+            var language = xdoc.Descendants("Language").FirstOrDefault()?.Value;
+
+            return language;
         }
 
         private string GET_SCALE(string configFilePath)
@@ -217,9 +322,9 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
             XDocument xdoc = XDocument.Load(configFilePath);
-            var extension = xdoc.Descendants("ProcessHidden").FirstOrDefault()?.Value;
+            var processHidden = xdoc.Descendants("ProcessHidden").FirstOrDefault()?.Value;
 
-            return extension;
+            return processHidden;
         }
 
         private void DEFAULT_SCALE_MENU()
@@ -387,7 +492,18 @@ namespace Real_ESRGAN_GUI
 
                 if (!CHECK_REAL_ESRGAN_EXIST())
                 {
-                    MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    switch (currentLanguage)
+                    {
+                        case "CHS":
+                            MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case "CHT":
+                            MessageBox.Show("程式工作路徑下Real ESRGAN組件不完整，無法啓動Real ESRGAN處理流程。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case "EN":
+                            MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                    }
                 }
 
                 else
@@ -413,9 +529,22 @@ namespace Real_ESRGAN_GUI
 
         private void BUTTON_CONFIG_CLICK(object sender, EventArgs e)
         {
-            MessageBox.Show("配置已保存，将文件拖拽于本程序以使用配置进行图像分辨率放大。","提示",MessageBoxButtons.OK,MessageBoxIcon.Information);   
+
+            switch (currentLanguage)
+            {
+                case "CHS":
+                    MessageBox.Show("配置已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                case "CHT":
+                    MessageBox.Show("配置已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                case "EN":
+                    MessageBox.Show("Configuration Saved.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+            }
 
             XElement defaultConfig = new XElement("Configuration",
+                new XElement("Language", $"{currentLanguage}"),
                 new XElement("Scale", $"{scale}"),
                 new XElement("Model", $"{model}"),
                 new XElement("Extension", $"{extension}"),
@@ -477,7 +606,18 @@ namespace Real_ESRGAN_GUI
 
                 if (!CHECK_REAL_ESRGAN_EXIST())
                 {
-                    MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    switch (currentLanguage)
+                    {
+                        case "CHS":
+                            MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case "CHT":
+                            MessageBox.Show("程式工作路徑下Real ESRGAN組件不完整，無法啓動Real ESRGAN處理流程。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case "EN":
+                            MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                    }
                 }
 
                 else
@@ -501,6 +641,24 @@ namespace Real_ESRGAN_GUI
             this.Close();
         }
 
+        private void LANGUAGE_MENU_SELECT_CHS_CLICK(object sender, EventArgs e)
+        {
+            currentLanguage = "CHS";
+            UpdateLanguage();
+        }
+
+        private void LANGUAGE_MENU_SELECT_CHT_CLICK(object sender, EventArgs e)
+        {
+            currentLanguage = "CHT";
+            UpdateLanguage();
+        }
+
+        private void LANGUAGE_MENU_SELECT_EN_CLICK(object sender, EventArgs e)
+        {
+            currentLanguage = "EN";
+            UpdateLanguage();
+        }
+
         private void ABOUTMENU_ABOUT(object sender, EventArgs e)
         {
             AboutForm aboutForm = new AboutForm();
@@ -514,7 +672,7 @@ namespace Real_ESRGAN_GUI
             this.WindowState = FormWindowState.Normal;
         }
 
-        private void EXIT_TOOLSTRIP_MENUITEM_CLICK(object sender, EventArgs e)
+        private void MAIN_CONTEXT_MENU_STRIP_EXIT_CLICK(object sender, EventArgs e)
         {
             this.Close();
         }

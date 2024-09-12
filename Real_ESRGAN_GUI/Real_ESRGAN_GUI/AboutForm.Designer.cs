@@ -32,9 +32,9 @@ namespace Real_ESRGAN_GUI
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.ConfirmButton = new System.Windows.Forms.Button();
-            this.TelegramLabel = new System.Windows.Forms.LinkLabel();
+            this.LabelTelegram = new System.Windows.Forms.LinkLabel();
             this.DeveloperLabel = new System.Windows.Forms.Label();
-            this.WebsiteLabel = new System.Windows.Forms.LinkLabel();
+            this.LabelWebsite = new System.Windows.Forms.LinkLabel();
             this.MainLabel = new System.Windows.Forms.Label();
             this.MainPic = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
@@ -44,9 +44,9 @@ namespace Real_ESRGAN_GUI
             // panel1
             // 
             this.panel1.Controls.Add(this.ConfirmButton);
-            this.panel1.Controls.Add(this.TelegramLabel);
+            this.panel1.Controls.Add(this.LabelTelegram);
             this.panel1.Controls.Add(this.DeveloperLabel);
-            this.panel1.Controls.Add(this.WebsiteLabel);
+            this.panel1.Controls.Add(this.LabelWebsite);
             this.panel1.Controls.Add(this.MainLabel);
             this.panel1.Controls.Add(this.MainPic);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -66,18 +66,18 @@ namespace Real_ESRGAN_GUI
             this.ConfirmButton.UseVisualStyleBackColor = true;
             this.ConfirmButton.Click += new System.EventHandler(this.CONFIRM_BUTTON_CLICK);
             // 
-            // TelegramLabel
+            // LabelTelegram
             // 
-            this.TelegramLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.TelegramLabel.AutoSize = true;
-            this.TelegramLabel.Font = new System.Drawing.Font("别喝醉别流泪", 14F);
-            this.TelegramLabel.Location = new System.Drawing.Point(310, 179);
-            this.TelegramLabel.Name = "TelegramLabel";
-            this.TelegramLabel.Size = new System.Drawing.Size(156, 32);
-            this.TelegramLabel.TabIndex = 4;
-            this.TelegramLabel.TabStop = true;
-            this.TelegramLabel.Text = "Telegram频道";
-            this.TelegramLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.TELEGRAM_LABEL_LINK_CLICKED);
+            this.LabelTelegram.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LabelTelegram.AutoSize = true;
+            this.LabelTelegram.Font = new System.Drawing.Font("别喝醉别流泪", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LabelTelegram.Location = new System.Drawing.Point(314, 179);
+            this.LabelTelegram.Name = "LabelTelegram";
+            this.LabelTelegram.Size = new System.Drawing.Size(156, 32);
+            this.LabelTelegram.TabIndex = 4;
+            this.LabelTelegram.TabStop = true;
+            this.LabelTelegram.Text = "Telegram频道";
+            this.LabelTelegram.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.TELEGRAM_LABEL_LINK_CLICKED);
             // 
             // DeveloperLabel
             // 
@@ -90,18 +90,18 @@ namespace Real_ESRGAN_GUI
             this.DeveloperLabel.TabIndex = 3;
             this.DeveloperLabel.Text = "Copyright© 2024 LatteYogurt , All rights reserved.";
             // 
-            // WebsiteLabel
+            // LabelWebsite
             // 
-            this.WebsiteLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.WebsiteLabel.AutoSize = true;
-            this.WebsiteLabel.Font = new System.Drawing.Font("别喝醉别流泪", 14F);
-            this.WebsiteLabel.Location = new System.Drawing.Point(316, 121);
-            this.WebsiteLabel.Name = "WebsiteLabel";
-            this.WebsiteLabel.Size = new System.Drawing.Size(140, 32);
-            this.WebsiteLabel.TabIndex = 1;
-            this.WebsiteLabel.TabStop = true;
-            this.WebsiteLabel.Text = "Github主页";
-            this.WebsiteLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.WEBSITE_LABEL_LINK_CLICKED);
+            this.LabelWebsite.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LabelWebsite.AutoSize = true;
+            this.LabelWebsite.Font = new System.Drawing.Font("别喝醉别流泪", 14F);
+            this.LabelWebsite.Location = new System.Drawing.Point(321, 125);
+            this.LabelWebsite.Name = "LabelWebsite";
+            this.LabelWebsite.Size = new System.Drawing.Size(140, 32);
+            this.LabelWebsite.TabIndex = 1;
+            this.LabelWebsite.TabStop = true;
+            this.LabelWebsite.Text = "Github主页";
+            this.LabelWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.WEBSITE_LABEL_LINK_CLICKED);
             // 
             // MainLabel
             // 
@@ -152,10 +152,10 @@ namespace Real_ESRGAN_GUI
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label MainLabel;
-        private System.Windows.Forms.LinkLabel WebsiteLabel;
+        private System.Windows.Forms.LinkLabel LabelWebsite;
         private System.Windows.Forms.PictureBox MainPic;
         private System.Windows.Forms.Label DeveloperLabel;
-        private System.Windows.Forms.LinkLabel TelegramLabel;
+        private System.Windows.Forms.LinkLabel LabelTelegram;
         private System.Windows.Forms.Button ConfirmButton;
     }
 }
