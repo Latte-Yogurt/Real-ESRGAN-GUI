@@ -62,7 +62,19 @@ namespace Real_ESRGAN_GUI
                 string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".webp" };
                 if (!allowedExtensions.Contains(Path.GetExtension(filePath).ToLower()))
                 {
-                    MessageBox.Show("不支持的文件格式。请提供 JPG、PNG 或 WEBP 文件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    switch (currentLanguage)
+                    {
+                        case "CHS":
+                            MessageBox.Show("不支持的文件格式。请提供 JPG、PNG 或 WEBP 文件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case "CHT":
+                            MessageBox.Show("不支持的文件格式。請提供 JPG、PNG 或 WEBP 文件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case "EN":
+                            MessageBox.Show("Unsupported file format. Please provide JPG, PNG, or WEBP files.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                    }
+
                     this.Close(); // 关闭应用程序
                     return; // 确保不执行后续代码
                 }
