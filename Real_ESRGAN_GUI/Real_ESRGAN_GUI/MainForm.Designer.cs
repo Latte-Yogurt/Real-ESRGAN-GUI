@@ -237,7 +237,7 @@ namespace Real_ESRGAN_GUI
             this.LanguageMenuSelectCHT,
             this.LanguageMenuSelectEN});
             this.LanguageMenuSelect.Name = "LanguageMenuSelect";
-            this.LanguageMenuSelect.Size = new System.Drawing.Size(270, 34);
+            this.LanguageMenuSelect.Size = new System.Drawing.Size(182, 34);
             this.LanguageMenuSelect.Text = "选择语言";
             // 
             // LanguageMenuSelectCHS
@@ -272,7 +272,7 @@ namespace Real_ESRGAN_GUI
             // AboutMenuAbout
             // 
             this.AboutMenuAbout.Name = "AboutMenuAbout";
-            this.AboutMenuAbout.Size = new System.Drawing.Size(270, 34);
+            this.AboutMenuAbout.Size = new System.Drawing.Size(261, 34);
             this.AboutMenuAbout.Text = "Real ESRGAN GUI";
             this.AboutMenuAbout.Click += new System.EventHandler(this.ABOUTMENU_ABOUT);
             // 
@@ -322,6 +322,7 @@ namespace Real_ESRGAN_GUI
             this.MinimumSize = new System.Drawing.Size(400, 400);
             this.Name = "MainForm";
             this.Text = "Real ESRGAN";
+            this.Load += new System.EventHandler(this.MAINFORM_LOAD);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
             this.MenuStrip.ResumeLayout(false);

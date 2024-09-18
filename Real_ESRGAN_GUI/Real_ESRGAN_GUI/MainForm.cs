@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+
 /*
 using System.Xml;
 using System.ComponentModel;
@@ -23,6 +25,8 @@ namespace Real_ESRGAN_GUI
         private Dictionary<string, Dictionary<string, string>> languageTexts;
 
         public static string currentLanguage;
+        public int locationX;
+        public int locationY;
         public string filePath;
         public string fileName;
         public string directoryPath;
@@ -52,6 +56,7 @@ namespace Real_ESRGAN_GUI
             this.FormBorderStyle = FormBorderStyle.FixedDialog; // 隐藏最大化按钮
             this.DragEnter += new DragEventHandler(MAINFORM_DRAGENTER);
             this.DragDrop += new DragEventHandler(MAINFORM_DRAGDROP);
+            this.FormClosing += MAINFORM_FORM_CLOSING;
 
             if (args.Length > 0 && !string.IsNullOrEmpty(args[0]))
             {
@@ -255,9 +260,14 @@ namespace Real_ESRGAN_GUI
 
         private void CREATE_DEFAULT_CONFIG(string configFilePath)
         {
+            int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
+            int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
+
             // 创建默认的 XML 结构
             XElement defaultConfig = new XElement("Configuration",
                 new XElement("Language", "CHS"),
+                new XElement("LocationX", $"{newLocationX}"),
+                new XElement("LocationY", $"{newLocationY}"),
                 new XElement("Scale", "4"),
                 new XElement("Model", "realesrgan-x4plus"),
                 new XElement("Extension", "png"),
@@ -276,9 +286,16 @@ namespace Real_ESRGAN_GUI
             if (element != null)
             {
                 element.Value = newValue; // 修改节点值
-                xdoc.Save(filePath); // 保存文件
             }
+            else
+            {
+                // 创建新节点并设置值
+                xdoc.Root.Add(new XElement(key, newValue));
+            }
+
+            xdoc.Save(filePath); // 保存文件
         }
+
 
         private string GET_CURRENT_LANGUAGE(string configFilePath)
         {
@@ -288,10 +305,108 @@ namespace Real_ESRGAN_GUI
                 // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
+
+            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
+
             var language = xdoc.Descendants("Language").FirstOrDefault()?.Value;
 
-            return language;
+            // 如果获取到的值为 null 或为空字符串
+            if (string.IsNullOrEmpty(language))
+            {
+                // 创建新的 XML 节点
+                XElement newNode = new XElement("Language", "CHS");
+
+                // 将新节点添加到根节点
+                xdoc.Root.Add(newNode);
+
+                // 保存更改
+                xdoc.Save(configFilePath);
+
+                return "CHS";
+            }
+            else
+            {
+                // 返回获取到的值
+                return language;
+            }
+        }
+
+
+        private string GET_LOCATION_X(string configFilePath)
+        {
+            // 检查文件是否存在
+            if (!File.Exists(configFilePath))
+            {
+                // 如果不存在，创建默认配置文件
+                CREATE_DEFAULT_CONFIG(configFilePath);
+            }
+
+            // 加载 XML 文档
+            XDocument xdoc = XDocument.Load(configFilePath);
+
+            // 获取 LocationX 值
+            var locationX = xdoc.Descendants("LocationX").FirstOrDefault()?.Value;
+
+            // 如果获取到的值为 null 或为空字符串
+            if (string.IsNullOrEmpty(locationX))
+            {
+                int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
+
+                // 创建新的 XML 节点
+                XElement newNode = new XElement("LocationX", newLocationX);
+
+                // 将新节点添加到根节点
+                xdoc.Root.Add(newNode);
+
+                // 保存更改
+                xdoc.Save(configFilePath);
+
+                return newLocationX.ToString();
+            }
+            else
+            {
+                // 返回获取到的值
+                return locationX;
+            }
+        }
+
+        private string GET_LOCATION_Y(string configFilePath)
+        {
+            // 检查文件是否存在
+            if (!File.Exists(configFilePath))
+            {
+                // 如果不存在，创建默认配置文件
+                CREATE_DEFAULT_CONFIG(configFilePath);
+            }
+
+            // 加载 XML 文档
+            XDocument xdoc = XDocument.Load(configFilePath);
+
+            // 获取 LocationX 值
+            var locationY = xdoc.Descendants("LocationY").FirstOrDefault()?.Value;
+
+            // 如果获取到的值为 null 或为空字符串
+            if (string.IsNullOrEmpty(locationY))
+            {
+                int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
+
+                // 创建新的 XML 节点
+                XElement newNode = new XElement("LocationY", newLocationY);
+
+                // 将新节点添加到根节点
+                xdoc.Root.Add(newNode);
+
+                // 保存更改
+                xdoc.Save(configFilePath);
+
+                return newLocationY.ToString();
+            }
+            else
+            {
+                // 返回获取到的值
+                return locationY;
+            }
         }
 
         private string GET_SCALE(string configFilePath)
@@ -302,10 +417,31 @@ namespace Real_ESRGAN_GUI
                 // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
+
+            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
+
             var scale = xdoc.Descendants("Scale").FirstOrDefault()?.Value;
 
-            return scale;
+            // 如果获取到的值为 null 或为空字符串
+            if (string.IsNullOrEmpty(scale))
+            {
+                // 创建新的 XML 节点
+                XElement newNode = new XElement("Scale", "4");
+
+                // 将新节点添加到根节点
+                xdoc.Root.Add(newNode);
+
+                // 保存更改
+                xdoc.Save(configFilePath);
+
+                return "4";
+            }
+            else
+            {
+                // 返回获取到的值
+                return scale;
+            }
         }
 
         private string GET_MODEL(string configFilePath)
@@ -316,10 +452,31 @@ namespace Real_ESRGAN_GUI
                 // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
+
+            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
+
             var model = xdoc.Descendants("Model").FirstOrDefault()?.Value;
 
-            return model;
+            // 如果获取到的值为 null 或为空字符串
+            if (string.IsNullOrEmpty(model))
+            {
+                // 创建新的 XML 节点
+                XElement newNode = new XElement("Model", "realesrgan-x4plus");
+
+                // 将新节点添加到根节点
+                xdoc.Root.Add(newNode);
+
+                // 保存更改
+                xdoc.Save(configFilePath);
+
+                return "realesrgan-x4plus";
+            }
+            else
+            {
+                // 返回获取到的值
+                return model;
+            }
         }
 
         private string GET_EXTENSION(string configFilePath)
@@ -330,10 +487,31 @@ namespace Real_ESRGAN_GUI
                 // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
+
+            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
+
             var extension = xdoc.Descendants("Extension").FirstOrDefault()?.Value;
 
-            return extension;
+            // 如果获取到的值为 null 或为空字符串
+            if (string.IsNullOrEmpty(extension))
+            {
+                // 创建新的 XML 节点
+                XElement newNode = new XElement("Extension", "png");
+
+                // 将新节点添加到根节点
+                xdoc.Root.Add(newNode);
+
+                // 保存更改
+                xdoc.Save(configFilePath);
+
+                return "png";
+            }
+            else
+            {
+                // 返回获取到的值
+                return extension;
+            }
         }
 
         private string GET_PROCESS_HIDDEN(string configFilePath)
@@ -344,10 +522,31 @@ namespace Real_ESRGAN_GUI
                 // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
+
+            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
+
             var processHidden = xdoc.Descendants("ProcessHidden").FirstOrDefault()?.Value;
 
-            return processHidden;
+            // 如果获取到的值为 null 或为空字符串
+            if (string.IsNullOrEmpty(processHidden))
+            {
+                // 创建新的 XML 节点
+                XElement newNode = new XElement("ProcessHidden", "false");
+
+                // 将新节点添加到根节点
+                xdoc.Root.Add(newNode);
+
+                // 保存更改
+                xdoc.Save(configFilePath);
+
+                return "false";
+            }
+            else
+            {
+                // 返回获取到的值
+                return processHidden;
+            }
         }
 
         private void DEFAULT_SCALE_MENU()
@@ -463,6 +662,14 @@ namespace Real_ESRGAN_GUI
             }
         }
 
+        private void MAINFORM_LOAD(object sender, EventArgs e)
+        {
+            locationX = int.Parse(GET_LOCATION_X(xmlPath));
+            locationY = int.Parse(GET_LOCATION_Y(xmlPath));
+
+            this.Location = new Point(locationX, locationY);
+        }
+
         private void MAINFORM_DRAGENTER(object sender, DragEventArgs e)
         {
             // 检查拖拽的内容是否为文件
@@ -552,7 +759,6 @@ namespace Real_ESRGAN_GUI
 
         private void BUTTON_CONFIG_CLICK(object sender, EventArgs e)
         {
-
             switch (currentLanguage)
             {
                 case "CHS":
@@ -570,6 +776,8 @@ namespace Real_ESRGAN_GUI
             UPDATE_CONFIG($"{xmlPath}", "Model", $"{model}");
             UPDATE_CONFIG($"{xmlPath}", "Extension", $"{extension}");
             UPDATE_CONFIG($"{xmlPath}", "ProcessHidden", $"{processHidden}");
+
+            SAVE_LOCATION();
         }
 
         private void CHECKBOX_HIDE_PROCESS_CHECKED_CHANGED(object sender, EventArgs e)
@@ -655,6 +863,7 @@ namespace Real_ESRGAN_GUI
 
         private void MAINMENU_EXIT_CLICK(object sender, EventArgs e)
         {
+            SAVE_LOCATION();
             this.Close();
         }
 
@@ -694,7 +903,22 @@ namespace Real_ESRGAN_GUI
 
         private void MAIN_CONTEXT_MENU_STRIP_EXIT_CLICK(object sender, EventArgs e)
         {
+            SAVE_LOCATION();
             this.Close();
+        }
+
+        private void MAINFORM_FORM_CLOSING(object sender,FormClosingEventArgs e)
+        {
+            SAVE_LOCATION();
+        }
+
+        private void SAVE_LOCATION()
+        {
+            locationX = this.Location.X;
+            locationY = this.Location.Y;
+
+            UPDATE_CONFIG($"{xmlPath}", "LocationX", $"{locationX}");
+            UPDATE_CONFIG($"{xmlPath}", "LocationY", $"{locationY}");
         }
     }
 }

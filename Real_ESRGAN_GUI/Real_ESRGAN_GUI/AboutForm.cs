@@ -19,6 +19,9 @@ namespace Real_ESRGAN_GUI
         private Dictionary<string, Dictionary<string, string>> languageTexts;
 
         public string currentLanguage;
+        public int locationX;
+        public int locationY;
+
 
         public AboutForm()
         {
@@ -94,6 +97,11 @@ namespace Real_ESRGAN_GUI
 
         private void ABOUT_FORM_LOAD(object sender, EventArgs e)
         {
+            locationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
+            locationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
+
+            this.Location = new Point(locationX, locationY);
+
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = "Real_ESRGAN_GUI.Yoimiya64-1.png"; // 具体的命名空间和资源名称
 
