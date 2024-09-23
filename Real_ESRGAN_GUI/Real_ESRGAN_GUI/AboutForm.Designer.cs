@@ -30,30 +30,30 @@ namespace Real_ESRGAN_GUI
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.PanelAbout = new System.Windows.Forms.Panel();
             this.ConfirmButton = new System.Windows.Forms.Button();
-            this.LabelTelegram = new System.Windows.Forms.LinkLabel();
+            this.LabelLicense = new System.Windows.Forms.LinkLabel();
             this.DeveloperLabel = new System.Windows.Forms.Label();
             this.LabelWebsite = new System.Windows.Forms.LinkLabel();
             this.MainLabel = new System.Windows.Forms.Label();
             this.MainPic = new System.Windows.Forms.PictureBox();
-            this.panel1.SuspendLayout();
+            this.PanelAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainPic)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // PanelAbout
             // 
-            this.panel1.Controls.Add(this.ConfirmButton);
-            this.panel1.Controls.Add(this.LabelTelegram);
-            this.panel1.Controls.Add(this.DeveloperLabel);
-            this.panel1.Controls.Add(this.LabelWebsite);
-            this.panel1.Controls.Add(this.MainLabel);
-            this.panel1.Controls.Add(this.MainPic);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(778, 344);
-            this.panel1.TabIndex = 0;
+            this.PanelAbout.Controls.Add(this.ConfirmButton);
+            this.PanelAbout.Controls.Add(this.LabelLicense);
+            this.PanelAbout.Controls.Add(this.DeveloperLabel);
+            this.PanelAbout.Controls.Add(this.LabelWebsite);
+            this.PanelAbout.Controls.Add(this.MainLabel);
+            this.PanelAbout.Controls.Add(this.MainPic);
+            this.PanelAbout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PanelAbout.Location = new System.Drawing.Point(0, 0);
+            this.PanelAbout.Name = "PanelAbout";
+            this.PanelAbout.Size = new System.Drawing.Size(778, 344);
+            this.PanelAbout.TabIndex = 0;
             // 
             // ConfirmButton
             // 
@@ -66,18 +66,18 @@ namespace Real_ESRGAN_GUI
             this.ConfirmButton.UseVisualStyleBackColor = true;
             this.ConfirmButton.Click += new System.EventHandler(this.CONFIRM_BUTTON_CLICK);
             // 
-            // LabelTelegram
+            // LabelLicense
             // 
-            this.LabelTelegram.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.LabelTelegram.AutoSize = true;
-            this.LabelTelegram.Font = new System.Drawing.Font("别喝醉别流泪", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.LabelTelegram.Location = new System.Drawing.Point(314, 179);
-            this.LabelTelegram.Name = "LabelTelegram";
-            this.LabelTelegram.Size = new System.Drawing.Size(156, 32);
-            this.LabelTelegram.TabIndex = 4;
-            this.LabelTelegram.TabStop = true;
-            this.LabelTelegram.Text = "Telegram频道";
-            this.LabelTelegram.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.TELEGRAM_LABEL_LINK_CLICKED);
+            this.LabelLicense.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LabelLicense.AutoSize = true;
+            this.LabelLicense.Font = new System.Drawing.Font("别喝醉别流泪", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LabelLicense.Location = new System.Drawing.Point(337, 178);
+            this.LabelLicense.Name = "LabelLicense";
+            this.LabelLicense.Size = new System.Drawing.Size(99, 32);
+            this.LabelLicense.TabIndex = 4;
+            this.LabelLicense.TabStop = true;
+            this.LabelLicense.Text = "许可证";
+            this.LabelLicense.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.TELEGRAM_LABEL_LINK_CLICKED);
             // 
             // DeveloperLabel
             // 
@@ -130,7 +130,7 @@ namespace Real_ESRGAN_GUI
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 344);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.PanelAbout);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -141,8 +141,8 @@ namespace Real_ESRGAN_GUI
             this.Name = "AboutForm";
             this.Text = "关于 Real ESRGAN GUI";
             this.Load += new System.EventHandler(this.ABOUT_FORM_LOAD);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.PanelAbout.ResumeLayout(false);
+            this.PanelAbout.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainPic)).EndInit();
             this.ResumeLayout(false);
 
@@ -150,12 +150,12 @@ namespace Real_ESRGAN_GUI
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel PanelAbout;
         private System.Windows.Forms.Label MainLabel;
         private System.Windows.Forms.LinkLabel LabelWebsite;
         private System.Windows.Forms.PictureBox MainPic;
         private System.Windows.Forms.Label DeveloperLabel;
-        private System.Windows.Forms.LinkLabel LabelTelegram;
+        private System.Windows.Forms.LinkLabel LabelLicense;
         private System.Windows.Forms.Button ConfirmButton;
     }
 }

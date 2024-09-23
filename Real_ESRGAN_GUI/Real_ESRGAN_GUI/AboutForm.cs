@@ -42,21 +42,21 @@ namespace Real_ESRGAN_GUI
                     {
                         { "Title","关于 Real ESRGAN GUI" },
                         { "LabelWebsite","Github主页" },
-                        { "LabelTelegram","Telegram频道" },
+                        { "LabelLicense","许可证" },
                     }
                 },
                 { "CHT", new Dictionary<string, string>
                     {
                         { "Title","關於 Real ESRGAN GUI" },
                         { "LabelWebsite","Github主頁" },
-                        { "LabelTelegram","Telegram頻道" },
+                        { "LabelLicense","許可證" },
                     }
                 },
                 { "EN", new Dictionary<string, string>
                     {
                         { "Title","About Real ESRGAN GUI" },
                         { "LabelWebsite","Github Page" },
-                        { "LabelTelegram","Telegram Channel" },
+                        { "LabelLicense","License" },
                     }
                 }
             };
@@ -66,7 +66,7 @@ namespace Real_ESRGAN_GUI
         {
             this.Text = languageTexts[currentLanguage]["Title"];
             LabelWebsite.Text = languageTexts[currentLanguage]["LabelWebsite"];
-            LabelTelegram.Text = languageTexts[currentLanguage]["LabelTelegram"];
+            LabelLicense.Text = languageTexts[currentLanguage]["LabelLicense"];
         }
 
         private void UpdateUI(string language)
@@ -75,21 +75,21 @@ namespace Real_ESRGAN_GUI
             {
                 case "CHS":
                     LabelWebsite.Font = new Font("别喝醉别流泪", 14);
-                    LabelWebsite.Location = new Point(321, 125);
-                    LabelTelegram.Font = new Font("别喝醉别流泪", 14);
-                    LabelTelegram.Location = new Point(314, 179);
+                    LabelWebsite.Location = new Point(PanelAbout.Size.Width / 2 - LabelWebsite.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelWebsite.Size.Height / 2 - 27);
+                    LabelLicense.Font = new Font("别喝醉别流泪", 14);
+                    LabelLicense.Location = new Point(PanelAbout.Size.Width / 2 - LabelLicense.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelLicense.Size.Height / 2 + 24);
                     break;
                 case "CHT":
-                    LabelWebsite.Font = new Font("仿宋", 14);
-                    LabelWebsite.Location = new Point(319, 125);
-                    LabelTelegram.Font = new Font("仿宋", 14);
-                    LabelTelegram.Location = new Point(304, 179);
+                    LabelWebsite.Font = new Font("造字工房情书繁（非商用）常规体", 14, FontStyle.Bold);
+                    LabelWebsite.Location = new Point(PanelAbout.Size.Width / 2 - LabelWebsite.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelWebsite.Size.Height / 2 - 27);
+                    LabelLicense.Font = new Font("造字工房情书繁（非商用）常规体", 14, FontStyle.Bold);
+                    LabelLicense.Location = new Point(PanelAbout.Size.Width / 2 - LabelLicense.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelLicense.Size.Height / 2 + 24);
                     break;
                 case "EN":
                     LabelWebsite.Font = new Font("别喝醉别流泪", 14);
-                    LabelWebsite.Location = new Point(321, 125);
-                    LabelTelegram.Font = new Font("别喝醉别流泪", 14);
-                    LabelTelegram.Location = new Point(301, 179);
+                    LabelWebsite.Location = new Point(PanelAbout.Size.Width / 2 - LabelWebsite.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelWebsite.Size.Height / 2 - 27);
+                    LabelLicense.Font = new Font("别喝醉别流泪", 14);
+                    LabelLicense.Location = new Point(PanelAbout.Size.Width / 2 - LabelLicense.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelLicense.Size.Height / 2 + 24);
                     break;
             }
         }
@@ -141,7 +141,7 @@ namespace Real_ESRGAN_GUI
         private void TELEGRAM_LABEL_LINK_CLICKED(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // 打开网址
-            System.Diagnostics.Process.Start("https://t.me/LatteYogurt_Products");
+            System.Diagnostics.Process.Start("https://www.gnu.org/licenses/gpl-3.0.html");
 
             // 标记为已访问
             LabelWebsite.LinkVisited = true;
