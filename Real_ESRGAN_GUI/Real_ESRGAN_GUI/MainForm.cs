@@ -68,13 +68,13 @@ namespace Real_ESRGAN_GUI
                 {
                     switch (currentLanguage)
                     {
-                        case "CHS":
+                        case "zh-CN":
                             MessageBox.Show("不支持的文件格式。请提供 JPG、PNG 或 WEBP 文件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
-                        case "CHT":
+                        case "zh-TW":
                             MessageBox.Show("不支持的文件格式。請提供 JPG、PNG 或 WEBP 文件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
-                        case "EN":
+                        case "en-US":
                             MessageBox.Show("Unsupported file format. Please provide JPG, PNG, or WEBP files.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                     }
@@ -115,13 +115,13 @@ namespace Real_ESRGAN_GUI
                 {
                     switch (currentLanguage)
                     {
-                        case "CHS":
+                        case "zh-CN":
                             MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
-                        case "CHT":
+                        case "zh-TW":
                             MessageBox.Show("程式工作路徑下Real ESRGAN組件不完整，無法啓動Real ESRGAN處理流程。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
-                        case "EN":
+                        case "en-US":
                             MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                     }
@@ -191,7 +191,7 @@ namespace Real_ESRGAN_GUI
         {
             languageTexts = new Dictionary<string, Dictionary<string, string>>
             {
-                { "CHS", new Dictionary<string, string>
+                { "zh-CN", new Dictionary<string, string>
                     {
                         { "MainMenuText","文件" },
                         { "MainMenuOpenFiles","打开" },
@@ -207,7 +207,7 @@ namespace Real_ESRGAN_GUI
                         { "MainContextMenuStripExit","退出" }
                     }
                 },
-                { "CHT", new Dictionary<string, string>
+                { "zh-TW", new Dictionary<string, string>
                     {
                         { "MainMenuText","文件" },
                         { "MainMenuOpenFiles","打開" },
@@ -223,7 +223,7 @@ namespace Real_ESRGAN_GUI
                         { "MainContextMenuStripExit","退出" }
                     }
                 },
-                { "EN", new Dictionary<string, string>
+                { "en-US", new Dictionary<string, string>
                     {
                         { "MainMenuText","Files" },
                         { "MainMenuOpenFiles","Open" },
@@ -265,7 +265,7 @@ namespace Real_ESRGAN_GUI
 
             // 创建默认的 XML 结构
             XElement defaultConfig = new XElement("Configuration",
-                new XElement("Language", "CHS"),
+                new XElement("Language", "zh-CN"),
                 new XElement("LocationX", $"{newLocationX}"),
                 new XElement("LocationY", $"{newLocationY}"),
                 new XElement("Scale", "4"),
@@ -315,7 +315,7 @@ namespace Real_ESRGAN_GUI
             if (string.IsNullOrEmpty(language))
             {
                 // 创建新的 XML 节点
-                XElement newNode = new XElement("Language", "CHS");
+                XElement newNode = new XElement("Language", "zh-CN");
 
                 // 将新节点添加到根节点
                 xdoc.Root.Add(newNode);
@@ -323,7 +323,7 @@ namespace Real_ESRGAN_GUI
                 // 保存更改
                 xdoc.Save(configFilePath);
 
-                return "CHS";
+                return "zh-CN";
             }
             else
             {
@@ -724,13 +724,13 @@ namespace Real_ESRGAN_GUI
                 {
                     switch (currentLanguage)
                     {
-                        case "CHS":
+                        case "zh-CN":
                             MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
-                        case "CHT":
+                        case "zh-TW":
                             MessageBox.Show("程式工作路徑下Real ESRGAN組件不完整，無法啓動Real ESRGAN處理流程。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
-                        case "EN":
+                        case "en-US":
                             MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                     }
@@ -761,13 +761,13 @@ namespace Real_ESRGAN_GUI
         {
             switch (currentLanguage)
             {
-                case "CHS":
+                case "zh-CN":
                     MessageBox.Show("配置已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
-                case "CHT":
+                case "zh-TW":
                     MessageBox.Show("配置已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
-                case "EN":
+                case "en-US":
                     MessageBox.Show("Configuration Saved.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
             }
@@ -833,13 +833,13 @@ namespace Real_ESRGAN_GUI
                 {
                     switch (currentLanguage)
                     {
-                        case "CHS":
+                        case "zh-CN":
                             MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
-                        case "CHT":
+                        case "zh-TW":
                             MessageBox.Show("程式工作路徑下Real ESRGAN組件不完整，無法啓動Real ESRGAN處理流程。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
-                        case "EN":
+                        case "en-US":
                             MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                     }
@@ -867,23 +867,23 @@ namespace Real_ESRGAN_GUI
             this.Close();
         }
 
-        private void LANGUAGE_MENU_SELECT_CHS_CLICK(object sender, EventArgs e)
+        private void LANGUAGE_MENU_SELECT_zhCN_CLICK(object sender, EventArgs e)
         {
-            currentLanguage = "CHS";
+            currentLanguage = "zh-CN";
             UpdateLanguage();
             UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
         }
 
-        private void LANGUAGE_MENU_SELECT_CHT_CLICK(object sender, EventArgs e)
+        private void LANGUAGE_MENU_SELECT_zhTW_CLICK(object sender, EventArgs e)
         {
-            currentLanguage = "CHT";
+            currentLanguage = "zh-TW";
             UpdateLanguage();
             UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
         }
 
-        private void LANGUAGE_MENU_SELECT_EN_CLICK(object sender, EventArgs e)
+        private void LANGUAGE_MENU_SELECT_enUS_CLICK(object sender, EventArgs e)
         {
-            currentLanguage = "EN";
+            currentLanguage = "en-US";
             UpdateLanguage();
             UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
         }

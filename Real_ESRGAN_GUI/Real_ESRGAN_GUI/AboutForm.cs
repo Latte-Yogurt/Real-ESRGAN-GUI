@@ -38,21 +38,21 @@ namespace Real_ESRGAN_GUI
         {
             languageTexts = new Dictionary<string, Dictionary<string, string>>
             {
-                { "CHS", new Dictionary<string, string>
+                { "zh-CN", new Dictionary<string, string>
                     {
                         { "Title","关于 Real ESRGAN GUI" },
                         { "LabelWebsite","Github主页" },
                         { "LabelLicense","许可证" },
                     }
                 },
-                { "CHT", new Dictionary<string, string>
+                { "zh-TW", new Dictionary<string, string>
                     {
                         { "Title","關於 Real ESRGAN GUI" },
                         { "LabelWebsite","Github主頁" },
                         { "LabelLicense","許可證" },
                     }
                 },
-                { "EN", new Dictionary<string, string>
+                { "en-US", new Dictionary<string, string>
                     {
                         { "Title","About Real ESRGAN GUI" },
                         { "LabelWebsite","Github Page" },
@@ -73,19 +73,19 @@ namespace Real_ESRGAN_GUI
         {
             switch (language)
             {
-                case "CHS":
+                case "zh-CN":
                     LabelWebsite.Font = new Font("别喝醉别流泪", 14);
                     LabelWebsite.Location = new Point(PanelAbout.Size.Width / 2 - LabelWebsite.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelWebsite.Size.Height / 2 - 27);
                     LabelLicense.Font = new Font("别喝醉别流泪", 14);
                     LabelLicense.Location = new Point(PanelAbout.Size.Width / 2 - LabelLicense.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelLicense.Size.Height / 2 + 24);
                     break;
-                case "CHT":
+                case "zh-TW":
                     LabelWebsite.Font = new Font("造字工房情书繁（非商用）常规体", 14, FontStyle.Bold);
                     LabelWebsite.Location = new Point(PanelAbout.Size.Width / 2 - LabelWebsite.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelWebsite.Size.Height / 2 - 27);
                     LabelLicense.Font = new Font("造字工房情书繁（非商用）常规体", 14, FontStyle.Bold);
                     LabelLicense.Location = new Point(PanelAbout.Size.Width / 2 - LabelLicense.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelLicense.Size.Height / 2 + 24);
                     break;
-                case "EN":
+                case "en-US":
                     LabelWebsite.Font = new Font("别喝醉别流泪", 14);
                     LabelWebsite.Location = new Point(PanelAbout.Size.Width / 2 - LabelWebsite.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelWebsite.Size.Height / 2 - 27);
                     LabelLicense.Font = new Font("别喝醉别流泪", 14);
@@ -115,13 +115,13 @@ namespace Real_ESRGAN_GUI
                 {
                     switch (currentLanguage)
                     {
-                        case "CHS":
+                        case "zh-CN":
                             MessageBox.Show("图像未找到！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
-                        case "CHT":
+                        case "zh-TW":
                             MessageBox.Show("圖像未找到！", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
-                        case "EN":
+                        case "en-US":
                             MessageBox.Show("Can not Find Image File！", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                     }
