@@ -44,6 +44,8 @@ namespace Real_ESRGAN_GUI
         {
             InitializeComponent();
 
+            SET_COMPONENT_POSITION();
+
             string workPath = GET_WORK_PATH(); // 获取程序路径
             string xml = @"config.xml";
             xmlPath = Path.Combine(workPath, xml);
@@ -53,7 +55,6 @@ namespace Real_ESRGAN_GUI
             InitializeLanguageTexts();
             UpdateLanguage();
 
-            this.FormBorderStyle = FormBorderStyle.FixedDialog; // 隐藏最大化按钮
             this.DragEnter += new DragEventHandler(MAINFORM_DRAGENTER);
             this.DragDrop += new DragEventHandler(MAINFORM_DRAGDROP);
             this.FormClosing += MAINFORM_FORM_CLOSING;
@@ -260,8 +261,8 @@ namespace Real_ESRGAN_GUI
 
         private void CREATE_DEFAULT_CONFIG(string configFilePath)
         {
-            int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
-            int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
+            int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Width / 2;
+            int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Height / 2;
 
             // 创建默认的 XML 结构
             XElement defaultConfig = new XElement("Configuration",
@@ -351,7 +352,7 @@ namespace Real_ESRGAN_GUI
             // 如果获取到的值为 null 或为空字符串
             if (string.IsNullOrEmpty(locationX))
             {
-                int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
+                int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Width / 2;
 
                 // 创建新的 XML 节点
                 XElement newNode = new XElement("LocationX", newLocationX);
@@ -389,7 +390,7 @@ namespace Real_ESRGAN_GUI
             // 如果获取到的值为 null 或为空字符串
             if (string.IsNullOrEmpty(locationY))
             {
-                int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
+                int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Height / 2;
 
                 // 创建新的 XML 节点
                 XElement newNode = new XElement("LocationY", newLocationY);
@@ -662,12 +663,32 @@ namespace Real_ESRGAN_GUI
             }
         }
 
+        private void SET_COMPONENT_POSITION()
+        {
+            LabelModel.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2);
+            ComboBoxModel.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2);
+
+            LabelScale.Location = new Point(MainPanel.Width / 2 - LabelScale.Width / 2 - ComboBoxScale.Width / 2 - 10, MainPanel.Height / 2 - LabelScale.Height / 2 - this.Height / 6);
+            ComboBoxScale.Location = new Point(MainPanel.Width / 2 - ComboBoxScale.Width / 2 + LabelScale.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxScale.Height / 2 - this.Height / 6);
+
+            LabelExtension.Location = new Point(MainPanel.Width / 2 - LabelExtension.Width / 2 - ComboBoxExtension.Width / 2 - 10, MainPanel.Height / 2 - LabelExtension.Height / 2 + this.Height / 6);
+            ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxExtension.Width / 2 + LabelExtension.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxExtension.Height / 2 + this.Height / 6);
+
+            CheckBoxHideProcess.Location = new Point(20, MainPanel.Height - CheckBoxHideProcess.Height - 20);
+            ButtonConfig.Location = new Point(MainPanel.Width-ButtonConfig.Width - 10, MainPanel.Height - ButtonConfig.Height - 10);
+        }
+
         private void MAINFORM_LOAD(object sender, EventArgs e)
         {
             locationX = int.Parse(GET_LOCATION_X(xmlPath));
             locationY = int.Parse(GET_LOCATION_Y(xmlPath));
 
             this.Location = new Point(locationX, locationY);
+        }
+
+        private void MAINFORM_RESIZE(object sender, EventArgs e)
+        {
+            SET_COMPONENT_POSITION();
         }
 
         private void MAINFORM_DRAGENTER(object sender, DragEventArgs e)

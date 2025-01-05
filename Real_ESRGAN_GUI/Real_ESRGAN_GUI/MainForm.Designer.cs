@@ -183,6 +183,7 @@ namespace Real_ESRGAN_GUI
             // 
             this.MenuStrip.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.MenuStrip.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.MenuStrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.MenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MainMenu,
@@ -236,27 +237,27 @@ namespace Real_ESRGAN_GUI
             this.LanguageMenuSelectzhTW,
             this.LanguageMenuSelectenUS});
             this.LanguageMenuSelect.Name = "LanguageMenuSelect";
-            this.LanguageMenuSelect.Size = new System.Drawing.Size(270, 34);
+            this.LanguageMenuSelect.Size = new System.Drawing.Size(182, 34);
             this.LanguageMenuSelect.Text = "选择语言";
             // 
             // LanguageMenuSelectzhCN
             // 
             this.LanguageMenuSelectzhCN.Name = "LanguageMenuSelectzhCN";
-            this.LanguageMenuSelectzhCN.Size = new System.Drawing.Size(270, 34);
+            this.LanguageMenuSelectzhCN.Size = new System.Drawing.Size(182, 34);
             this.LanguageMenuSelectzhCN.Text = "简体中文";
             this.LanguageMenuSelectzhCN.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_zhCN_CLICK);
             // 
             // LanguageMenuSelectzhTW
             // 
             this.LanguageMenuSelectzhTW.Name = "LanguageMenuSelectzhTW";
-            this.LanguageMenuSelectzhTW.Size = new System.Drawing.Size(270, 34);
+            this.LanguageMenuSelectzhTW.Size = new System.Drawing.Size(182, 34);
             this.LanguageMenuSelectzhTW.Text = "繁體中文";
             this.LanguageMenuSelectzhTW.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_zhTW_CLICK);
             // 
             // LanguageMenuSelectenUS
             // 
             this.LanguageMenuSelectenUS.Name = "LanguageMenuSelectenUS";
-            this.LanguageMenuSelectenUS.Size = new System.Drawing.Size(270, 34);
+            this.LanguageMenuSelectenUS.Size = new System.Drawing.Size(182, 34);
             this.LanguageMenuSelectenUS.Text = "English";
             this.LanguageMenuSelectenUS.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_enUS_CLICK);
             // 
@@ -322,6 +323,7 @@ namespace Real_ESRGAN_GUI
             this.Name = "MainForm";
             this.Text = "Real ESRGAN";
             this.Load += new System.EventHandler(this.MAINFORM_LOAD);
+            this.Resize += new System.EventHandler(this.MAINFORM_RESIZE);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
             this.MenuStrip.ResumeLayout(false);

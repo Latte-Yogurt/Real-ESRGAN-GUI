@@ -75,21 +75,21 @@ namespace Real_ESRGAN_GUI
             {
                 case "zh-CN":
                     LabelWebsite.Font = new Font("别喝醉别流泪", 14);
-                    LabelWebsite.Location = new Point(PanelAbout.Size.Width / 2 - LabelWebsite.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelWebsite.Size.Height / 2 - 27);
+                    LabelWebsite.Location = new Point(PanelAbout.Width / 2 - LabelWebsite.Width / 2, PanelAbout.Height / 2 - LabelWebsite.Height / 2 - 27);
                     LabelLicense.Font = new Font("别喝醉别流泪", 14);
-                    LabelLicense.Location = new Point(PanelAbout.Size.Width / 2 - LabelLicense.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelLicense.Size.Height / 2 + 24);
+                    LabelLicense.Location = new Point(PanelAbout.Width / 2 - LabelLicense.Width / 2, PanelAbout.Height / 2 - LabelLicense.Height / 2 + 24);
                     break;
                 case "zh-TW":
                     LabelWebsite.Font = new Font("造字工房情书繁（非商用）常规体", 14, FontStyle.Bold);
-                    LabelWebsite.Location = new Point(PanelAbout.Size.Width / 2 - LabelWebsite.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelWebsite.Size.Height / 2 - 27);
+                    LabelWebsite.Location = new Point(PanelAbout.Width / 2 - LabelWebsite.Width / 2, PanelAbout.Height / 2 - LabelWebsite.Height / 2 - 27);
                     LabelLicense.Font = new Font("造字工房情书繁（非商用）常规体", 14, FontStyle.Bold);
-                    LabelLicense.Location = new Point(PanelAbout.Size.Width / 2 - LabelLicense.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelLicense.Size.Height / 2 + 24);
+                    LabelLicense.Location = new Point(PanelAbout.Width / 2 - LabelLicense.Width / 2, PanelAbout.Height / 2 - LabelLicense.Height / 2 + 24);
                     break;
                 case "en-US":
                     LabelWebsite.Font = new Font("别喝醉别流泪", 14);
-                    LabelWebsite.Location = new Point(PanelAbout.Size.Width / 2 - LabelWebsite.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelWebsite.Size.Height / 2 - 27);
+                    LabelWebsite.Location = new Point(PanelAbout.Width / 2 - LabelWebsite.Width / 2, PanelAbout.Height / 2 - LabelWebsite.Height / 2 - 27);
                     LabelLicense.Font = new Font("别喝醉别流泪", 14);
-                    LabelLicense.Location = new Point(PanelAbout.Size.Width / 2 - LabelLicense.Size.Width / 2, PanelAbout.Size.Height / 2 - LabelLicense.Size.Height / 2 + 24);
+                    LabelLicense.Location = new Point(PanelAbout.Width / 2 - LabelLicense.Width / 2, PanelAbout.Height / 2 - LabelLicense.Height / 2 + 24);
                     break;
             }
         }
@@ -97,8 +97,8 @@ namespace Real_ESRGAN_GUI
 
         private void ABOUT_FORM_LOAD(object sender, EventArgs e)
         {
-            locationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
-            locationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
+            locationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Width / 2;
+            locationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Height / 2;
 
             this.Location = new Point(locationX, locationY);
 
