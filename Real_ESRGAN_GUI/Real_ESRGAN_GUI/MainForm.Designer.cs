@@ -110,6 +110,7 @@ namespace Real_ESRGAN_GUI
             this.ComboBoxModel.FormattingEnabled = true;
             this.ComboBoxModel.Location = new System.Drawing.Point(121, 148);
             this.ComboBoxModel.Margin = new System.Windows.Forms.Padding(4);
+            this.ComboBoxModel.MaximumSize = new System.Drawing.Size(400, 0);
             this.ComboBoxModel.Name = "ComboBoxModel";
             this.ComboBoxModel.Size = new System.Drawing.Size(242, 32);
             this.ComboBoxModel.TabIndex = 5;

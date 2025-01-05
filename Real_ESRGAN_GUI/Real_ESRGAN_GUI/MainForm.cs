@@ -668,14 +668,14 @@ namespace Real_ESRGAN_GUI
             LabelModel.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2);
             ComboBoxModel.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2);
 
-            LabelScale.Location = new Point(MainPanel.Width / 2 - LabelScale.Width / 2 - ComboBoxScale.Width / 2 - 10, MainPanel.Height / 2 - LabelScale.Height / 2 - this.Height / 6);
-            ComboBoxScale.Location = new Point(MainPanel.Width / 2 - ComboBoxScale.Width / 2 + LabelScale.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxScale.Height / 2 - this.Height / 6);
+            LabelScale.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2 - this.Height / 6);
+            ComboBoxScale.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2 - this.Height / 6);
 
-            LabelExtension.Location = new Point(MainPanel.Width / 2 - LabelExtension.Width / 2 - ComboBoxExtension.Width / 2 - 10, MainPanel.Height / 2 - LabelExtension.Height / 2 + this.Height / 6);
-            ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxExtension.Width / 2 + LabelExtension.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxExtension.Height / 2 + this.Height / 6);
+            LabelExtension.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2 + this.Height / 6);
+            ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2 + this.Height / 6);
 
             CheckBoxHideProcess.Location = new Point(20, MainPanel.Height - CheckBoxHideProcess.Height - 20);
-            ButtonConfig.Location = new Point(MainPanel.Width-ButtonConfig.Width - 10, MainPanel.Height - ButtonConfig.Height - 10);
+            ButtonConfig.Location = new Point(MainPanel.Width - ButtonConfig.Width - 10, MainPanel.Height - ButtonConfig.Height - 10);
         }
 
         private void MAINFORM_LOAD(object sender, EventArgs e)
