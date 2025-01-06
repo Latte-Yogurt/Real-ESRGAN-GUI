@@ -257,6 +257,8 @@ namespace Real_ESRGAN_GUI
             CheckBoxHideProcess.Text = languageTexts[currentLanguage]["CheckBoxHideProcess"];
             ButtonConfig.Text = languageTexts[currentLanguage]["ButtonConfig"];
             MainContextMenuStripExit.Text = languageTexts[currentLanguage]["MainContextMenuStripExit"];
+
+            SET_COMPONENT_POSITION();
         }
 
         private void CREATE_DEFAULT_CONFIG(string configFilePath)
@@ -665,14 +667,29 @@ namespace Real_ESRGAN_GUI
 
         private void SET_COMPONENT_POSITION()
         {
-            LabelModel.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2);
-            ComboBoxModel.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2);
+            if (currentLanguage=="en-US")
+            {
+                LabelModel.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 20, MainPanel.Height / 2 - LabelModel.Height / 2);
+                ComboBoxModel.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 20, MainPanel.Height / 2 - ComboBoxModel.Height / 2);
 
-            LabelScale.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2 - this.Height / 6);
-            ComboBoxScale.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2 - this.Height / 6);
+                LabelScale.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 20, MainPanel.Height / 2 - LabelModel.Height / 2 - this.Height / 6);
+                ComboBoxScale.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 20, MainPanel.Height / 2 - ComboBoxModel.Height / 2 - this.Height / 6);
 
-            LabelExtension.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2 + this.Height / 6);
-            ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2 + this.Height / 6);
+                LabelExtension.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 20, MainPanel.Height / 2 - LabelModel.Height / 2 + this.Height / 6);
+                ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 20, MainPanel.Height / 2 - ComboBoxModel.Height / 2 + this.Height / 6);
+            }
+
+            else
+            {
+                LabelModel.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2);
+                ComboBoxModel.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2);
+
+                LabelScale.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2 - this.Height / 6);
+                ComboBoxScale.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2 - this.Height / 6);
+
+                LabelExtension.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2 + this.Height / 6);
+                ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2 + this.Height / 6);
+            }
 
             CheckBoxHideProcess.Location = new Point(20, MainPanel.Height - CheckBoxHideProcess.Height - 20);
             ButtonConfig.Location = new Point(MainPanel.Width - ButtonConfig.Width - 10, MainPanel.Height - ButtonConfig.Height - 10);

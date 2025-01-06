@@ -212,14 +212,14 @@ namespace Real_ESRGAN_GUI
             // MainMenuOpenFiles
             // 
             this.MainMenuOpenFiles.Name = "MainMenuOpenFiles";
-            this.MainMenuOpenFiles.Size = new System.Drawing.Size(146, 34);
+            this.MainMenuOpenFiles.Size = new System.Drawing.Size(270, 34);
             this.MainMenuOpenFiles.Text = "打开";
             this.MainMenuOpenFiles.Click += new System.EventHandler(this.MAINMENU_OPENFILES_CLICK);
             // 
             // MainMenuExit
             // 
             this.MainMenuExit.Name = "MainMenuExit";
-            this.MainMenuExit.Size = new System.Drawing.Size(146, 34);
+            this.MainMenuExit.Size = new System.Drawing.Size(270, 34);
             this.MainMenuExit.Text = "退出";
             this.MainMenuExit.Click += new System.EventHandler(this.MAINMENU_EXIT_CLICK);
             // 
