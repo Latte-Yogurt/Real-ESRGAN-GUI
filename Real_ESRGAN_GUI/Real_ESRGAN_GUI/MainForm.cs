@@ -312,12 +312,12 @@ namespace Real_ESRGAN_GUI
             // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
 
-            var language = xdoc.Descendants("Language").FirstOrDefault()?.Value;
+            // 检查 Language 节点是否存在
+            var languageNode = xdoc.Descendants("Language").FirstOrDefault();
 
-            // 如果获取到的值为 null 或为空字符串
-            if (string.IsNullOrEmpty(language))
+            if (languageNode == null)
             {
-                // 创建新的 XML 节点
+                // 如果没有找到 Language 节点，创建新的 XML 节点
                 XElement newNode = new XElement("Language", "zh-CN");
 
                 // 将新节点添加到根节点
@@ -328,228 +328,219 @@ namespace Real_ESRGAN_GUI
 
                 return "zh-CN";
             }
-            else
-            {
-                // 返回获取到的值
-                return language;
-            }
-        }
 
+            // 获取 Language 节点的值
+            var language = languageNode.Value;
+
+            // 如果获取到的值为空字符串
+            if (string.IsNullOrEmpty(language))
+            {
+                return "zh-CN";
+            }
+
+            // 返回获取到的值
+            return language;
+        }
 
         private string GET_LOCATION_X(string configFilePath)
         {
-            // 检查文件是否存在
             if (!File.Exists(configFilePath))
             {
-                // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
 
-            // 获取 LocationX 值
-            var locationX = xdoc.Descendants("LocationX").FirstOrDefault()?.Value;
+            var locationXNode = xdoc.Descendants("LocationX").FirstOrDefault();
 
-            // 如果获取到的值为 null 或为空字符串
-            if (string.IsNullOrEmpty(locationX))
+            if (locationXNode == null)
             {
-                int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Width / 2;
+                int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
 
-                // 创建新的 XML 节点
                 XElement newNode = new XElement("LocationX", newLocationX);
 
-                // 将新节点添加到根节点
                 xdoc.Root.Add(newNode);
 
-                // 保存更改
                 xdoc.Save(configFilePath);
 
                 return newLocationX.ToString();
             }
-            else
+
+            var locationX = locationXNode.Value;
+
+            if (string.IsNullOrEmpty(locationX))
             {
-                // 返回获取到的值
-                return locationX;
+                int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
+
+                return newLocationX.ToString();
             }
+
+            return locationX;
         }
 
         private string GET_LOCATION_Y(string configFilePath)
         {
-            // 检查文件是否存在
             if (!File.Exists(configFilePath))
             {
-                // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
 
-            // 获取 LocationX 值
-            var locationY = xdoc.Descendants("LocationY").FirstOrDefault()?.Value;
+            var locationYNode = xdoc.Descendants("LocationY").FirstOrDefault();
 
-            // 如果获取到的值为 null 或为空字符串
-            if (string.IsNullOrEmpty(locationY))
+            if (locationYNode == null)
             {
-                int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Height / 2;
+                int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
 
-                // 创建新的 XML 节点
                 XElement newNode = new XElement("LocationY", newLocationY);
 
-                // 将新节点添加到根节点
                 xdoc.Root.Add(newNode);
 
-                // 保存更改
                 xdoc.Save(configFilePath);
 
                 return newLocationY.ToString();
             }
-            else
+
+            var locationY = locationYNode.Value;
+
+            if (string.IsNullOrEmpty(locationY))
             {
-                // 返回获取到的值
-                return locationY;
+                int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
+
+                return newLocationY.ToString();
             }
+
+            return locationY;
         }
 
         private string GET_SCALE(string configFilePath)
         {
-            // 检查文件是否存在
             if (!File.Exists(configFilePath))
             {
-                // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
 
-            var scale = xdoc.Descendants("Scale").FirstOrDefault()?.Value;
+            var scaleNode = xdoc.Descendants("Scale").FirstOrDefault();
 
-            // 如果获取到的值为 null 或为空字符串
-            if (string.IsNullOrEmpty(scale))
+            if (scaleNode == null)
             {
-                // 创建新的 XML 节点
                 XElement newNode = new XElement("Scale", "4");
 
-                // 将新节点添加到根节点
                 xdoc.Root.Add(newNode);
 
-                // 保存更改
                 xdoc.Save(configFilePath);
 
                 return "4";
             }
-            else
+
+            var scale = scaleNode.Value;
+
+            if (string.IsNullOrEmpty(scale))
             {
-                // 返回获取到的值
-                return scale;
+                return "4";
             }
+
+            return scale;
         }
 
         private string GET_MODEL(string configFilePath)
         {
-            // 检查文件是否存在
             if (!File.Exists(configFilePath))
             {
-                // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
 
-            var model = xdoc.Descendants("Model").FirstOrDefault()?.Value;
+            var modelNode = xdoc.Descendants("Model").FirstOrDefault();
 
-            // 如果获取到的值为 null 或为空字符串
-            if (string.IsNullOrEmpty(model))
+            if (modelNode == null)
             {
-                // 创建新的 XML 节点
                 XElement newNode = new XElement("Model", "realesrgan-x4plus");
 
-                // 将新节点添加到根节点
                 xdoc.Root.Add(newNode);
 
-                // 保存更改
                 xdoc.Save(configFilePath);
 
                 return "realesrgan-x4plus";
             }
-            else
+
+            var model = modelNode.Value;
+
+            if (string.IsNullOrEmpty(model))
             {
-                // 返回获取到的值
-                return model;
+                return "realesrgan-x4plus";
             }
+
+            return model;
         }
 
         private string GET_EXTENSION(string configFilePath)
         {
-            // 检查文件是否存在
             if (!File.Exists(configFilePath))
             {
-                // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
 
-            var extension = xdoc.Descendants("Extension").FirstOrDefault()?.Value;
+            var extensionNode = xdoc.Descendants("Extension").FirstOrDefault();
 
-            // 如果获取到的值为 null 或为空字符串
-            if (string.IsNullOrEmpty(extension))
+            if (extensionNode == null)
             {
-                // 创建新的 XML 节点
                 XElement newNode = new XElement("Extension", "png");
 
-                // 将新节点添加到根节点
                 xdoc.Root.Add(newNode);
 
-                // 保存更改
                 xdoc.Save(configFilePath);
 
                 return "png";
             }
-            else
+
+            var extension = extensionNode.Value;
+
+            if (string.IsNullOrEmpty(extension))
             {
-                // 返回获取到的值
-                return extension;
+                return "png";
             }
+
+            return extension;
         }
 
         private string GET_PROCESS_HIDDEN(string configFilePath)
         {
-            // 检查文件是否存在
             if (!File.Exists(configFilePath))
             {
-                // 如果不存在，创建默认配置文件
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            // 加载 XML 文档
             XDocument xdoc = XDocument.Load(configFilePath);
 
-            var processHidden = xdoc.Descendants("ProcessHidden").FirstOrDefault()?.Value;
+            var processHiddenNode = xdoc.Descendants("ProcessHidden").FirstOrDefault();
 
-            // 如果获取到的值为 null 或为空字符串
-            if (string.IsNullOrEmpty(processHidden))
+            if (processHiddenNode == null)
             {
-                // 创建新的 XML 节点
                 XElement newNode = new XElement("ProcessHidden", "false");
 
-                // 将新节点添加到根节点
                 xdoc.Root.Add(newNode);
 
-                // 保存更改
                 xdoc.Save(configFilePath);
 
                 return "false";
             }
-            else
+
+            var processHidden = processHiddenNode.Value;
+
+            if (string.IsNullOrEmpty(processHidden))
             {
-                // 返回获取到的值
-                return processHidden;
+                return "false";
             }
+
+            return processHidden;
+
         }
 
         private void DEFAULT_SCALE_MENU()
@@ -810,6 +801,7 @@ namespace Real_ESRGAN_GUI
                     break;
             }
 
+            UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
             UPDATE_CONFIG($"{xmlPath}", "Scale", $"{scale}");
             UPDATE_CONFIG($"{xmlPath}", "Model", $"{model}");
             UPDATE_CONFIG($"{xmlPath}", "Extension", $"{extension}");
