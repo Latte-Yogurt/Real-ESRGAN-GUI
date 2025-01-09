@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Drawing;
 using System.Reflection;
 using System.Xml.Linq;
@@ -8,15 +9,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using System.Threading.Tasks;
-
-/*
-using System.Xml;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Runtime.InteropServices;
-*/
 
 namespace Real_ESRGAN_GUI
 {
@@ -266,19 +258,52 @@ namespace Real_ESRGAN_GUI
             int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Width / 2;
             int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Height / 2;
 
-            // 创建默认的 XML 结构
-            XElement defaultConfig = new XElement("Configuration",
-                new XElement("Language", "zh-CN"),
-                new XElement("LocationX", $"{newLocationX}"),
-                new XElement("LocationY", $"{newLocationY}"),
-                new XElement("Scale", "4"),
-                new XElement("Model", "realesrgan-x4plus"),
-                new XElement("Extension", "png"),
-                new XElement("ProcessHidden", "false")
-            );
+            // 获取当前系统的显示语言
+            var currentCulture = CultureInfo.CurrentUICulture;
 
-            // 保存默认配置到文件
-            defaultConfig.Save(configFilePath);
+            // 创建一个示例词典，包含支持的语言
+            var supportedLanguages = new HashSet<string>
+            {
+                "zh-CN", // 中文 (简体)
+                "zh-TW", // 中文 (繁体)
+                "en-US", // 英语 (美国)
+                // 其他语言...
+            };
+
+            // 检查当前语言是否在词典中
+            if (supportedLanguages.Contains(currentCulture.Name))
+            {
+                // 创建默认的 XML 结构
+                XElement defaultConfig = new XElement("Configuration",
+                    new XElement("Language", $"{currentCulture.Name}"),
+                    new XElement("LocationX", $"{newLocationX}"),
+                    new XElement("LocationY", $"{newLocationY}"),
+                    new XElement("Scale", "4"),
+                    new XElement("Model", "realesrgan-x4plus"),
+                    new XElement("Extension", "png"),
+                    new XElement("ProcessHidden", "false")
+                );
+
+                // 保存默认配置到文件
+                defaultConfig.Save(configFilePath);
+            }
+
+            else
+            {
+                // 创建默认的 XML 结构
+                XElement defaultConfig = new XElement("Configuration",
+                    new XElement("Language", "en-US"),
+                    new XElement("LocationX", $"{newLocationX}"),
+                    new XElement("LocationY", $"{newLocationY}"),
+                    new XElement("Scale", "4"),
+                    new XElement("Model", "realesrgan-x4plus"),
+                    new XElement("Extension", "png"),
+                    new XElement("ProcessHidden", "false")
+                );
+
+                // 保存默认配置到文件
+                defaultConfig.Save(configFilePath);
+            }
         }
 
         private void UPDATE_CONFIG(string filePath, string key, string newValue)
@@ -317,16 +342,43 @@ namespace Real_ESRGAN_GUI
 
             if (languageNode == null)
             {
-                // 如果没有找到 Language 节点，创建新的 XML 节点
-                XElement newNode = new XElement("Language", "zh-CN");
+                // 获取当前系统的显示语言
+                var currentCulture = CultureInfo.CurrentUICulture;
 
-                // 将新节点添加到根节点
-                xdoc.Root.Add(newNode);
+                // 创建一个示例词典，包含支持的语言
+                var supportedLanguages = new HashSet<string>
+                {
+                    "zh-CN", // 中文 (简体)
+                    "zh-TW", // 中文 (繁体)
+                    "en-US", // 英语 (美国)
+                    // 其他语言...
+                };
 
-                // 保存更改
-                xdoc.Save(configFilePath);
+                // 检查当前语言是否在词典中
+                if (supportedLanguages.Contains(currentCulture.Name))
+                {
+                    // 如果没有找到 Language 节点，创建新的 XML 节点
+                    XElement newNode = new XElement("Language", $"{currentCulture.Name}");
 
-                return "zh-CN";
+                    // 将新节点添加到根节点
+                    xdoc.Root.Add(newNode);
+
+                    // 保存更改
+                    xdoc.Save(configFilePath);
+
+                    return currentCulture.Name;
+                }
+
+                else
+                {
+                    XElement newNode = new XElement("Language", "en-US");
+
+                    xdoc.Root.Add(newNode);
+
+                    xdoc.Save(configFilePath);
+
+                    return "en-US";
+                }
             }
 
             // 获取 Language 节点的值
@@ -335,7 +387,28 @@ namespace Real_ESRGAN_GUI
             // 如果获取到的值为空字符串
             if (string.IsNullOrEmpty(language))
             {
-                return "zh-CN";
+                // 获取当前系统的显示语言
+                var currentCulture = CultureInfo.CurrentUICulture;
+
+                // 创建一个示例词典，包含支持的语言
+                var supportedLanguages = new HashSet<string>
+                {
+                    "zh-CN", // 中文 (简体)
+                    "zh-TW", // 中文 (繁体)
+                    "en-US", // 英语 (美国)
+                    // 其他语言...
+                };
+
+                // 检查当前语言是否在词典中
+                if (supportedLanguages.Contains(currentCulture.Name))
+                {
+                    return currentCulture.Name;
+                }
+
+                else
+                {
+                    return "en-US";
+                }
             }
 
             // 返回获取到的值
