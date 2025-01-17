@@ -308,22 +308,29 @@ namespace Real_ESRGAN_GUI
 
         private void UPDATE_CONFIG(string filePath, string key, string newValue)
         {
-            XDocument xdoc = XDocument.Load(filePath); // 加载 XML 文件
-
-            var element = xdoc.Descendants(key).FirstOrDefault(); // 查找指定节点
-            if (element != null)
+            try
             {
-                element.Value = newValue; // 修改节点值
-            }
-            else
-            {
-                // 创建新节点并设置值
-                xdoc.Root.Add(new XElement(key, newValue));
+                XDocument xdoc = XDocument.Load(filePath); // 加载 XML 文件
+
+                var element = xdoc.Descendants(key).FirstOrDefault(); // 查找指定节点
+                if (element != null)
+                {
+                    element.Value = newValue; // 修改节点值
+                }
+                else
+                {
+                    // 创建新节点并设置值
+                    xdoc.Root.Add(new XElement(key, newValue));
+                }
+
+                xdoc.Save(filePath); // 保存文件
             }
 
-            xdoc.Save(filePath); // 保存文件
+            catch (Exception)
+            {
+                CREATE_DEFAULT_CONFIG(xmlPath);
+            }
         }
-
 
         private string GET_CURRENT_LANGUAGE(string configFilePath)
         {
@@ -340,13 +347,11 @@ namespace Real_ESRGAN_GUI
             // 检查 Language 节点是否存在
             var languageNode = xdoc.Descendants("Language").FirstOrDefault();
 
-            if (languageNode == null)
-            {
-                // 获取当前系统的显示语言
-                var currentCulture = CultureInfo.CurrentUICulture;
+            // 获取当前系统的显示语言
+            var currentCulture = CultureInfo.CurrentUICulture;
 
-                // 创建一个示例词典，包含支持的语言
-                var supportedLanguages = new HashSet<string>
+            // 创建一个示例词典，包含支持的语言
+            var supportedLanguages = new HashSet<string>
                 {
                     "zh-CN", // 中文 (简体)
                     "zh-TW", // 中文 (繁体)
@@ -354,6 +359,8 @@ namespace Real_ESRGAN_GUI
                     // 其他语言...
                 };
 
+            if (languageNode == null)
+            {
                 // 检查当前语言是否在词典中
                 if (supportedLanguages.Contains(currentCulture.Name))
                 {
@@ -387,18 +394,6 @@ namespace Real_ESRGAN_GUI
             // 如果获取到的值为空字符串
             if (string.IsNullOrEmpty(language))
             {
-                // 获取当前系统的显示语言
-                var currentCulture = CultureInfo.CurrentUICulture;
-
-                // 创建一个示例词典，包含支持的语言
-                var supportedLanguages = new HashSet<string>
-                {
-                    "zh-CN", // 中文 (简体)
-                    "zh-TW", // 中文 (繁体)
-                    "en-US", // 英语 (美国)
-                    // 其他语言...
-                };
-
                 // 检查当前语言是否在词典中
                 if (supportedLanguages.Contains(currentCulture.Name))
                 {
@@ -411,11 +406,25 @@ namespace Real_ESRGAN_GUI
                 }
             }
 
+            // 检查语言是否在支持语言词典中
+            if (!supportedLanguages.Contains(language))
+            {
+                // 如果不在，返回当前的系统显示语言（如果在支持列表中）
+                if (supportedLanguages.Contains(currentCulture.Name))
+                {
+                    return currentCulture.Name;
+                }
+                else
+                {
+                    return "en-US"; // 默认语言
+                }
+            }
+
             // 返回获取到的值
             return language;
         }
 
-        private string GET_LOCATION_X(string configFilePath)
+        private int GET_LOCATION_X(string configFilePath)
         {
             if (!File.Exists(configFilePath))
             {
@@ -426,9 +435,10 @@ namespace Real_ESRGAN_GUI
 
             var locationXNode = xdoc.Descendants("LocationX").FirstOrDefault();
 
+            int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
+
             if (locationXNode == null)
             {
-                int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
 
                 XElement newNode = new XElement("LocationX", newLocationX);
 
@@ -436,22 +446,31 @@ namespace Real_ESRGAN_GUI
 
                 xdoc.Save(configFilePath);
 
-                return newLocationX.ToString();
+                return newLocationX;
             }
 
             var locationX = locationXNode.Value;
+            int locationXToInt;
 
             if (string.IsNullOrEmpty(locationX))
             {
-                int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
-
-                return newLocationX.ToString();
+                return newLocationX;
             }
 
-            return locationX;
+            if (!int.TryParse(locationX, out locationXToInt))
+            {
+                return newLocationX;
+            }
+
+            if (locationXToInt > Screen.PrimaryScreen.Bounds.Width - this.Size.Width || locationXToInt < -10)
+            {
+                return newLocationX;
+            }
+
+            return locationXToInt;
         }
 
-        private string GET_LOCATION_Y(string configFilePath)
+        private int GET_LOCATION_Y(string configFilePath)
         {
             if (!File.Exists(configFilePath))
             {
@@ -462,29 +481,38 @@ namespace Real_ESRGAN_GUI
 
             var locationYNode = xdoc.Descendants("LocationY").FirstOrDefault();
 
+            int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
+
             if (locationYNode == null)
             {
-                int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
-
                 XElement newNode = new XElement("LocationY", newLocationY);
 
                 xdoc.Root.Add(newNode);
 
                 xdoc.Save(configFilePath);
 
-                return newLocationY.ToString();
+                return newLocationY;
             }
 
             var locationY = locationYNode.Value;
+            int locationYToInt;
 
             if (string.IsNullOrEmpty(locationY))
             {
-                int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
-
-                return newLocationY.ToString();
+                return newLocationY;
             }
 
-            return locationY;
+            if (!int.TryParse(locationY, out locationYToInt))
+            {
+                return newLocationY;
+            }
+
+            if (locationYToInt > Screen.PrimaryScreen.Bounds.Height - this.Size.Height || locationYToInt < 0)
+            {
+                return newLocationY;
+            }
+
+            return locationYToInt;
         }
 
         private string GET_SCALE(string configFilePath)
@@ -497,6 +525,13 @@ namespace Real_ESRGAN_GUI
             XDocument xdoc = XDocument.Load(configFilePath);
 
             var scaleNode = xdoc.Descendants("Scale").FirstOrDefault();
+
+            var supportedScale = new HashSet<string>
+            {
+                "2",
+                "3",
+                "4"
+            };
 
             if (scaleNode == null)
             {
@@ -516,6 +551,11 @@ namespace Real_ESRGAN_GUI
                 return "4";
             }
 
+            if (!supportedScale.Contains(scale))
+            {
+                return "4";
+            }
+
             return scale;
         }
 
@@ -529,6 +569,13 @@ namespace Real_ESRGAN_GUI
             XDocument xdoc = XDocument.Load(configFilePath);
 
             var modelNode = xdoc.Descendants("Model").FirstOrDefault();
+
+            var supportedModel = new HashSet<string>
+            {
+                "realesrgan-x4plus",
+                "realesrgan-x4plus-anime",
+                "realesr-animevideov3"
+            };
 
             if (modelNode == null)
             {
@@ -548,6 +595,11 @@ namespace Real_ESRGAN_GUI
                 return "realesrgan-x4plus";
             }
 
+            if (!supportedModel.Contains(model))
+            {
+                return "realesrgan-x4plus";
+            }
+
             return model;
         }
 
@@ -561,6 +613,13 @@ namespace Real_ESRGAN_GUI
             XDocument xdoc = XDocument.Load(configFilePath);
 
             var extensionNode = xdoc.Descendants("Extension").FirstOrDefault();
+
+            var supportedExtension = new HashSet<string>
+            {
+                "jpg",
+                "png",
+                "webp"
+            };
 
             if (extensionNode == null)
             {
@@ -580,6 +639,11 @@ namespace Real_ESRGAN_GUI
                 return "png";
             }
 
+            if (!supportedExtension.Contains(extension))
+            {
+                return "png";
+            }
+
             return extension;
         }
 
@@ -593,6 +657,13 @@ namespace Real_ESRGAN_GUI
             XDocument xdoc = XDocument.Load(configFilePath);
 
             var processHiddenNode = xdoc.Descendants("ProcessHidden").FirstOrDefault();
+
+            var supportedProcessHidden = new HashSet<string>
+            {
+                "true",
+                "false"
+            };
+
 
             if (processHiddenNode == null)
             {
@@ -612,8 +683,12 @@ namespace Real_ESRGAN_GUI
                 return "false";
             }
 
-            return processHidden;
+            if (!supportedProcessHidden.Contains(processHidden))
+            {
+                return "false";
+            }
 
+            return processHidden;
         }
 
         private void DEFAULT_SCALE_MENU()
@@ -761,8 +836,8 @@ namespace Real_ESRGAN_GUI
 
         private void MAINFORM_LOAD(object sender, EventArgs e)
         {
-            locationX = int.Parse(GET_LOCATION_X(xmlPath));
-            locationY = int.Parse(GET_LOCATION_Y(xmlPath));
+            locationX = GET_LOCATION_X(xmlPath);
+            locationY = GET_LOCATION_Y(xmlPath);
 
             this.Location = new Point(locationX, locationY);
         }
@@ -859,6 +934,15 @@ namespace Real_ESRGAN_GUI
             MAINFORM_DRAGENTER(sender, e); // 复用已有的逻辑
         }
 
+        private void SAVE_CONFIG()
+        {
+            UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
+            UPDATE_CONFIG($"{xmlPath}", "Scale", $"{scale}");
+            UPDATE_CONFIG($"{xmlPath}", "Model", $"{model}");
+            UPDATE_CONFIG($"{xmlPath}", "Extension", $"{extension}");
+            UPDATE_CONFIG($"{xmlPath}", "ProcessHidden", $"{processHidden}");
+        }
+
         private void BUTTON_CONFIG_CLICK(object sender, EventArgs e)
         {
             switch (currentLanguage)
@@ -874,12 +958,7 @@ namespace Real_ESRGAN_GUI
                     break;
             }
 
-            UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
-            UPDATE_CONFIG($"{xmlPath}", "Scale", $"{scale}");
-            UPDATE_CONFIG($"{xmlPath}", "Model", $"{model}");
-            UPDATE_CONFIG($"{xmlPath}", "Extension", $"{extension}");
-            UPDATE_CONFIG($"{xmlPath}", "ProcessHidden", $"{processHidden}");
-
+            SAVE_CONFIG();
             SAVE_LOCATION();
         }
 
