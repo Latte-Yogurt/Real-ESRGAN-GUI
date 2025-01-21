@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Real_ESRGAN_GUI
 {
@@ -255,6 +256,32 @@ namespace Real_ESRGAN_GUI
 
         private void CREATE_DEFAULT_CONFIG(string configFilePath)
         {
+            if (File.Exists(configFilePath))
+            {
+                try
+                {
+                    File.Delete(configFilePath);
+                }
+
+                catch (Exception ex)
+                {
+                    switch (currentLanguage)
+                    {
+                        case "zh-CN":
+                            MessageBox.Show($"出现错误: {ex.Message}。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case "zh-TW":
+                            MessageBox.Show($"出現錯誤: {ex.Message}。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case "en-US":
+                            MessageBox.Show($"An error occurred: {ex.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                    }
+
+                    this.Close();
+                }
+            }
+
             int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Width / 2;
             int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Height / 2;
 
@@ -341,12 +368,6 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            // 加载 XML 文档
-            XDocument xdoc = XDocument.Load(configFilePath);
-
-            // 检查 Language 节点是否存在
-            var languageNode = xdoc.Descendants("Language").FirstOrDefault();
-
             // 获取当前系统的显示语言
             var currentCulture = CultureInfo.CurrentUICulture;
 
@@ -358,6 +379,33 @@ namespace Real_ESRGAN_GUI
                     "en-US", // 英语 (美国)
                     // 其他语言...
                 };
+
+            XDocument xdoc;
+
+            try
+            {
+                // 加载 XML 文档
+                xdoc = XDocument.Load(configFilePath);
+            }
+
+            catch (XmlException)
+            {
+                // 如果加载失败，创建新的默认配置文件并返回默认值
+                CREATE_DEFAULT_CONFIG(configFilePath);
+
+                if (supportedLanguages.Contains(currentCulture.Name))
+                {
+                    return currentCulture.Name;
+                }
+
+                else
+                {
+                    return "en-US";
+                }
+            }
+
+            // 检查 Language 节点是否存在
+            var languageNode = xdoc.Descendants("Language").FirstOrDefault();
 
             if (languageNode == null)
             {
@@ -409,7 +457,7 @@ namespace Real_ESRGAN_GUI
             // 检查语言是否在支持语言词典中
             if (!supportedLanguages.Contains(language))
             {
-                // 如果不在，返回当前的系统显示语言（如果在支持列表中）
+                // 如果在，返回当前的系统显示语言（如果在支持列表中）
                 if (supportedLanguages.Contains(currentCulture.Name))
                 {
                     return currentCulture.Name;
@@ -431,11 +479,25 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            XDocument xdoc = XDocument.Load(configFilePath);
+            int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
+
+            XDocument xdoc;
+
+            try
+            {
+                // 加载 XML 文档
+                xdoc = XDocument.Load(configFilePath);
+            }
+
+            catch (XmlException)
+            {
+                // 如果加载失败，创建新的默认配置文件并返回默认值
+                CREATE_DEFAULT_CONFIG(configFilePath);
+
+                return newLocationX;
+            }
 
             var locationXNode = xdoc.Descendants("LocationX").FirstOrDefault();
-
-            int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
 
             if (locationXNode == null)
             {
@@ -477,11 +539,25 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            XDocument xdoc = XDocument.Load(configFilePath);
+            int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
+
+            XDocument xdoc;
+
+            try
+            {
+                // 加载 XML 文档
+                xdoc = XDocument.Load(configFilePath);
+            }
+
+            catch (XmlException)
+            {
+                // 如果加载失败，创建新的默认配置文件并返回默认值
+                CREATE_DEFAULT_CONFIG(configFilePath);
+
+                return newLocationY;
+            }
 
             var locationYNode = xdoc.Descendants("LocationY").FirstOrDefault();
-
-            int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
 
             if (locationYNode == null)
             {
@@ -522,7 +598,21 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            XDocument xdoc = XDocument.Load(configFilePath);
+            XDocument xdoc;
+
+            try
+            {
+                // 加载 XML 文档
+                xdoc = XDocument.Load(configFilePath);
+            }
+
+            catch (XmlException)
+            {
+                // 如果加载失败，创建新的默认配置文件并返回默认值
+                CREATE_DEFAULT_CONFIG(configFilePath);
+
+                return "4";
+            }
 
             var scaleNode = xdoc.Descendants("Scale").FirstOrDefault();
 
@@ -566,7 +656,21 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            XDocument xdoc = XDocument.Load(configFilePath);
+            XDocument xdoc;
+
+            try
+            {
+                // 加载 XML 文档
+                xdoc = XDocument.Load(configFilePath);
+            }
+
+            catch (XmlException)
+            {
+                // 如果加载失败，创建新的默认配置文件并返回默认值
+                CREATE_DEFAULT_CONFIG(configFilePath);
+
+                return "realesrgan-x4plus";
+            }
 
             var modelNode = xdoc.Descendants("Model").FirstOrDefault();
 
@@ -610,7 +714,21 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            XDocument xdoc = XDocument.Load(configFilePath);
+            XDocument xdoc;
+
+            try
+            {
+                // 加载 XML 文档
+                xdoc = XDocument.Load(configFilePath);
+            }
+
+            catch (XmlException)
+            {
+                // 如果加载失败，创建新的默认配置文件并返回默认值
+                CREATE_DEFAULT_CONFIG(configFilePath);
+
+                return "png";
+            }
 
             var extensionNode = xdoc.Descendants("Extension").FirstOrDefault();
 
@@ -654,7 +772,21 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            XDocument xdoc = XDocument.Load(configFilePath);
+            XDocument xdoc;
+
+            try
+            {
+                // 加载 XML 文档
+                xdoc = XDocument.Load(configFilePath);
+            }
+
+            catch (XmlException)
+            {
+                // 如果加载失败，创建新的默认配置文件并返回默认值
+                CREATE_DEFAULT_CONFIG(configFilePath);
+
+                return "false";
+            }
 
             var processHiddenNode = xdoc.Descendants("ProcessHidden").FirstOrDefault();
 
