@@ -297,8 +297,25 @@ namespace Real_ESRGAN_GUI
                 // 其他语言...
             };
 
-            // 检查当前语言是否在词典中
-            if (supportedLanguages.Contains(currentCulture.Name))
+            if (currentLanguage != null && supportedLanguages.Contains(currentCulture.Name))
+            {
+                // 创建默认的 XML 结构
+                XElement defaultConfig = new XElement("Configuration",
+                    new XElement("Language", $"{currentLanguage}"),
+                    new XElement("LocationX", $"{newLocationX}"),
+                    new XElement("LocationY", $"{newLocationY}"),
+                    new XElement("Scale", "4"),
+                    new XElement("Model", "realesrgan-x4plus"),
+                    new XElement("Extension", "png"),
+                    new XElement("ProcessHidden", "false")
+                );
+
+                // 保存默认配置到文件
+                defaultConfig.Save(configFilePath);
+            }
+
+                // 检查当前语言是否在词典中
+            if (currentLanguage == null && supportedLanguages.Contains(currentCulture.Name))
             {
                 // 创建默认的 XML 结构
                 XElement defaultConfig = new XElement("Configuration",
@@ -315,7 +332,7 @@ namespace Real_ESRGAN_GUI
                 defaultConfig.Save(configFilePath);
             }
 
-            else
+            if (!supportedLanguages.Contains(currentCulture.Name))
             {
                 // 创建默认的 XML 结构
                 XElement defaultConfig = new XElement("Configuration",
