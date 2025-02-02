@@ -42,6 +42,7 @@ namespace Real_ESRGAN_GUI
             string workPath = GET_WORK_PATH(); // 获取程序路径
             string xml = @"config.xml";
             xmlPath = Path.Combine(workPath, xml);
+            CHECK_XML_LEGAL(xmlPath);
 
             currentLanguage = GET_CURRENT_LANGUAGE(xmlPath);
 
@@ -60,19 +61,7 @@ namespace Real_ESRGAN_GUI
                 string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".webp" };
                 if (!allowedExtensions.Contains(Path.GetExtension(filePath).ToLower()))
                 {
-                    switch (currentLanguage)
-                    {
-                        case "zh-CN":
-                            MessageBox.Show("不支持的文件格式。请提供 JPG、PNG 或 WEBP 文件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "zh-TW":
-                            MessageBox.Show("不支持的文件格式。請提供 JPG、PNG 或 WEBP 文件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "en-US":
-                            MessageBox.Show("Unsupported file format. Please provide JPG, PNG, or WEBP files.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                    }
-
+                    ERROR_UNSUPPORTED_FILE();
                     this.Close(); // 关闭应用程序
                     return; // 确保不执行后续代码
                 }
@@ -107,18 +96,7 @@ namespace Real_ESRGAN_GUI
             {
                 if (!CHECK_REAL_ESRGAN_EXIST())
                 {
-                    switch (currentLanguage)
-                    {
-                        case "zh-CN":
-                            MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "zh-TW":
-                            MessageBox.Show("程式工作路徑下Real ESRGAN組件不完整，無法啓動Real ESRGAN處理流程。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "en-US":
-                            MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                    }
+                    ERROR_REAL_ESRGAN_EXIST();
                 }
 
                 else
@@ -145,6 +123,26 @@ namespace Real_ESRGAN_GUI
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
             // 返回路径
             return Path.GetDirectoryName(assemblyPath);
+        }
+
+        private void CHECK_XML_LEGAL(string configFilePath)
+        {
+            FileInfo configFile = new FileInfo(configFilePath);
+
+            if (configFile.Exists && (configFile.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+            {
+                configFile.Attributes = FileAttributes.Normal;
+            }
+
+            if (configFile.Exists && (configFile.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+            {
+                configFile.Attributes = FileAttributes.Normal;
+            }
+
+            if (!configFile.Exists)
+            {
+                CREATE_DEFAULT_CONFIG(configFilePath);
+            }
         }
 
         private bool CHECK_REAL_ESRGAN_EXIST()
@@ -265,19 +263,7 @@ namespace Real_ESRGAN_GUI
 
                 catch (Exception ex)
                 {
-                    switch (currentLanguage)
-                    {
-                        case "zh-CN":
-                            MessageBox.Show($"出现错误: {ex.Message}。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "zh-TW":
-                            MessageBox.Show($"出現錯誤: {ex.Message}。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "en-US":
-                            MessageBox.Show($"An error occurred: {ex.Message}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                    }
-
+                    ERROR_EXCEPTION_MESSAGE(ex);
                     this.Close();
                 }
             }
@@ -953,6 +939,79 @@ namespace Real_ESRGAN_GUI
             }
         }
 
+        private void NOTICE_CONFIG_SAVED()
+        {
+            switch (currentLanguage)
+            {
+                case "zh-CN":
+                    MessageBox.Show("配置已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                case "zh-TW":
+                    MessageBox.Show("配置已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                case "en-US":
+                    MessageBox.Show("Configuration Saved.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+            }
+        }
+
+        private void ERROR_UNSUPPORTED_FILE()
+        {
+            switch (currentLanguage)
+            {
+                case "zh-CN":
+                    MessageBox.Show("不支持的文件格式。请提供 JPG、PNG 或 WEBP 文件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "zh-TW":
+                    MessageBox.Show("不支持的文件格式。請提供 JPG、PNG 或 WEBP 文件。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "en-US":
+                    MessageBox.Show("Unsupported file format. Please provide JPG, PNG, or WEBP files.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+        }
+
+        private void ERROR_REAL_ESRGAN_EXIST()
+        {
+            switch (currentLanguage)
+            {
+                case "zh-CN":
+                    MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "zh-TW":
+                    MessageBox.Show("程式工作路徑下Real ESRGAN組件不完整，無法啓動Real ESRGAN處理流程。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "en-US":
+                    MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+        }
+
+        private void ERROR_EXCEPTION_MESSAGE(Exception error)
+        {
+            switch (currentLanguage)
+            {
+                case "zh-CN":
+                    MessageBox.Show($"出现错误: {error.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "zh-TW":
+                    MessageBox.Show($"出現錯誤: {error.Message}", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "en-US":
+                    MessageBox.Show($"An error occurred: {error.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+        }
+
+        private void SAVE_CONFIG()
+        {
+            UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
+            UPDATE_CONFIG($"{xmlPath}", "Scale", $"{scale}");
+            UPDATE_CONFIG($"{xmlPath}", "Model", $"{model}");
+            UPDATE_CONFIG($"{xmlPath}", "Extension", $"{extension}");
+            UPDATE_CONFIG($"{xmlPath}", "ProcessHidden", $"{processHidden}");
+        }
+
         private void SET_COMPONENT_POSITION()
         {
             if (currentLanguage=="en-US")
@@ -1048,18 +1107,7 @@ namespace Real_ESRGAN_GUI
 
                 if (!CHECK_REAL_ESRGAN_EXIST())
                 {
-                    switch (currentLanguage)
-                    {
-                        case "zh-CN":
-                            MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "zh-TW":
-                            MessageBox.Show("程式工作路徑下Real ESRGAN組件不完整，無法啓動Real ESRGAN處理流程。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "en-US":
-                            MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                    }
+                    ERROR_REAL_ESRGAN_EXIST();
                 }
 
                 else
@@ -1083,30 +1131,9 @@ namespace Real_ESRGAN_GUI
             MAINFORM_DRAGENTER(sender, e); // 复用已有的逻辑
         }
 
-        private void SAVE_CONFIG()
-        {
-            UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
-            UPDATE_CONFIG($"{xmlPath}", "Scale", $"{scale}");
-            UPDATE_CONFIG($"{xmlPath}", "Model", $"{model}");
-            UPDATE_CONFIG($"{xmlPath}", "Extension", $"{extension}");
-            UPDATE_CONFIG($"{xmlPath}", "ProcessHidden", $"{processHidden}");
-        }
-
         private void BUTTON_CONFIG_CLICK(object sender, EventArgs e)
         {
-            switch (currentLanguage)
-            {
-                case "zh-CN":
-                    MessageBox.Show("配置已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    break;
-                case "zh-TW":
-                    MessageBox.Show("配置已保存。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    break;
-                case "en-US":
-                    MessageBox.Show("Configuration Saved.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    break;
-            }
-
+            NOTICE_CONFIG_SAVED();
             SAVE_CONFIG();
             SAVE_LOCATION();
         }
@@ -1161,19 +1188,8 @@ namespace Real_ESRGAN_GUI
                 directoryPath = Path.GetDirectoryName(filePath);
 
                 if (!CHECK_REAL_ESRGAN_EXIST())
-                {
-                    switch (currentLanguage)
-                    {
-                        case "zh-CN":
-                            MessageBox.Show("程序工作路径下Real ESRGAN组件不完整，无法启动Real ESRGAN处理流程。", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "zh-TW":
-                            MessageBox.Show("程式工作路徑下Real ESRGAN組件不完整，無法啓動Real ESRGAN處理流程。", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "en-US":
-                            MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                    }
+                {                    
+                    ERROR_REAL_ESRGAN_EXIST();
                 }
 
                 else
