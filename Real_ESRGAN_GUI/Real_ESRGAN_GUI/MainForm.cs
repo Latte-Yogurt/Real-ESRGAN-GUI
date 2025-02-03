@@ -36,8 +36,7 @@ namespace Real_ESRGAN_GUI
         public MainForm(string[] args)
         {
             InitializeComponent();
-
-            SET_COMPONENT_POSITION();
+            this.AutoScaleMode = AutoScaleMode.Dpi;
 
             string workPath = GET_WORK_PATH(); // 获取程序路径
             string xml = @"config.xml";
@@ -1038,7 +1037,7 @@ namespace Real_ESRGAN_GUI
                 ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2 + this.Height / 6);
             }
 
-            CheckBoxHideProcess.Location = new Point(20, MainPanel.Height - CheckBoxHideProcess.Height - 20);
+            CheckBoxHideProcess.Location = new Point(25, MainPanel.Height - CheckBoxHideProcess.Height - 20);
             ButtonConfig.Location = new Point(MainPanel.Width - ButtonConfig.Width - 10, MainPanel.Height - ButtonConfig.Height - 10);
         }
 

@@ -4,13 +4,6 @@ using System.Reflection;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
-/*
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-*/
 
 namespace Real_ESRGAN_GUI
 {
@@ -31,7 +24,7 @@ namespace Real_ESRGAN_GUI
 
             InitializeLanguageTexts();
             UpdateLanguage();
-            UpdateUI(currentLanguage);
+            UpdateUI();
         }
 
         private void InitializeLanguageTexts()
@@ -69,31 +62,31 @@ namespace Real_ESRGAN_GUI
             LabelLicense.Text = languageTexts[currentLanguage]["LabelLicense"];
         }
 
-        private void UpdateUI(string language)
+        private void UpdateUI()
         {
-            switch (language)
+            MainPic.Location = new Point(PanelAbout.Width / 2 - MainPic.Width / 2 - MainLabel.Width / 2 - 10, PanelAbout.Height / 2 - MainPic.Height / 2 - 87);
+            MainLabel.Location = new Point(PanelAbout.Width / 2 + MainPic.Width / 2 - MainLabel.Width / 2 + 10, PanelAbout.Height / 2 - MainLabel.Height / 2 - 87);
+            LabelWebsite.Location = new Point(PanelAbout.Width / 2 - LabelWebsite.Width / 2, PanelAbout.Height / 2 - LabelWebsite.Height / 2 - 27);
+            LabelLicense.Location = new Point(PanelAbout.Width / 2 - LabelLicense.Width / 2, PanelAbout.Height / 2 - LabelLicense.Height / 2 + 24);
+            ConfirmButton.Location = new Point(PanelAbout.Width / 2 - ConfirmButton.Width / 2, PanelAbout.Height / 2 - ConfirmButton.Height / 2 + 84);
+            DeveloperLabel.Location = new Point(PanelAbout.Width / 2 - DeveloperLabel.Width / 2, PanelAbout.Height / 2 - DeveloperLabel.Height / 2 + 124);
+        }
+
+        private void ERROR_IMAGE_NOT_FOUND()
+        {
+            switch (currentLanguage)
             {
                 case "zh-CN":
-                    LabelWebsite.Font = new Font("别喝醉别流泪", 14);
-                    LabelWebsite.Location = new Point(PanelAbout.Width / 2 - LabelWebsite.Width / 2, PanelAbout.Height / 2 - LabelWebsite.Height / 2 - 27);
-                    LabelLicense.Font = new Font("别喝醉别流泪", 14);
-                    LabelLicense.Location = new Point(PanelAbout.Width / 2 - LabelLicense.Width / 2, PanelAbout.Height / 2 - LabelLicense.Height / 2 + 24);
+                    MessageBox.Show("图像未找到！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case "zh-TW":
-                    LabelWebsite.Font = new Font("造字工房情书繁（非商用）常规体", 14, FontStyle.Bold);
-                    LabelWebsite.Location = new Point(PanelAbout.Width / 2 - LabelWebsite.Width / 2, PanelAbout.Height / 2 - LabelWebsite.Height / 2 - 27);
-                    LabelLicense.Font = new Font("造字工房情书繁（非商用）常规体", 14, FontStyle.Bold);
-                    LabelLicense.Location = new Point(PanelAbout.Width / 2 - LabelLicense.Width / 2, PanelAbout.Height / 2 - LabelLicense.Height / 2 + 24);
+                    MessageBox.Show("圖像未找到！", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 case "en-US":
-                    LabelWebsite.Font = new Font("别喝醉别流泪", 14);
-                    LabelWebsite.Location = new Point(PanelAbout.Width / 2 - LabelWebsite.Width / 2, PanelAbout.Height / 2 - LabelWebsite.Height / 2 - 27);
-                    LabelLicense.Font = new Font("别喝醉别流泪", 14);
-                    LabelLicense.Location = new Point(PanelAbout.Width / 2 - LabelLicense.Width / 2, PanelAbout.Height / 2 - LabelLicense.Height / 2 + 24);
+                    MessageBox.Show("Can not Find Image File！", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
             }
         }
-
 
         private void ABOUT_FORM_LOAD(object sender, EventArgs e)
         {
@@ -113,18 +106,7 @@ namespace Real_ESRGAN_GUI
                 }
                 else
                 {
-                    switch (currentLanguage)
-                    {
-                        case "zh-CN":
-                            MessageBox.Show("图像未找到！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "zh-TW":
-                            MessageBox.Show("圖像未找到！", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case "en-US":
-                            MessageBox.Show("Can not Find Image File！", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                    }
+                    ERROR_IMAGE_NOT_FOUND();
                 }
             }
         }

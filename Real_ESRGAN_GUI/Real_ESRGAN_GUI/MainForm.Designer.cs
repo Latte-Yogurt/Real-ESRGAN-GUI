@@ -77,7 +77,7 @@ namespace Real_ESRGAN_GUI
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Margin = new System.Windows.Forms.Padding(4);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(378, 344);
+            this.MainPanel.Size = new System.Drawing.Size(384, 361);
             this.MainPanel.TabIndex = 0;
             // 
             // ComboBoxExtension
@@ -85,10 +85,10 @@ namespace Real_ESRGAN_GUI
             this.ComboBoxExtension.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.ComboBoxExtension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxExtension.FormattingEnabled = true;
-            this.ComboBoxExtension.Location = new System.Drawing.Point(121, 218);
+            this.ComboBoxExtension.Location = new System.Drawing.Point(124, 226);
             this.ComboBoxExtension.Margin = new System.Windows.Forms.Padding(4);
             this.ComboBoxExtension.Name = "ComboBoxExtension";
-            this.ComboBoxExtension.Size = new System.Drawing.Size(242, 32);
+            this.ComboBoxExtension.Size = new System.Drawing.Size(242, 25);
             this.ComboBoxExtension.TabIndex = 8;
             this.ComboBoxExtension.SelectedIndexChanged += new System.EventHandler(this.COMBOBOX_EXTENSION_SELECTED_INDEX_CHANGED);
             // 
@@ -96,10 +96,10 @@ namespace Real_ESRGAN_GUI
             // 
             this.LabelExtension.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LabelExtension.AutoSize = true;
-            this.LabelExtension.Location = new System.Drawing.Point(17, 222);
+            this.LabelExtension.Location = new System.Drawing.Point(20, 230);
             this.LabelExtension.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelExtension.Name = "LabelExtension";
-            this.LabelExtension.Size = new System.Drawing.Size(82, 24);
+            this.LabelExtension.Size = new System.Drawing.Size(56, 17);
             this.LabelExtension.TabIndex = 7;
             this.LabelExtension.Text = "生成格式";
             // 
@@ -108,11 +108,11 @@ namespace Real_ESRGAN_GUI
             this.ComboBoxModel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.ComboBoxModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxModel.FormattingEnabled = true;
-            this.ComboBoxModel.Location = new System.Drawing.Point(121, 148);
+            this.ComboBoxModel.Location = new System.Drawing.Point(124, 156);
             this.ComboBoxModel.Margin = new System.Windows.Forms.Padding(4);
             this.ComboBoxModel.MaximumSize = new System.Drawing.Size(400, 0);
             this.ComboBoxModel.Name = "ComboBoxModel";
-            this.ComboBoxModel.Size = new System.Drawing.Size(242, 32);
+            this.ComboBoxModel.Size = new System.Drawing.Size(242, 25);
             this.ComboBoxModel.TabIndex = 5;
             this.ComboBoxModel.SelectedIndexChanged += new System.EventHandler(this.COMBOBOX_MODEL_SELECTED_INDEX_CHANGED);
             // 
@@ -120,10 +120,10 @@ namespace Real_ESRGAN_GUI
             // 
             this.LabelModel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LabelModel.AutoSize = true;
-            this.LabelModel.Location = new System.Drawing.Point(17, 152);
+            this.LabelModel.Location = new System.Drawing.Point(20, 160);
             this.LabelModel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelModel.Name = "LabelModel";
-            this.LabelModel.Size = new System.Drawing.Size(82, 24);
+            this.LabelModel.Size = new System.Drawing.Size(56, 17);
             this.LabelModel.TabIndex = 4;
             this.LabelModel.Text = "放大算法";
             // 
@@ -131,10 +131,10 @@ namespace Real_ESRGAN_GUI
             // 
             this.LabelScale.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LabelScale.AutoSize = true;
-            this.LabelScale.Location = new System.Drawing.Point(17, 80);
+            this.LabelScale.Location = new System.Drawing.Point(20, 88);
             this.LabelScale.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelScale.Name = "LabelScale";
-            this.LabelScale.Size = new System.Drawing.Size(82, 24);
+            this.LabelScale.Size = new System.Drawing.Size(56, 17);
             this.LabelScale.TabIndex = 3;
             this.LabelScale.Text = "放大倍数";
             // 
@@ -146,10 +146,10 @@ namespace Real_ESRGAN_GUI
             this.ComboBoxScale.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ComboBoxScale.FormattingEnabled = true;
             this.ComboBoxScale.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ComboBoxScale.Location = new System.Drawing.Point(121, 76);
+            this.ComboBoxScale.Location = new System.Drawing.Point(124, 84);
             this.ComboBoxScale.Margin = new System.Windows.Forms.Padding(4);
             this.ComboBoxScale.Name = "ComboBoxScale";
-            this.ComboBoxScale.Size = new System.Drawing.Size(242, 32);
+            this.ComboBoxScale.Size = new System.Drawing.Size(242, 25);
             this.ComboBoxScale.TabIndex = 2;
             this.ComboBoxScale.SelectedIndexChanged += new System.EventHandler(this.COMBOBOX_SCALE_SELECTED_INDEX_CHANGNED);
             // 
@@ -158,10 +158,10 @@ namespace Real_ESRGAN_GUI
             this.CheckBoxHideProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CheckBoxHideProcess.AutoSize = true;
             this.CheckBoxHideProcess.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CheckBoxHideProcess.Location = new System.Drawing.Point(21, 295);
+            this.CheckBoxHideProcess.Location = new System.Drawing.Point(21, 319);
             this.CheckBoxHideProcess.Margin = new System.Windows.Forms.Padding(4);
             this.CheckBoxHideProcess.Name = "CheckBoxHideProcess";
-            this.CheckBoxHideProcess.Size = new System.Drawing.Size(108, 28);
+            this.CheckBoxHideProcess.Size = new System.Drawing.Size(75, 21);
             this.CheckBoxHideProcess.TabIndex = 1;
             this.CheckBoxHideProcess.Text = "后台运行";
             this.CheckBoxHideProcess.UseVisualStyleBackColor = true;
@@ -171,7 +171,7 @@ namespace Real_ESRGAN_GUI
             // 
             this.ButtonConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonConfig.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ButtonConfig.Location = new System.Drawing.Point(241, 281);
+            this.ButtonConfig.Location = new System.Drawing.Point(247, 298);
             this.ButtonConfig.Margin = new System.Windows.Forms.Padding(4);
             this.ButtonConfig.Name = "ButtonConfig";
             this.ButtonConfig.Size = new System.Drawing.Size(122, 47);
@@ -184,7 +184,6 @@ namespace Real_ESRGAN_GUI
             // 
             this.MenuStrip.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.MenuStrip.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MenuStrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.MenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MainMenu,
@@ -194,7 +193,7 @@ namespace Real_ESRGAN_GUI
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Padding = new System.Windows.Forms.Padding(11, 4, 0, 4);
-            this.MenuStrip.Size = new System.Drawing.Size(378, 36);
+            this.MenuStrip.Size = new System.Drawing.Size(384, 29);
             this.MenuStrip.TabIndex = 6;
             this.MenuStrip.Text = "MenuStrip";
             // 
@@ -206,20 +205,20 @@ namespace Real_ESRGAN_GUI
             this.MainMenuExit});
             this.MainMenu.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(62, 28);
+            this.MainMenu.Size = new System.Drawing.Size(44, 21);
             this.MainMenu.Text = "文件";
             // 
             // MainMenuOpenFiles
             // 
             this.MainMenuOpenFiles.Name = "MainMenuOpenFiles";
-            this.MainMenuOpenFiles.Size = new System.Drawing.Size(270, 34);
+            this.MainMenuOpenFiles.Size = new System.Drawing.Size(100, 22);
             this.MainMenuOpenFiles.Text = "打开";
             this.MainMenuOpenFiles.Click += new System.EventHandler(this.MAINMENU_OPENFILES_CLICK);
             // 
             // MainMenuExit
             // 
             this.MainMenuExit.Name = "MainMenuExit";
-            this.MainMenuExit.Size = new System.Drawing.Size(270, 34);
+            this.MainMenuExit.Size = new System.Drawing.Size(100, 22);
             this.MainMenuExit.Text = "退出";
             this.MainMenuExit.Click += new System.EventHandler(this.MAINMENU_EXIT_CLICK);
             // 
@@ -228,7 +227,7 @@ namespace Real_ESRGAN_GUI
             this.LanguageMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LanguageMenuSelect});
             this.LanguageMenu.Name = "LanguageMenu";
-            this.LanguageMenu.Size = new System.Drawing.Size(62, 28);
+            this.LanguageMenu.Size = new System.Drawing.Size(44, 21);
             this.LanguageMenu.Text = "语言";
             // 
             // LanguageMenuSelect
@@ -238,27 +237,27 @@ namespace Real_ESRGAN_GUI
             this.LanguageMenuSelectzhTW,
             this.LanguageMenuSelectenUS});
             this.LanguageMenuSelect.Name = "LanguageMenuSelect";
-            this.LanguageMenuSelect.Size = new System.Drawing.Size(182, 34);
+            this.LanguageMenuSelect.Size = new System.Drawing.Size(124, 22);
             this.LanguageMenuSelect.Text = "选择语言";
             // 
             // LanguageMenuSelectzhCN
             // 
             this.LanguageMenuSelectzhCN.Name = "LanguageMenuSelectzhCN";
-            this.LanguageMenuSelectzhCN.Size = new System.Drawing.Size(182, 34);
+            this.LanguageMenuSelectzhCN.Size = new System.Drawing.Size(124, 22);
             this.LanguageMenuSelectzhCN.Text = "简体中文";
             this.LanguageMenuSelectzhCN.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_zhCN_CLICK);
             // 
             // LanguageMenuSelectzhTW
             // 
             this.LanguageMenuSelectzhTW.Name = "LanguageMenuSelectzhTW";
-            this.LanguageMenuSelectzhTW.Size = new System.Drawing.Size(182, 34);
+            this.LanguageMenuSelectzhTW.Size = new System.Drawing.Size(124, 22);
             this.LanguageMenuSelectzhTW.Text = "繁體中文";
             this.LanguageMenuSelectzhTW.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_zhTW_CLICK);
             // 
             // LanguageMenuSelectenUS
             // 
             this.LanguageMenuSelectenUS.Name = "LanguageMenuSelectenUS";
-            this.LanguageMenuSelectenUS.Size = new System.Drawing.Size(182, 34);
+            this.LanguageMenuSelectenUS.Size = new System.Drawing.Size(124, 22);
             this.LanguageMenuSelectenUS.Text = "English";
             this.LanguageMenuSelectenUS.Click += new System.EventHandler(this.LANGUAGE_MENU_SELECT_enUS_CLICK);
             // 
@@ -267,20 +266,20 @@ namespace Real_ESRGAN_GUI
             this.AboutMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AboutMenuAbout});
             this.AboutMenu.Name = "AboutMenu";
-            this.AboutMenu.Size = new System.Drawing.Size(62, 28);
+            this.AboutMenu.Size = new System.Drawing.Size(44, 21);
             this.AboutMenu.Text = "关于";
             // 
             // AboutMenuAbout
             // 
             this.AboutMenuAbout.Name = "AboutMenuAbout";
-            this.AboutMenuAbout.Size = new System.Drawing.Size(261, 34);
+            this.AboutMenuAbout.Size = new System.Drawing.Size(180, 22);
             this.AboutMenuAbout.Text = "Real ESRGAN GUI";
             this.AboutMenuAbout.Click += new System.EventHandler(this.ABOUTMENU_ABOUT);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(16, 28);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(12, 21);
             // 
             // NotifyIcon
             // 
@@ -296,22 +295,22 @@ namespace Real_ESRGAN_GUI
             this.MainContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MainContextMenuStripExit});
             this.MainContextMenuStrip.Name = "contextMenuStrip1";
-            this.MainContextMenuStrip.Size = new System.Drawing.Size(117, 34);
+            this.MainContextMenuStrip.Size = new System.Drawing.Size(101, 26);
             // 
             // MainContextMenuStripExit
             // 
             this.MainContextMenuStripExit.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MainContextMenuStripExit.Name = "MainContextMenuStripExit";
-            this.MainContextMenuStripExit.Size = new System.Drawing.Size(116, 30);
+            this.MainContextMenuStripExit.Size = new System.Drawing.Size(100, 22);
             this.MainContextMenuStripExit.Text = "退出";
             this.MainContextMenuStripExit.Click += new System.EventHandler(this.MAIN_CONTEXT_MENU_STRIP_EXIT_CLICK);
             // 
             // MainForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 344);
+            this.ClientSize = new System.Drawing.Size(384, 361);
             this.Controls.Add(this.MainPanel);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

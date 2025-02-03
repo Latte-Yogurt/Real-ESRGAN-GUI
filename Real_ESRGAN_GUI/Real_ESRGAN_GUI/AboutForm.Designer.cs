@@ -70,10 +70,10 @@ namespace Real_ESRGAN_GUI
             // 
             this.LabelLicense.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LabelLicense.AutoSize = true;
-            this.LabelLicense.Font = new System.Drawing.Font("别喝醉别流泪", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LabelLicense.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LabelLicense.Location = new System.Drawing.Point(337, 178);
             this.LabelLicense.Name = "LabelLicense";
-            this.LabelLicense.Size = new System.Drawing.Size(99, 32);
+            this.LabelLicense.Size = new System.Drawing.Size(99, 36);
             this.LabelLicense.TabIndex = 4;
             this.LabelLicense.TabStop = true;
             this.LabelLicense.Text = "许可证";
@@ -94,10 +94,10 @@ namespace Real_ESRGAN_GUI
             // 
             this.LabelWebsite.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LabelWebsite.AutoSize = true;
-            this.LabelWebsite.Font = new System.Drawing.Font("别喝醉别流泪", 14F);
+            this.LabelWebsite.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LabelWebsite.Location = new System.Drawing.Point(321, 125);
             this.LabelWebsite.Name = "LabelWebsite";
-            this.LabelWebsite.Size = new System.Drawing.Size(140, 32);
+            this.LabelWebsite.Size = new System.Drawing.Size(161, 36);
             this.LabelWebsite.TabIndex = 1;
             this.LabelWebsite.TabStop = true;
             this.LabelWebsite.Text = "Github主页";
