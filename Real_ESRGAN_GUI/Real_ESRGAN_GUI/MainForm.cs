@@ -17,26 +17,36 @@ namespace Real_ESRGAN_GUI
     {
         private Dictionary<string, Dictionary<string, string>> languageTexts;
 
-        public static string currentLanguage;
-        public int locationX;
-        public int locationY;
+        public string xmlPath;
         public string filePath;
         public string fileName;
         public string directoryPath;
-        public string scale;
-        public string model;
-        public string extension;
-        public string processHidden;
-        public string xmlPath;
         public string realesrganPath;
         public string vcomp140Path;
         public string vcomp140dPath;
         public string modelsPath;
+        public static string currentLanguage;
+        public static float systemScale;
+        public int oldScreenWidth;
+        public int oldScreenHeight;
+        public float oldSystemScale;
+        public int locationX;
+        public int locationY;
+        public string scale;
+        public string model;
+        public string extension;
+        public string processHidden;
 
         public MainForm(string[] args)
         {
             InitializeComponent();
             this.AutoScaleMode = AutoScaleMode.Dpi;
+
+            GET_SYSTEM_SCALE();
+            SET_BUTTON_CONFIG_SIZE();
+            SET_COMBOBOX_SIZE();
+            SET_CLIENT_SIZE();
+            SET_MAINFORM_LOCATION();
 
             string workPath = GET_WORK_PATH(); // 获取程序路径
             string xml = @"config.xml";
@@ -44,6 +54,10 @@ namespace Real_ESRGAN_GUI
             CHECK_XML_LEGAL(xmlPath);
 
             currentLanguage = GET_CURRENT_LANGUAGE(xmlPath);
+
+            oldScreenWidth = GET_SCREEN_WIDTH(xmlPath);
+            oldScreenHeight = GET_SCREEN_HEIGHT(xmlPath);
+            oldSystemScale = GET_SYSTEM_SCALE(xmlPath);
 
             InitializeLanguageTexts();
             UpdateLanguage();
@@ -142,6 +156,17 @@ namespace Real_ESRGAN_GUI
             {
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
+        }
+
+        private void GET_SYSTEM_SCALE()
+        {
+            float dpi;
+            using (Graphics g = this.CreateGraphics())
+            {
+                dpi = g.DpiX;
+            }
+
+            systemScale = dpi / 96.0f;
         }
 
         private bool CHECK_REAL_ESRGAN_EXIST()
@@ -282,42 +307,43 @@ namespace Real_ESRGAN_GUI
                 // 其他语言...
             };
 
-            if (currentLanguage != null && supportedLanguages.Contains(currentCulture.Name))
+            if (supportedLanguages.Contains(currentCulture.Name))
             {
-                // 创建默认的 XML 结构
-                XElement defaultConfig = new XElement("Configuration",
-                    new XElement("Language", $"{currentLanguage}"),
-                    new XElement("LocationX", $"{newLocationX}"),
-                    new XElement("LocationY", $"{newLocationY}"),
-                    new XElement("Scale", "4"),
-                    new XElement("Model", "realesrgan-x4plus"),
-                    new XElement("Extension", "png"),
-                    new XElement("ProcessHidden", "false")
-                );
+                if (currentLanguage != null)
+                {
+                    XElement defaultConfig = new XElement("Configuration",
+                        new XElement("Language", $"{currentLanguage}"),
+                        new XElement("LocationX", $"{newLocationX}"),
+                        new XElement("LocationY", $"{newLocationY}"),
+                        new XElement("Scale", "4"),
+                        new XElement("Model", "realesrgan-x4plus"),
+                        new XElement("Extension", "png"),
+                        new XElement("ProcessHidden", "false")
+                    );
 
-                // 保存默认配置到文件
-                defaultConfig.Save(configFilePath);
+                    // 保存默认配置到文件
+                    defaultConfig.Save(configFilePath);
+                }
+
+                else
+                {
+                    // 创建默认的 XML 结构
+                    XElement defaultConfig = new XElement("Configuration",
+                        new XElement("Language", $"{currentCulture.Name}"),
+                        new XElement("LocationX", $"{newLocationX}"),
+                        new XElement("LocationY", $"{newLocationY}"),
+                        new XElement("Scale", "4"),
+                        new XElement("Model", "realesrgan-x4plus"),
+                        new XElement("Extension", "png"),
+                        new XElement("ProcessHidden", "false")
+                    );
+
+                    // 保存默认配置到文件
+                    defaultConfig.Save(configFilePath);
+                }
             }
 
-                // 检查当前语言是否在词典中
-            if (currentLanguage == null && supportedLanguages.Contains(currentCulture.Name))
-            {
-                // 创建默认的 XML 结构
-                XElement defaultConfig = new XElement("Configuration",
-                    new XElement("Language", $"{currentCulture.Name}"),
-                    new XElement("LocationX", $"{newLocationX}"),
-                    new XElement("LocationY", $"{newLocationY}"),
-                    new XElement("Scale", "4"),
-                    new XElement("Model", "realesrgan-x4plus"),
-                    new XElement("Extension", "png"),
-                    new XElement("ProcessHidden", "false")
-                );
-
-                // 保存默认配置到文件
-                defaultConfig.Save(configFilePath);
-            }
-
-            if (!supportedLanguages.Contains(currentCulture.Name))
+            else
             {
                 // 创建默认的 XML 结构
                 XElement defaultConfig = new XElement("Configuration",
@@ -472,6 +498,199 @@ namespace Real_ESRGAN_GUI
 
             // 返回获取到的值
             return language;
+        }
+
+        private int GET_SCREEN_WIDTH(string configFilePath)
+        {
+            if (!File.Exists(configFilePath))
+            {
+                CREATE_DEFAULT_CONFIG(configFilePath);
+            }
+
+            int newWidth = Screen.PrimaryScreen.Bounds.Width;
+
+            XDocument xdoc;
+
+            try
+            {
+                // 加载 XML 文档
+                xdoc = XDocument.Load(configFilePath);
+            }
+
+            catch (XmlException)
+            {
+                // 如果加载失败，创建新的默认配置文件并返回默认值
+                CREATE_DEFAULT_CONFIG(configFilePath);
+
+                return 0;
+            }
+
+            var widthNode = xdoc.Descendants("ScreenWidth").FirstOrDefault();
+
+            if (widthNode == null)
+            {
+
+                XElement newNode = new XElement("ScreenWidth", newWidth);
+
+                xdoc.Root.Add(newNode);
+
+                xdoc.Save(configFilePath);
+
+                return 0;
+            }
+
+            var width = widthNode.Value;
+            int widthToInt;
+
+            if (string.IsNullOrEmpty(width))
+            {
+                return 0;
+            }
+
+            if (!int.TryParse(width, out widthToInt))
+            {
+                return 0;
+            }
+
+            if (widthToInt <= 0)
+            {
+                return 0;
+            }
+
+            if (widthToInt == Screen.PrimaryScreen.Bounds.Width)
+            {
+                return widthToInt;
+            }
+
+            return 0;
+        }
+
+        private int GET_SCREEN_HEIGHT(string configFilePath)
+        {
+            if (!File.Exists(configFilePath))
+            {
+                CREATE_DEFAULT_CONFIG(configFilePath);
+            }
+
+            int newHeight = Screen.PrimaryScreen.Bounds.Height;
+
+            XDocument xdoc;
+
+            try
+            {
+                // 加载 XML 文档
+                xdoc = XDocument.Load(configFilePath);
+            }
+
+            catch (XmlException)
+            {
+                // 如果加载失败，创建新的默认配置文件并返回默认值
+                CREATE_DEFAULT_CONFIG(configFilePath);
+
+                return 0;
+            }
+
+            var heightNode = xdoc.Descendants("ScreenHeight").FirstOrDefault();
+
+            if (heightNode == null)
+            {
+
+                XElement newNode = new XElement("ScreenHeight", newHeight);
+
+                xdoc.Root.Add(newNode);
+
+                xdoc.Save(configFilePath);
+
+                return 0;
+            }
+
+            var height = heightNode.Value;
+            int heightToInt;
+
+            if (string.IsNullOrEmpty(height))
+            {
+                return 0;
+            }
+
+            if (!int.TryParse(height, out heightToInt))
+            {
+                return 0;
+            }
+
+            if (heightToInt <= 0)
+            {
+                return 0;
+            }
+
+            if (heightToInt == Screen.PrimaryScreen.Bounds.Height)
+            {
+                return heightToInt;
+            }
+
+            return 0;
+        }
+
+        private float GET_SYSTEM_SCALE(string configFilePath)
+        {
+            if (!File.Exists(configFilePath))
+            {
+                CREATE_DEFAULT_CONFIG(configFilePath);
+            }
+
+            XDocument xdoc;
+
+            try
+            {
+                // 加载 XML 文档
+                xdoc = XDocument.Load(configFilePath);
+            }
+
+            catch (XmlException)
+            {
+                // 如果加载失败，创建新的默认配置文件并返回默认值
+                CREATE_DEFAULT_CONFIG(configFilePath);
+
+                return 0;
+            }
+
+            var scaleNode = xdoc.Descendants("SystemScale").FirstOrDefault();
+
+            if (scaleNode == null)
+            {
+
+                XElement newNode = new XElement("SystemScale", systemScale);
+
+                xdoc.Root.Add(newNode);
+
+                xdoc.Save(configFilePath);
+
+                return 0;
+            }
+
+            var scale = scaleNode.Value;
+            float scaleToFloat;
+
+            if (string.IsNullOrEmpty(scale))
+            {
+                return 0;
+            }
+
+            if (!float.TryParse(scale, out scaleToFloat))
+            {
+                return 0;
+            }
+
+            if (scaleToFloat <= 0)
+            {
+                return 0;
+            }
+
+            if (scaleToFloat == systemScale)
+            {
+                return scaleToFloat;
+            }
+
+            return 0;
         }
 
         private int GET_LOCATION_X(string configFilePath)
@@ -1011,42 +1230,87 @@ namespace Real_ESRGAN_GUI
             UPDATE_CONFIG($"{xmlPath}", "ProcessHidden", $"{processHidden}");
         }
 
-        private void SET_COMPONENT_POSITION()
+        private void SET_BUTTON_CONFIG_SIZE()
         {
-            if (currentLanguage=="en-US")
+            ButtonConfig.Size = new Size((int)(100.0f * systemScale), (int)(30.0f * systemScale));
+        }
+
+        private void SET_COMBOBOX_SIZE()
+        {
+            ComboBoxModel.Size = new Size((int)(242.0f * systemScale / 1.4), (int)(32.0f * systemScale / 1.4));
+            ComboBoxScale.Size = new Size((int)(242.0f * systemScale / 1.4), (int)(32.0f * systemScale / 1.4));
+            ComboBoxExtension.Size = new Size((int)(242.0f * systemScale / 1.4), (int)(32.0f * systemScale / 1.4));
+        }
+
+        private void SET_CLIENT_SIZE()
+        {
+            if (systemScale <= 1.5)
             {
-                LabelModel.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 20, MainPanel.Height / 2 - LabelModel.Height / 2);
-                ComboBoxModel.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 20, MainPanel.Height / 2 - ComboBoxModel.Height / 2);
-
-                LabelScale.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 20, MainPanel.Height / 2 - LabelModel.Height / 2 - this.Height / 6);
-                ComboBoxScale.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 20, MainPanel.Height / 2 - ComboBoxModel.Height / 2 - this.Height / 6);
-
-                LabelExtension.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 20, MainPanel.Height / 2 - LabelModel.Height / 2 + this.Height / 6);
-                ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 20, MainPanel.Height / 2 - ComboBoxModel.Height / 2 + this.Height / 6);
+                this.ClientSize = new Size((int)(15.0f * systemScale) * 2 + LabelModel.Width + ComboBoxModel.Width + (int)(15.0f * systemScale) * 2, (int)(15.0f * systemScale) * 2 + LabelModel.Width + ComboBoxModel.Width + (int)(15.0f * systemScale) * 2);
+                this.MaximumSize = this.ClientSize;
+                this.MinimumSize = this.MaximumSize;
             }
 
             else
             {
-                LabelModel.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2);
-                ComboBoxModel.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2);
+                this.ClientSize = new Size((int)(20.0f * systemScale) * 2 + LabelModel.Width + ComboBoxModel.Width + (int)(20.0f * systemScale) * 2, (int)(20.0f * systemScale) * 2 + LabelModel.Width + ComboBoxModel.Width + (int)(20.0f * systemScale) * 2);
+                this.MaximumSize = this.ClientSize;
+                this.MinimumSize = this.MaximumSize;
+            }
+        }
 
-                LabelScale.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2 - this.Height / 6);
-                ComboBoxScale.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2 - this.Height / 6);
+        private void SET_COMPONENT_POSITION()
+        {
+            if (currentLanguage=="en-US")
+            {
+                LabelModel.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - (int)(20.0f * systemScale), MainPanel.Height / 2 - LabelModel.Height / 2);
+                ComboBoxModel.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + (int)(20.0f * systemScale), MainPanel.Height / 2 - ComboBoxModel.Height / 2);
 
-                LabelExtension.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - 10, MainPanel.Height / 2 - LabelModel.Height / 2 + this.Height / 6);
-                ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + 10, MainPanel.Height / 2 - ComboBoxModel.Height / 2 + this.Height / 6);
+                LabelScale.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - (int)(20.0f * systemScale), MainPanel.Height / 2 - LabelModel.Height / 2 - this.Height / 6);
+                ComboBoxScale.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + (int)(20.0f * systemScale), MainPanel.Height / 2 - ComboBoxModel.Height / 2 - this.Height / 6);
+
+                LabelExtension.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - (int)(20.0f * systemScale), MainPanel.Height / 2 - LabelModel.Height / 2 + this.Height / 6);
+                ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + (int)(20.0f * systemScale), MainPanel.Height / 2 - ComboBoxModel.Height / 2 + this.Height / 6);
             }
 
-            CheckBoxHideProcess.Location = new Point(25, MainPanel.Height - CheckBoxHideProcess.Height - 20);
-            ButtonConfig.Location = new Point(MainPanel.Width - ButtonConfig.Width - 10, MainPanel.Height - ButtonConfig.Height - 10);
+            else
+            {
+                LabelModel.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - (int)(10.0f * systemScale), MainPanel.Height / 2 - LabelModel.Height / 2);
+                ComboBoxModel.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + (int)(10.0f * systemScale), MainPanel.Height / 2 - ComboBoxModel.Height / 2);
+
+                LabelScale.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - (int)(10.0f * systemScale), MainPanel.Height / 2 - LabelModel.Height / 2 - this.Height / 6);
+                ComboBoxScale.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + (int)(10.0f * systemScale), MainPanel.Height / 2 - ComboBoxModel.Height / 2 - this.Height / 6);
+
+                LabelExtension.Location = new Point(MainPanel.Width / 2 - LabelModel.Width / 2 - ComboBoxModel.Width / 2 - (int)(10.0f * systemScale), MainPanel.Height / 2 - LabelModel.Height / 2 + this.Height / 6);
+                ComboBoxExtension.Location = new Point(MainPanel.Width / 2 - ComboBoxModel.Width / 2 + LabelModel.Width / 2 + (int)(10.0f * systemScale), MainPanel.Height / 2 - ComboBoxModel.Height / 2 + this.Height / 6);
+            }
+
+            CheckBoxHideProcess.Location = new Point((int)(15.0f * systemScale), MainPanel.Height - CheckBoxHideProcess.Height - (int)(10.0f * systemScale));
+            ButtonConfig.Location = new Point(MainPanel.Width - ButtonConfig.Width - (int)(10.0f * systemScale), MainPanel.Height - ButtonConfig.Height - (int)(10.0f * systemScale));
+        }
+
+        private void SET_MAINFORM_LOCATION()
+        {
+            if (oldScreenWidth == Screen.PrimaryScreen.Bounds.Width && oldScreenHeight == Screen.PrimaryScreen.Bounds.Height && oldSystemScale == systemScale)
+            {
+                locationX = GET_LOCATION_X(xmlPath);
+                locationY = GET_LOCATION_Y(xmlPath);
+
+                this.Location = new Point(locationX, locationY);
+            }
+
+            else
+            {
+                locationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Size.Width / 2;
+                locationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Size.Height / 2;
+
+                this.Location = new Point(locationX, locationY);
+            }
         }
 
         private void MAINFORM_LOAD(object sender, EventArgs e)
         {
-            locationX = GET_LOCATION_X(xmlPath);
-            locationY = GET_LOCATION_Y(xmlPath);
-
-            this.Location = new Point(locationX, locationY);
+            SET_MAINFORM_LOCATION();
         }
 
         private void MAINFORM_RESIZE(object sender, EventArgs e)

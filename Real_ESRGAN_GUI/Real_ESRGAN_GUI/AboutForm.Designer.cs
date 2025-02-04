@@ -31,7 +31,7 @@ namespace Real_ESRGAN_GUI
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             this.PanelAbout = new System.Windows.Forms.Panel();
-            this.ConfirmButton = new System.Windows.Forms.Button();
+            this.ButtonConfirm = new System.Windows.Forms.Button();
             this.LabelLicense = new System.Windows.Forms.LinkLabel();
             this.DeveloperLabel = new System.Windows.Forms.Label();
             this.LabelWebsite = new System.Windows.Forms.LinkLabel();
@@ -43,7 +43,7 @@ namespace Real_ESRGAN_GUI
             // 
             // PanelAbout
             // 
-            this.PanelAbout.Controls.Add(this.ConfirmButton);
+            this.PanelAbout.Controls.Add(this.ButtonConfirm);
             this.PanelAbout.Controls.Add(this.LabelLicense);
             this.PanelAbout.Controls.Add(this.DeveloperLabel);
             this.PanelAbout.Controls.Add(this.LabelWebsite);
@@ -55,16 +55,16 @@ namespace Real_ESRGAN_GUI
             this.PanelAbout.Size = new System.Drawing.Size(778, 344);
             this.PanelAbout.TabIndex = 0;
             // 
-            // ConfirmButton
+            // ButtonConfirm
             // 
-            this.ConfirmButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.ConfirmButton.Location = new System.Drawing.Point(330, 238);
-            this.ConfirmButton.Name = "ConfirmButton";
-            this.ConfirmButton.Size = new System.Drawing.Size(119, 35);
-            this.ConfirmButton.TabIndex = 5;
-            this.ConfirmButton.Text = "确定";
-            this.ConfirmButton.UseVisualStyleBackColor = true;
-            this.ConfirmButton.Click += new System.EventHandler(this.CONFIRM_BUTTON_CLICK);
+            this.ButtonConfirm.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.ButtonConfirm.Location = new System.Drawing.Point(336, 239);
+            this.ButtonConfirm.Name = "ButtonConfirm";
+            this.ButtonConfirm.Size = new System.Drawing.Size(100, 30);
+            this.ButtonConfirm.TabIndex = 5;
+            this.ButtonConfirm.Text = "确定";
+            this.ButtonConfirm.UseVisualStyleBackColor = true;
+            this.ButtonConfirm.Click += new System.EventHandler(this.CONFIRM_BUTTON_CLICK);
             // 
             // LabelLicense
             // 
@@ -156,6 +156,6 @@ namespace Real_ESRGAN_GUI
         private System.Windows.Forms.PictureBox MainPic;
         private System.Windows.Forms.Label DeveloperLabel;
         private System.Windows.Forms.LinkLabel LabelLicense;
-        private System.Windows.Forms.Button ConfirmButton;
+        private System.Windows.Forms.Button ButtonConfirm;
     }
 }

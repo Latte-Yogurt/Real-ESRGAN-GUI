@@ -12,6 +12,7 @@ namespace Real_ESRGAN_GUI
         private Dictionary<string, Dictionary<string, string>> languageTexts;
 
         public string currentLanguage;
+        public float systemScale;
         public int locationX;
         public int locationY;
 
@@ -21,6 +22,10 @@ namespace Real_ESRGAN_GUI
             InitializeComponent();
 
             currentLanguage = MainForm.currentLanguage;
+            systemScale = MainForm.systemScale;
+
+            SET_BUTTON_CONFIRM_SIZE();
+            SET_CLIENT_SIZE();
 
             InitializeLanguageTexts();
             UpdateLanguage();
@@ -55,6 +60,18 @@ namespace Real_ESRGAN_GUI
             };
         }
 
+        private void SET_BUTTON_CONFIRM_SIZE()
+        {
+            ButtonConfirm.Size = new Size((int)(100 * systemScale), (int)(30 * systemScale));
+        }
+
+        private void SET_CLIENT_SIZE()
+        {
+            this.ClientSize = new Size((DeveloperLabel.Width + (int)(20.0f * systemScale) * 2) * 2, DeveloperLabel.Width + (int)(20.0f * systemScale) * 2);
+            this.MaximumSize = this.ClientSize;
+            this.MinimumSize = new Size(this.ClientSize.Width / 2, DeveloperLabel.Width + (int)(20.0f * systemScale) * 2);
+        }
+
         private void UpdateLanguage()
         {
             this.Text = languageTexts[currentLanguage]["Title"];
@@ -64,12 +81,12 @@ namespace Real_ESRGAN_GUI
 
         private void UpdateUI()
         {
-            MainPic.Location = new Point(PanelAbout.Width / 2 - MainPic.Width / 2 - MainLabel.Width / 2 - 10, PanelAbout.Height / 2 - MainPic.Height / 2 - 87);
-            MainLabel.Location = new Point(PanelAbout.Width / 2 + MainPic.Width / 2 - MainLabel.Width / 2 + 10, PanelAbout.Height / 2 - MainLabel.Height / 2 - 87);
-            LabelWebsite.Location = new Point(PanelAbout.Width / 2 - LabelWebsite.Width / 2, PanelAbout.Height / 2 - LabelWebsite.Height / 2 - 27);
-            LabelLicense.Location = new Point(PanelAbout.Width / 2 - LabelLicense.Width / 2, PanelAbout.Height / 2 - LabelLicense.Height / 2 + 24);
-            ConfirmButton.Location = new Point(PanelAbout.Width / 2 - ConfirmButton.Width / 2, PanelAbout.Height / 2 - ConfirmButton.Height / 2 + 84);
-            DeveloperLabel.Location = new Point(PanelAbout.Width / 2 - DeveloperLabel.Width / 2, PanelAbout.Height / 2 - DeveloperLabel.Height / 2 + 124);
+            MainPic.Location = new Point(PanelAbout.Width / 2 - MainPic.Width / 2 - MainLabel.Width / 2, PanelAbout.Height / 2 - MainPic.Height / 2 - (int)(57.0f * systemScale));
+            MainLabel.Location = new Point(PanelAbout.Width / 2 + MainPic.Width / 2 - MainLabel.Width / 2, PanelAbout.Height / 2 - MainLabel.Height / 2 - (int)(57.0f * systemScale));
+            LabelWebsite.Location = new Point(PanelAbout.Width / 2 - LabelWebsite.Width / 2, PanelAbout.Height / 2 - LabelWebsite.Height / 2 - (int)(17.0f * systemScale));
+            LabelLicense.Location = new Point(PanelAbout.Width / 2 - LabelLicense.Width / 2, PanelAbout.Height / 2 - LabelLicense.Height / 2 + (int)(14.0f * systemScale));
+            ButtonConfirm.Location = new Point(PanelAbout.Width / 2 - ButtonConfirm.Width / 2, PanelAbout.Height / 2 - ButtonConfirm.Height / 2 + (int)(54.0f * systemScale));
+            DeveloperLabel.Location = new Point(PanelAbout.Width / 2 - DeveloperLabel.Width / 2, PanelAbout.Height / 2 - DeveloperLabel.Height / 2 + (int)(84.0f * systemScale));
         }
 
         private void ERROR_IMAGE_NOT_FOUND()
