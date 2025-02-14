@@ -18,6 +18,7 @@ namespace Real_ESRGAN_GUI
         private Dictionary<string, Dictionary<string, string>> languageTexts;
 
         public string xmlPath;
+        public bool isMultipleFiles;
         public string filePath;
         public string fileName;
         public string directoryPath;
@@ -35,7 +36,7 @@ namespace Real_ESRGAN_GUI
         public string scale;
         public string model;
         public string extension;
-        public string processHidden;
+        public bool processHidden;
 
         public MainForm(string[] args)
         {
@@ -66,21 +67,17 @@ namespace Real_ESRGAN_GUI
             this.DragDrop += new DragEventHandler(MAINFORM_DRAGDROP);
             this.FormClosing += MAINFORM_FORM_CLOSING;
 
-            if (args.Length > 0 && !string.IsNullOrEmpty(args[0]))
+            if (args.Length > 0)
             {
-                filePath = args[0];
-
-                // 检查文件扩展名
-                string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".webp" };
-                if (!allowedExtensions.Contains(Path.GetExtension(filePath).ToLower()))
+                if (args.Length > 1)
                 {
-                    ERROR_UNSUPPORTED_FILE();
-                    this.Close(); // 关闭应用程序
-                    return; // 确保不执行后续代码
+                    isMultipleFiles = true;
                 }
 
-                fileName = Path.GetFileNameWithoutExtension(filePath);
-                directoryPath = Path.GetDirectoryName(filePath);
+                else
+                {
+                    isMultipleFiles = false;
+                }
             }
 
             string realesrgan = @"realesrgan.exe";
@@ -105,7 +102,7 @@ namespace Real_ESRGAN_GUI
             DEFAULT_EXTENSION_MENU();
             DEFAULT_PROCESS_HIDDEN();
 
-            if (filePath != null)
+            if (args != null && args.Length > 0 && args.All(arg => !string.IsNullOrEmpty(arg)))
             {
                 if (!CHECK_REAL_ESRGAN_EXIST())
                 {
@@ -114,16 +111,61 @@ namespace Real_ESRGAN_GUI
 
                 else
                 {
-                    string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
-                    if (processHidden == "true")
+                    if(!isMultipleFiles)
                     {
-                        EXECUTE_COMMAND_HIDDEN(command);
-                        this.Close();
+                        filePath = args[0];
+                        fileName = Path.GetFileNameWithoutExtension(filePath);
+                        directoryPath = Path.GetDirectoryName(filePath);
+
+                        bool isLegalFile = CHECK_EXTENSION(filePath);
+
+                        if (isLegalFile)
+                        {
+                            string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
+                            if (CheckBoxHideProcess.Checked)
+                            {
+                                EXECUTE_COMMAND_HIDDEN(command);
+                                this.Close();
+                            }
+
+                            else
+                            {
+                                EXECUTE_COMMAND_UNHIDDEN(command);
+                                this.Close();
+                            }
+                        }
+
+                        else
+                        {
+                            this.Close();
+                        }
                     }
 
-                    if (processHidden == "false")
+                    else
                     {
-                        EXECUTE_COMMAND_UNHIDDEN(command);
+                        foreach(var simpleFilePath in args)
+                        {
+                            filePath = simpleFilePath;
+                            fileName = Path.GetFileNameWithoutExtension(filePath);
+                            directoryPath = Path.GetDirectoryName(filePath);
+
+                            bool isLegalFile = CHECK_EXTENSION(simpleFilePath);
+
+                            if(isLegalFile)
+                            {
+                                string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
+                                if (CheckBoxHideProcess.Checked)
+                                {
+                                    EXECUTE_COMMAND_HIDDEN(command);
+                                }
+
+                                else
+                                {
+                                    EXECUTE_COMMAND_UNHIDDEN(command);
+                                }
+                            }
+                        }
+
                         this.Close();
                     }
                 }
@@ -167,6 +209,24 @@ namespace Real_ESRGAN_GUI
             }
 
             systemScale = dpi / 96.0f;
+        }
+
+        private bool CHECK_EXTENSION(string filePath)
+        {
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                // 检查文件扩展名
+                string[] allowedExtensions = { ".jpg", ".jpeg", ".png", ".webp" };
+                if (!allowedExtensions.Contains(Path.GetExtension(filePath).ToLower()))
+                {
+                    ERROR_UNSUPPORTED_FILE();
+                    return false;
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         private bool CHECK_REAL_ESRGAN_EXIST()
@@ -986,7 +1046,7 @@ namespace Real_ESRGAN_GUI
             return extension;
         }
 
-        private string GET_PROCESS_HIDDEN(string configFilePath)
+        private bool GET_PROCESS_HIDDEN(string configFilePath)
         {
             if (!File.Exists(configFilePath))
             {
@@ -1006,15 +1066,15 @@ namespace Real_ESRGAN_GUI
                 // 如果加载失败，创建新的默认配置文件并返回默认值
                 CREATE_DEFAULT_CONFIG(configFilePath);
 
-                return "false";
+                return false;
             }
 
             var processHiddenNode = xdoc.Descendants("ProcessHidden").FirstOrDefault();
 
             var supportedProcessHidden = new HashSet<string>
             {
-                "true",
-                "false"
+                "True",
+                "False"
             };
 
 
@@ -1026,22 +1086,28 @@ namespace Real_ESRGAN_GUI
 
                 xdoc.Save(configFilePath);
 
-                return "false";
+                return false;
             }
 
             var processHidden = processHiddenNode.Value;
+            bool processHiddenToBool;
 
             if (string.IsNullOrEmpty(processHidden))
             {
-                return "false";
+                return false;
             }
 
             if (!supportedProcessHidden.Contains(processHidden))
             {
-                return "false";
+                return false;
             }
 
-            return processHidden;
+            if (!bool.TryParse(processHidden, out processHiddenToBool))
+            {
+                return false;
+            }
+
+            return processHiddenToBool;
         }
 
         private void DEFAULT_SCALE_MENU()
@@ -1146,12 +1212,12 @@ namespace Real_ESRGAN_GUI
         private void DEFAULT_PROCESS_HIDDEN()
         {
             // 定义后台运行的默认显示状态
-            if (processHidden == "false")
+            if (!processHidden)
             {
                 CheckBoxHideProcess.Checked = false;
             }
 
-            if (processHidden == "true")
+            else
             {
                 CheckBoxHideProcess.Checked = true;
             }
@@ -1363,27 +1429,58 @@ namespace Real_ESRGAN_GUI
 
             if (files != null && files.Length > 0)
             {
-                // 处理文件路径，比如显示在一个文本框中
-                filePath = files[0];
-                fileName = Path.GetFileNameWithoutExtension(filePath);
-                directoryPath = Path.GetDirectoryName(filePath);
-
-                if (!CHECK_REAL_ESRGAN_EXIST())
+                if (files.Length > 1)
                 {
-                    ERROR_REAL_ESRGAN_EXIST();
+                    foreach (var simpleFilePath in files)
+                    {
+                        filePath = simpleFilePath;
+                        fileName = Path.GetFileNameWithoutExtension(filePath);
+                        directoryPath = Path.GetDirectoryName(filePath);
+
+                        if (!CHECK_REAL_ESRGAN_EXIST())
+                        {
+                            ERROR_REAL_ESRGAN_EXIST();
+                        }
+
+                        else
+                        {
+                            string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
+                            if (CheckBoxHideProcess.Checked)
+                            {
+                                await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
+                            }
+
+                            else
+                            {
+                                await Task.Run(() => EXECUTE_COMMAND_UNHIDDEN(command));
+                            }
+                        }
+                    }
                 }
 
                 else
                 {
-                    string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
-                    if (processHidden == "true")
+                    filePath = files[0];
+                    fileName = Path.GetFileNameWithoutExtension(filePath);
+                    directoryPath = Path.GetDirectoryName(filePath);
+
+                    if (!CHECK_REAL_ESRGAN_EXIST())
                     {
-                        await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
+                        ERROR_REAL_ESRGAN_EXIST();
                     }
 
-                    if (processHidden == "false")
+                    else
                     {
-                        await Task.Run(() => EXECUTE_COMMAND_UNHIDDEN(command));
+                        string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
+                        if (CheckBoxHideProcess.Checked)
+                        {
+                            await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
+                        }
+
+                        else
+                        {
+                            await Task.Run(() => EXECUTE_COMMAND_UNHIDDEN(command));
+                        }
                     }
                 }
             }
@@ -1406,12 +1503,12 @@ namespace Real_ESRGAN_GUI
             bool isProcessHidden = CheckBoxHideProcess.Checked;
             if (isProcessHidden)
             {
-                processHidden = "true";
+                processHidden = true;
             }
 
             else
             {
-                processHidden = "false";
+                processHidden = false;
             }
         }
 
@@ -1458,12 +1555,12 @@ namespace Real_ESRGAN_GUI
                 else
                 {
                     string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
-                    if (processHidden == "true")
+                    if (CheckBoxHideProcess.Checked)
                     {
                         await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
                     }
 
-                    if (processHidden == "false")
+                    else
                     {
                         await Task.Run(() => EXECUTE_COMMAND_UNHIDDEN(command));
                     }
