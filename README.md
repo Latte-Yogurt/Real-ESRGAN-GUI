@@ -1,5 +1,30 @@
-使用方法:
-拖拽图片(jpg,jpeg,png,webp)到Real_ESRGAN_GUI.exe上，程序会自动把图片进行分辨率放大处理，可以开启GUI调整配置，也可以开启GUI将图片拖拽到GUI上进行处理。
+English | [中文](https://github.com/Latte-Yogurt/Real-ESRGAN-GUI/blob/main/README_CN.md)
+# Project Name
+Real-ESRGAN-GUI
 
-How to use it:
-Drag and drop pictures (jpg, jpeg, png, webp) onto Real_ESRGAN_GUI.exe, and the program will automatically enlarge the resolution of the picture. You can open the GUI to adjust the configuration, or open the GUI and drag the picture to the GUI for processing.
+## Index
+- [Feature](#Feature)
+- [HowToUse](#HowToUse)
+- [Contribute](#Contribute)
+- [License](#License)
+
+## Feature
+- UI design compatible with Windows 10 style, offering a simple user experience.
+
+## HowToUse
+<div align="left">
+  <img src="https://github.com/Latte-Yogurt/Real-ESRGAN-GUI/blob/main/Real_ESRGAN.png" width="300" height="300">
+</div>
+
+- The main interface looks like this.
+- **Magnification** refers to the multiple by which you wish to enlarge an image based on its original size. Note that only the realesr-animevideov3 model supports 2x and 3x magnification.
+- **Magnification algorithm** refers to the computation model you wish to use.
+- **Output format** refers to the format of the enlarged image you wish to obtain.
+- **Run in the background** means that when calling realesrgan.exe, its window will not be displayed.
+- The usage methods are twofold: dragging and dropping files or folders into the window, and dragging and dropping files or folders onto the program icon.
+
+## Contribute
+- Welcome to contribute! There is currently no contribution list.
+
+## License
+- The project is licensed under the [GPL-3.0 license](LICENSE).
