@@ -17,8 +17,11 @@ namespace Real_ESRGAN_GUI
     {
         private Dictionary<string, Dictionary<string, string>> languageTexts;
 
+        public string workPath;
+        public bool hasPermission;
         public string xmlPath;
         public bool isMultipleFiles;
+        public bool isCreatedNewFolder = true;
         public string filePath;
         public string fileName;
         public string directoryPath;
@@ -26,6 +29,16 @@ namespace Real_ESRGAN_GUI
         public string vcomp140Path;
         public string vcomp140dPath;
         public string modelsPath;
+        public string realesr_animevideov3_x2_binPath;
+        public string realesr_animevideov3_x2_paramPath;
+        public string realesr_animevideov3_x3_binPath;
+        public string realesr_animevideov3_x3_paramPath;
+        public string realesr_animevideov3_x4_binPath;
+        public string realesr_animevideov3_x4_paramPath;
+        public string realesrgan_x4plus_binPath;
+        public string realesrgan_x4plus_paramPath;
+        public string realesrgan_x4plus_anime_binPath;
+        public string realesrgan_x4plus_anime_paramPath;
         public static string currentLanguage;
         public static float systemScale;
         public int oldScreenWidth;
@@ -49,7 +62,16 @@ namespace Real_ESRGAN_GUI
             SET_CLIENT_SIZE();
             SET_MAINFORM_LOCATION();
 
-            string workPath = GET_WORK_PATH(); // 获取程序路径
+            workPath = GET_WORK_PATH(); // 获取程序路径
+            hasPermission = CHECK_WORK_PATH_WRITABLE(workPath, out Exception ex);
+
+            if (!hasPermission)
+            {
+                ERROR_NO_PREMISSION(workPath, ex);
+                this.Close();
+                return;
+            }
+
             string xml = @"config.xml";
             xmlPath = Path.Combine(workPath, xml);
             CHECK_XML_LEGAL(xmlPath);
@@ -92,6 +114,36 @@ namespace Real_ESRGAN_GUI
             string models = @"models";
             modelsPath = Path.Combine(workPath, models);
 
+            string realesr_animevideov3_x2_bin = @"realesr-animevideov3-x2.bin";
+            realesr_animevideov3_x2_binPath = Path.Combine(modelsPath, realesr_animevideov3_x2_bin);
+
+            string realesr_animevideov3_x2_param = @"realesr-animevideov3-x2.param";
+            realesr_animevideov3_x2_paramPath = Path.Combine(modelsPath, realesr_animevideov3_x2_param);
+
+            string realesr_animevideov3_x3_bin = @"realesr-animevideov3-x3.bin";
+            realesr_animevideov3_x3_binPath = Path.Combine(modelsPath, realesr_animevideov3_x3_bin);
+
+            string realesr_animevideov3_x3_param = @"realesr-animevideov3-x3.param";
+            realesr_animevideov3_x3_paramPath = Path.Combine(modelsPath, realesr_animevideov3_x3_param);
+
+            string realesr_animevideov3_x4_bin = @"realesr-animevideov3-x4.bin";
+            realesr_animevideov3_x4_binPath = Path.Combine(modelsPath, realesr_animevideov3_x4_bin);
+
+            string realesr_animevideov3_x4_param = @"realesr-animevideov3-x4.param";
+            realesr_animevideov3_x4_paramPath = Path.Combine(modelsPath, realesr_animevideov3_x4_param);
+
+            string realesrgan_x4plus_bin = @"realesrgan-x4plus.bin";
+            realesrgan_x4plus_binPath = Path.Combine(modelsPath, realesrgan_x4plus_bin);
+
+            string realesrgan_x4plus_param = @"realesrgan-x4plus.param";
+            realesrgan_x4plus_paramPath = Path.Combine(modelsPath, realesrgan_x4plus_param);
+
+            string realesrgan_x4plus_anime_bin = @"realesrgan-x4plus-anime.bin";
+            realesrgan_x4plus_anime_binPath = Path.Combine(modelsPath, realesrgan_x4plus_anime_bin);
+
+            string realesrgan_x4plus_anime_param = @"realesrgan-x4plus-anime.param";
+            realesrgan_x4plus_anime_paramPath = Path.Combine(modelsPath, realesrgan_x4plus_anime_param);
+
             scale = GET_SCALE(xmlPath);
             model = GET_MODEL(xmlPath);
             extension = GET_EXTENSION(xmlPath);
@@ -102,72 +154,76 @@ namespace Real_ESRGAN_GUI
             DEFAULT_EXTENSION_MENU();
             DEFAULT_PROCESS_HIDDEN();
 
+            if (!CHECK_REAL_ESRGAN_EXIST())
+            {
+                CREATE_COMPONENTS();
+                if (!isCreatedNewFolder)
+                {
+                    this.Close();
+                    return;
+                }
+            }
+
             if (args != null && args.Length > 0 && args.All(arg => !string.IsNullOrEmpty(arg)))
             {
-                if (!CHECK_REAL_ESRGAN_EXIST())
+                if (!isMultipleFiles)
                 {
-                    ERROR_REAL_ESRGAN_EXIST();
-                }
+                    filePath = args[0];
+                    fileName = Path.GetFileNameWithoutExtension(filePath);
+                    directoryPath = Path.GetDirectoryName(filePath);
 
-                else
-                {
-                    if(!isMultipleFiles)
+                    if (!CHECK_REAL_ESRGAN_EXIST())
                     {
-                        filePath = args[0];
-                        fileName = Path.GetFileNameWithoutExtension(filePath);
-                        directoryPath = Path.GetDirectoryName(filePath);
-
-                        bool isLegalFile = CHECK_EXTENSION(filePath);
-
-                        if (isLegalFile)
+                        CREATE_COMPONENTS();
+                        if (!isCreatedNewFolder)
                         {
-                            string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
-                            if (CheckBoxHideProcess.Checked)
-                            {
-                                EXECUTE_COMMAND_HIDDEN(command);
-                                this.Close();
-                            }
-
-                            else
-                            {
-                                EXECUTE_COMMAND_UNHIDDEN(command);
-                                this.Close();
-                            }
-                        }
-
-                        else
-                        {
+                            ERROR_REAL_ESRGAN_EXIST();
                             this.Close();
+                            return;
                         }
+                    }
+
+                    bool isLegalFile = CHECK_EXTENSION(filePath);
+
+                    if (isLegalFile)
+                    {
+                        EXECUTE_COMMAND();
+                        this.Close();
                     }
 
                     else
                     {
-                        foreach(var simpleFilePath in args)
+                        this.Close();
+                    }
+                }
+
+                else
+                {
+                    foreach (var simpleFilePath in args)
+                    {
+                        filePath = simpleFilePath;
+                        fileName = Path.GetFileNameWithoutExtension(filePath);
+                        directoryPath = Path.GetDirectoryName(filePath);
+
+                        if (!CHECK_REAL_ESRGAN_EXIST())
                         {
-                            filePath = simpleFilePath;
-                            fileName = Path.GetFileNameWithoutExtension(filePath);
-                            directoryPath = Path.GetDirectoryName(filePath);
-
-                            bool isLegalFile = CHECK_EXTENSION(simpleFilePath);
-
-                            if(isLegalFile)
+                            CREATE_COMPONENTS();
+                            if (!isCreatedNewFolder)
                             {
-                                string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
-                                if (CheckBoxHideProcess.Checked)
-                                {
-                                    EXECUTE_COMMAND_HIDDEN(command);
-                                }
-
-                                else
-                                {
-                                    EXECUTE_COMMAND_UNHIDDEN(command);
-                                }
+                                ERROR_REAL_ESRGAN_EXIST();
+                                break;
                             }
                         }
 
-                        this.Close();
+                        bool isLegalFile = CHECK_EXTENSION(simpleFilePath);
+
+                        if (isLegalFile)
+                        {
+                            EXECUTE_COMMAND();
+                        }
                     }
+
+                    this.Close();
                 }
             }
         }
@@ -178,6 +234,28 @@ namespace Real_ESRGAN_GUI
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
             // 返回路径
             return Path.GetDirectoryName(assemblyPath);
+        }
+
+        private bool CHECK_WORK_PATH_WRITABLE(string path, out Exception ex)
+        {
+            ex = null; // 初始化异常为 null
+            try
+            {
+                string testFilePath = Path.Combine(path, "test");
+                using (FileStream testFile = File.Create(testFilePath)) { }
+                File.Delete(testFilePath);
+                return true;
+            }
+            catch (UnauthorizedAccessException unauthorizedEx)
+            {
+                ex = unauthorizedEx;
+                return false;
+            }
+            catch (Exception otherEx)
+            {
+                ex = otherEx;
+                return false;
+            }
         }
 
         private void CHECK_XML_LEGAL(string configFilePath)
@@ -198,6 +276,254 @@ namespace Real_ESRGAN_GUI
             {
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
+        }
+
+        private void CHECK_FOLDER_LEGAL(string directoryPath)
+        {
+            DirectoryInfo directory = new DirectoryInfo(directoryPath);
+
+            if (directory.Exists && (directory.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden)
+            {
+                directory.Attributes = FileAttributes.Normal;
+            }
+
+            if (directory.Exists && (directory.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+            {
+                directory.Attributes = FileAttributes.Normal;
+            }
+        }
+
+        private bool CHECK_REAL_ESRGAN_EXIST()
+        {
+            return File.Exists(realesrganPath) && File.Exists(vcomp140Path) && File.Exists(vcomp140dPath) 
+                && Directory.Exists(modelsPath) && File.Exists(realesr_animevideov3_x2_binPath) 
+                && File.Exists(realesr_animevideov3_x2_paramPath) && File.Exists(realesr_animevideov3_x3_binPath) 
+                && File.Exists(realesr_animevideov3_x3_paramPath) && File.Exists(realesr_animevideov3_x4_binPath) 
+                && File.Exists(realesr_animevideov3_x4_paramPath) && File.Exists(realesrgan_x4plus_binPath) 
+                && File.Exists(realesrgan_x4plus_paramPath) && File.Exists(realesrgan_x4plus_anime_binPath) 
+                && File.Exists(realesrgan_x4plus_anime_paramPath);
+        }
+
+        private void EXTRACT_RESOURCE(string resourceName, string outputPath)
+        {
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            {
+                if (stream == null)
+                {
+                    ERROR_RESOURCE_EXIST(resourceName);
+                    return;
+                }
+
+                using (FileStream fileStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
+                {
+                    stream.CopyTo(fileStream);
+                }
+            }
+        }
+
+        private bool CREATE_NEW_FOLDER(string newFolderPath)
+        {
+            if (!Directory.Exists(newFolderPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(newFolderPath);
+                    return true;
+                }
+
+                catch (Exception ex)
+                {
+                    ERROR_CREATE_FOLDER_FAILED(ex);
+                    return false;
+                }
+            }
+
+            else
+            {
+                return true;
+            }
+        }
+
+        private void CREATE_COMPONENTS()
+        {
+            if (!File.Exists(realesrganPath))
+            {
+                CREATE_REAL_ESRGAN_EXE();
+            }
+
+            if (!File.Exists(vcomp140Path))
+            {
+                CREATE_VCOMP_140_DLL();
+            }
+
+            if (!File.Exists(vcomp140dPath))
+            {
+                CREATE_VCOMP_140D_DLL();
+            }
+
+            if (!Directory.Exists(modelsPath))
+            {
+                isCreatedNewFolder = CREATE_NEW_FOLDER(modelsPath);
+            }
+
+            if (Directory.Exists(modelsPath))
+            {
+                CHECK_FOLDER_LEGAL(modelsPath);
+
+                if (!File.Exists(realesr_animevideov3_x2_binPath))
+                {
+                    CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X2_BIN();
+                }
+
+                if (!File.Exists(realesr_animevideov3_x2_paramPath))
+                {
+                    CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X2_PARAM();
+                }
+
+                if (!File.Exists(realesr_animevideov3_x3_binPath))
+                {
+                    CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X3_BIN();
+                }
+
+                if (!File.Exists(realesr_animevideov3_x3_paramPath))
+                {
+                    CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X3_PARAM();
+                }
+
+                if (!File.Exists(realesr_animevideov3_x4_binPath))
+                {
+                    CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X4_BIN();
+                }
+
+                if (!File.Exists(realesr_animevideov3_x4_paramPath))
+                {
+                    CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X4_PARAM();
+                }
+
+                if (!File.Exists(realesrgan_x4plus_binPath))
+                {
+                    CREATE_REAL_ESRGAN_X4PLUS_BIN();
+                }
+
+                if (!File.Exists(realesrgan_x4plus_paramPath))
+                {
+                    CREATE_REAL_ESRGAN_X4PLUS_PARAM();
+                }
+
+                if (!File.Exists(realesrgan_x4plus_anime_binPath))
+                {
+                    CREATE_REAL_ESRGAN_X4PLUS_ANIME_BIN();
+                }
+
+                if (!File.Exists(realesrgan_x4plus_anime_paramPath))
+                {
+                    CREATE_REAL_ESRGAN_X4PLUS_ANIME_PARAM();
+                }
+            }
+        }
+
+        private void CREATE_REAL_ESRGAN_EXE()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.realesrgan.exe";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.", "");//将原始嵌入资源的文件名中的命名空间前缀替换为空字符串
+            string outputPath = Path.Combine(workPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_VCOMP_140_DLL()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.vcomp140.dll";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.", "");
+            string outputPath = Path.Combine(workPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_VCOMP_140D_DLL()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.vcomp140d.dll";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.", "");
+            string outputPath = Path.Combine(workPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X2_BIN()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.models.realesr-animevideov3-x2.bin";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.models.", "");
+            string outputPath = Path.Combine(modelsPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X2_PARAM()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.models.realesr-animevideov3-x2.param";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.models.", "");
+            string outputPath = Path.Combine(modelsPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X3_BIN()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.models.realesr-animevideov3-x3.bin";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.models.", "");
+            string outputPath = Path.Combine(modelsPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X3_PARAM()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.models.realesr-animevideov3-x3.param";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.models.", "");
+            string outputPath = Path.Combine(modelsPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X4_BIN()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.models.realesr-animevideov3-x4.bin";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.models.", "");
+            string outputPath = Path.Combine(modelsPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_REAL_ESRGAN_ANIMEVIDEO_V3_X4_PARAM()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.models.realesr-animevideov3-x4.param";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.models.", "");
+            string outputPath = Path.Combine(modelsPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_REAL_ESRGAN_X4PLUS_BIN()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.models.realesrgan-x4plus.bin";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.models.", "");
+            string outputPath = Path.Combine(modelsPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_REAL_ESRGAN_X4PLUS_PARAM()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.models.realesrgan-x4plus.param";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.models.", "");
+            string outputPath = Path.Combine(modelsPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_REAL_ESRGAN_X4PLUS_ANIME_BIN()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.models.realesrgan-x4plus-anime.bin";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.models.", "");
+            string outputPath = Path.Combine(modelsPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
+        }
+
+        private void CREATE_REAL_ESRGAN_X4PLUS_ANIME_PARAM()
+        {
+            string resourceName = "Real_ESRGAN_GUI.Resource.models.realesrgan-x4plus-anime.param";
+            string outputFileName = resourceName.Replace("Real_ESRGAN_GUI.Resource.models.", "");
+            string outputPath = Path.Combine(modelsPath, outputFileName);
+            EXTRACT_RESOURCE(resourceName, outputPath);
         }
 
         private void GET_SYSTEM_SCALE()
@@ -229,9 +555,18 @@ namespace Real_ESRGAN_GUI
             return false;
         }
 
-        private bool CHECK_REAL_ESRGAN_EXIST()
+        private void EXECUTE_COMMAND()
         {
-            return File.Exists(realesrganPath) && File.Exists(vcomp140Path) && File.Exists(vcomp140dPath) && Directory.Exists(modelsPath);
+            string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
+            if (CheckBoxHideProcess.Checked)
+            {
+                EXECUTE_COMMAND_HIDDEN(command);
+            }
+
+            else
+            {
+                EXECUTE_COMMAND_UNHIDDEN(command);
+            }
         }
 
         private void EXECUTE_COMMAND_UNHIDDEN(string command)
@@ -280,7 +615,6 @@ namespace Real_ESRGAN_GUI
                         { "LabelExtension","生成格式" },
                         { "CheckBoxHideProcess","后台运行" },
                         { "ButtonConfig","保存配置" },
-                        { "MainContextMenuStripExit","退出" }
                     }
                 },
                 { "zh-TW", new Dictionary<string, string>
@@ -296,7 +630,6 @@ namespace Real_ESRGAN_GUI
                         { "LabelExtension","生成格式" },
                         { "CheckBoxHideProcess","後臺運行" },
                         { "ButtonConfig","保存配置" },
-                        { "MainContextMenuStripExit","退出" }
                     }
                 },
                 { "en-US", new Dictionary<string, string>
@@ -312,7 +645,6 @@ namespace Real_ESRGAN_GUI
                         { "LabelExtension","Extension" },
                         { "CheckBoxHideProcess","Hide Process" },
                         { "ButtonConfig","Save Config" },
-                        { "MainContextMenuStripExit","Exit" }
                     }
                 }
             };
@@ -331,7 +663,6 @@ namespace Real_ESRGAN_GUI
             LabelExtension.Text = languageTexts[currentLanguage]["LabelExtension"];
             CheckBoxHideProcess.Text = languageTexts[currentLanguage]["CheckBoxHideProcess"];
             ButtonConfig.Text = languageTexts[currentLanguage]["ButtonConfig"];
-            MainContextMenuStripExit.Text = languageTexts[currentLanguage]["MainContextMenuStripExit"];
 
             SET_COMPONENT_POSITION();
         }
@@ -342,7 +673,7 @@ namespace Real_ESRGAN_GUI
             {
                 try
                 {
-                    File.Delete(configFilePath);
+                    File.WriteAllText(configFilePath, string.Empty);
                 }
 
                 catch (Exception ex)
@@ -367,11 +698,13 @@ namespace Real_ESRGAN_GUI
                 // 其他语言...
             };
 
+            XElement defaultConfig;
+
             if (supportedLanguages.Contains(currentCulture.Name))
             {
                 if (currentLanguage != null)
                 {
-                    XElement defaultConfig = new XElement("Configuration",
+                    defaultConfig = new XElement("Configuration",
                         new XElement("Language", $"{currentLanguage}"),
                         new XElement("LocationX", $"{newLocationX}"),
                         new XElement("LocationY", $"{newLocationY}"),
@@ -380,15 +713,11 @@ namespace Real_ESRGAN_GUI
                         new XElement("Extension", "png"),
                         new XElement("ProcessHidden", "false")
                     );
-
-                    // 保存默认配置到文件
-                    defaultConfig.Save(configFilePath);
                 }
 
                 else
                 {
-                    // 创建默认的 XML 结构
-                    XElement defaultConfig = new XElement("Configuration",
+                    defaultConfig = new XElement("Configuration",
                         new XElement("Language", $"{currentCulture.Name}"),
                         new XElement("LocationX", $"{newLocationX}"),
                         new XElement("LocationY", $"{newLocationY}"),
@@ -397,16 +726,12 @@ namespace Real_ESRGAN_GUI
                         new XElement("Extension", "png"),
                         new XElement("ProcessHidden", "false")
                     );
-
-                    // 保存默认配置到文件
-                    defaultConfig.Save(configFilePath);
                 }
             }
 
             else
             {
-                // 创建默认的 XML 结构
-                XElement defaultConfig = new XElement("Configuration",
+                defaultConfig = new XElement("Configuration",
                     new XElement("Language", "en-US"),
                     new XElement("LocationX", $"{newLocationX}"),
                     new XElement("LocationY", $"{newLocationY}"),
@@ -415,9 +740,15 @@ namespace Real_ESRGAN_GUI
                     new XElement("Extension", "png"),
                     new XElement("ProcessHidden", "false")
                 );
+            }
 
-                // 保存默认配置到文件
+            try
+            {
                 defaultConfig.Save(configFilePath);
+            }
+            catch (Exception ex)
+            {
+                ERROR_EXCEPTION_MESSAGE(ex);
             }
         }
 
@@ -1255,6 +1586,43 @@ namespace Real_ESRGAN_GUI
             }
         }
 
+        private void ERROR_NO_PREMISSION(string directoryPath, Exception error)
+        {
+            var currentCulture = CultureInfo.CurrentUICulture;
+
+            // 创建一个示例词典，包含支持的语言
+            var supportedLanguages = new HashSet<string>
+            {
+                "zh-CN", // 中文 (简体)
+                "zh-TW", // 中文 (繁体)
+                "en-US", // 英语 (美国)
+                // 其他语言...
+            };
+
+            if (supportedLanguages.Contains(currentCulture.Name))
+            {
+                currentLanguage = currentCulture.Name;
+
+                switch (currentLanguage)
+                {
+                    case "zh-CN":
+                        MessageBox.Show($"应用程序没有在{directoryPath}内运行的权限，错误为: {error.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    case "zh-TW":
+                        MessageBox.Show($"應用程式沒有在{directoryPath}内運行的權限，錯誤為: {error.Message}", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    case "en-US":
+                        MessageBox.Show($"Permission denied to run the application in {directoryPath},error message is: {error.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                }
+            }
+
+            else
+            {
+                MessageBox.Show($"Permission denied to run the application in {directoryPath},error message is: {error.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void ERROR_REAL_ESRGAN_EXIST()
         {
             switch (currentLanguage)
@@ -1267,6 +1635,38 @@ namespace Real_ESRGAN_GUI
                     break;
                 case "en-US":
                     MessageBox.Show("The Real ESRGAN components in the program's working directory are incomplete and can not start the Real ESRGAN processing flow.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+        }
+
+        private void ERROR_RESOURCE_EXIST(string resourceName)
+        {
+            switch (currentLanguage)
+            {
+                case "zh-CN":
+                    MessageBox.Show("没有找到资源: " + resourceName, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "zh-TW":
+                    MessageBox.Show("沒有找到資源: " + resourceName, "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "en-US":
+                    MessageBox.Show("Resource not found: " + resourceName, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
+        }
+
+        private void ERROR_CREATE_FOLDER_FAILED(Exception error)
+        {
+            switch (currentLanguage)
+            {
+                case "zh-CN":
+                    MessageBox.Show($"创建目标文件夹时出错，错误为: {error.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "zh-TW":
+                    MessageBox.Show($"創建目標文件夾時出錯，錯誤為: {error.Message}", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case "en-US":
+                    MessageBox.Show($"The error occurred while creating the target folder,error message is: {error.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
             }
         }
@@ -1439,22 +1839,15 @@ namespace Real_ESRGAN_GUI
 
                         if (!CHECK_REAL_ESRGAN_EXIST())
                         {
-                            ERROR_REAL_ESRGAN_EXIST();
-                        }
-
-                        else
-                        {
-                            string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
-                            if (CheckBoxHideProcess.Checked)
+                            CREATE_COMPONENTS();
+                            if (!isCreatedNewFolder)
                             {
-                                await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
-                            }
-
-                            else
-                            {
-                                await Task.Run(() => EXECUTE_COMMAND_UNHIDDEN(command));
+                                ERROR_REAL_ESRGAN_EXIST();
+                                break;
                             }
                         }
+
+                        await Task.Run(() => EXECUTE_COMMAND());
                     }
                 }
 
@@ -1466,22 +1859,15 @@ namespace Real_ESRGAN_GUI
 
                     if (!CHECK_REAL_ESRGAN_EXIST())
                     {
-                        ERROR_REAL_ESRGAN_EXIST();
-                    }
-
-                    else
-                    {
-                        string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
-                        if (CheckBoxHideProcess.Checked)
+                        CREATE_COMPONENTS();
+                        if (!isCreatedNewFolder)
                         {
-                            await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
-                        }
-
-                        else
-                        {
-                            await Task.Run(() => EXECUTE_COMMAND_UNHIDDEN(command));
+                            ERROR_REAL_ESRGAN_EXIST();
+                            return;
                         }
                     }
+
+                    await Task.Run(() => EXECUTE_COMMAND());
                 }
             }
         }
@@ -1548,23 +1934,16 @@ namespace Real_ESRGAN_GUI
                 directoryPath = Path.GetDirectoryName(filePath);
 
                 if (!CHECK_REAL_ESRGAN_EXIST())
-                {                    
-                    ERROR_REAL_ESRGAN_EXIST();
-                }
-
-                else
                 {
-                    string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
-                    if (CheckBoxHideProcess.Checked)
+                    CREATE_COMPONENTS();
+                    if (!isCreatedNewFolder)
                     {
-                        await Task.Run(() => EXECUTE_COMMAND_HIDDEN(command));
-                    }
-
-                    else
-                    {
-                        await Task.Run(() => EXECUTE_COMMAND_UNHIDDEN(command));
+                        ERROR_REAL_ESRGAN_EXIST();
+                        return;
                     }
                 }
+
+                await Task.Run(() => EXECUTE_COMMAND());
             }
         }
 
@@ -1601,19 +1980,6 @@ namespace Real_ESRGAN_GUI
             aboutForm.ShowDialog();
         }
 
-        private void NOTIFYICON_MOUSE_DOUBLE_CLICK(object sender, MouseEventArgs e)
-        {
-            // 处理双击事件 - 还原窗体
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
-        }
-
-        private void MAIN_CONTEXT_MENU_STRIP_EXIT_CLICK(object sender, EventArgs e)
-        {
-            SAVE_LOCATION();
-            this.Close();
-        }
-
         private void MAINFORM_FORM_CLOSING(object sender,FormClosingEventArgs e)
         {
             SAVE_LOCATION();
@@ -1624,6 +1990,12 @@ namespace Real_ESRGAN_GUI
             locationX = this.Location.X;
             locationY = this.Location.Y;
 
+            int width = Screen.PrimaryScreen.Bounds.Width;
+            int height = Screen.PrimaryScreen.Bounds.Height;
+
+            UPDATE_CONFIG($"{xmlPath}", "ScreenWidth", $"{width}");
+            UPDATE_CONFIG($"{xmlPath}", "ScreenHeight", $"{height}");
+            UPDATE_CONFIG($"{xmlPath}", "SystemScale", $"{systemScale}");
             UPDATE_CONFIG($"{xmlPath}", "LocationX", $"{locationX}");
             UPDATE_CONFIG($"{xmlPath}", "LocationY", $"{locationY}");
         }

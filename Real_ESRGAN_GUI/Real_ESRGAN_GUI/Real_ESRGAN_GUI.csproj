@@ -43,12 +43,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -143,6 +144,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resource\models\realesr-animevideov3-x2.bin" />
+    <EmbeddedResource Include="Resource\models\realesr-animevideov3-x2.param" />
+    <EmbeddedResource Include="Resource\models\realesr-animevideov3-x3.bin" />
+    <EmbeddedResource Include="Resource\models\realesr-animevideov3-x3.param" />
+    <EmbeddedResource Include="Resource\models\realesr-animevideov3-x4.bin" />
+    <EmbeddedResource Include="Resource\models\realesr-animevideov3-x4.param" />
+    <EmbeddedResource Include="Resource\models\realesrgan-x4plus-anime.bin" />
+    <EmbeddedResource Include="Resource\models\realesrgan-x4plus-anime.param" />
+    <EmbeddedResource Include="Resource\models\realesrgan-x4plus.bin" />
+    <EmbeddedResource Include="Resource\models\realesrgan-x4plus.param" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -160,8 +171,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resource\realesrgan.exe" />
+    <EmbeddedResource Include="Resource\vcomp140.dll" />
+    <EmbeddedResource Include="Resource\vcomp140d.dll" />
     <Content Include="Yoimiya-1.ico" />
     <EmbeddedResource Include="Yoimiya64-1.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

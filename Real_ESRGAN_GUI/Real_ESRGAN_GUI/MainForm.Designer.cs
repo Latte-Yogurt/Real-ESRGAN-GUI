@@ -29,7 +29,6 @@ namespace Real_ESRGAN_GUI
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MainPanel = new System.Windows.Forms.Panel();
             this.ComboBoxExtension = new System.Windows.Forms.ComboBox();
@@ -52,12 +51,8 @@ namespace Real_ESRGAN_GUI
             this.AboutMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MainContextMenuStripExit = new System.Windows.Forms.ToolStripMenuItem();
             this.MainPanel.SuspendLayout();
             this.MenuStrip.SuspendLayout();
-            this.MainContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainPanel
@@ -282,30 +277,6 @@ namespace Real_ESRGAN_GUI
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(16, 28);
             // 
-            // NotifyIcon
-            // 
-            this.NotifyIcon.ContextMenuStrip = this.MainContextMenuStrip;
-            this.NotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("NotifyIcon.Icon")));
-            this.NotifyIcon.Text = "Real ESRGAN";
-            this.NotifyIcon.Visible = true;
-            this.NotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NOTIFYICON_MOUSE_DOUBLE_CLICK);
-            // 
-            // MainContextMenuStrip
-            // 
-            this.MainContextMenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.MainContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MainContextMenuStripExit});
-            this.MainContextMenuStrip.Name = "contextMenuStrip1";
-            this.MainContextMenuStrip.Size = new System.Drawing.Size(117, 34);
-            // 
-            // MainContextMenuStripExit
-            // 
-            this.MainContextMenuStripExit.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MainContextMenuStripExit.Name = "MainContextMenuStripExit";
-            this.MainContextMenuStripExit.Size = new System.Drawing.Size(116, 30);
-            this.MainContextMenuStripExit.Text = "退出";
-            this.MainContextMenuStripExit.Click += new System.EventHandler(this.MAIN_CONTEXT_MENU_STRIP_EXIT_CLICK);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -329,7 +300,6 @@ namespace Real_ESRGAN_GUI
             this.MainPanel.PerformLayout();
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
-            this.MainContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -347,13 +317,10 @@ namespace Real_ESRGAN_GUI
         private System.Windows.Forms.ToolStripMenuItem MainMenu;
         private System.Windows.Forms.ToolStripMenuItem MainMenuOpenFiles;
         private System.Windows.Forms.ToolStripMenuItem MainMenuExit;
-        private System.Windows.Forms.NotifyIcon NotifyIcon;
         private System.Windows.Forms.ComboBox ComboBoxExtension;
         private System.Windows.Forms.Label LabelExtension;
         private System.Windows.Forms.ToolStripMenuItem AboutMenu;
         private System.Windows.Forms.ToolStripMenuItem AboutMenuAbout;
-        private System.Windows.Forms.ContextMenuStrip MainContextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem MainContextMenuStripExit;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenu;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelect;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
