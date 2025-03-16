@@ -113,7 +113,7 @@ namespace Real_ESRGAN_GUI
             this.Location = new Point(locationX, locationY);
 
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Real_ESRGAN_GUI.Yoimiya64-1.png"; // 具体的命名空间和资源名称
+            var resourceName = "Real_ESRGAN_GUI.Resource.icon.Yoimiya64-1.png"; // 具体的命名空间和资源名称
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {

@@ -118,7 +118,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="xml.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -175,7 +174,7 @@
     <EmbeddedResource Include="Resource\vcomp140.dll" />
     <EmbeddedResource Include="Resource\vcomp140d.dll" />
     <Content Include="Yoimiya-1.ico" />
-    <EmbeddedResource Include="Yoimiya64-1.png" />
+    <EmbeddedResource Include="Resource\icon\Yoimiya64-1.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

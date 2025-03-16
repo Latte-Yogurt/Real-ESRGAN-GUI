@@ -1,10 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Real_ESRGAN_GUI
@@ -18,9 +12,17 @@ namespace Real_ESRGAN_GUI
         [STAThread]
         static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(args));
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainForm(args));
+            }
+
+            catch (Exception)
+            {
+                Environment.Exit(0);
+            }
         }
     }
 }
