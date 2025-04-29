@@ -17,46 +17,54 @@ namespace Real_ESRGAN_GUI
     {
         private Dictionary<string, Dictionary<string, string>> languageTexts;
 
-        public string workPath;
-        public bool hasPermission;
-        public string xmlPath;
-        public bool isMultipleFiles;
-        public bool isCreatedNewFolder = true;
-        public string filePath;
-        public string fileName;
-        public string directoryPath;
-        public string realesrganPath;
-        public string vcomp140Path;
-        public string vcomp140dPath;
-        public string modelsPath;
-        public string realesr_animevideov3_x2_binPath;
-        public string realesr_animevideov3_x2_paramPath;
-        public string realesr_animevideov3_x3_binPath;
-        public string realesr_animevideov3_x3_paramPath;
-        public string realesr_animevideov3_x4_binPath;
-        public string realesr_animevideov3_x4_paramPath;
-        public string realesrgan_x4plus_binPath;
-        public string realesrgan_x4plus_paramPath;
-        public string realesrgan_x4plus_anime_binPath;
-        public string realesrgan_x4plus_anime_paramPath;
+        private readonly string workPath;
+        private bool hasPermission;
+        private readonly string xmlPath;
+        private bool isMultipleFiles;
+        private bool isCreatedNewFolder = true;
+        private readonly string realesrganPath;
+        private readonly string vcomp140Path;
+        private readonly string vcomp140dPath;
+        private readonly string modelsPath;
+        private readonly string realesr_animevideov3_x2_binPath;
+        private readonly string realesr_animevideov3_x2_paramPath;
+        private readonly string realesr_animevideov3_x3_binPath;
+        private readonly string realesr_animevideov3_x3_paramPath;
+        private readonly string realesr_animevideov3_x4_binPath;
+        private readonly string realesr_animevideov3_x4_paramPath;
+        private readonly string realesrgan_x4plus_binPath;
+        private readonly string realesrgan_x4plus_paramPath;
+        private readonly string realesrgan_x4plus_anime_binPath;
+        private readonly string realesrgan_x4plus_anime_paramPath;
         public static string currentLanguage;
         public static float systemScale;
-        public int oldScreenWidth;
-        public int oldScreenHeight;
-        public float oldSystemScale;
-        public int locationX;
-        public int locationY;
-        public string scale;
-        public string model;
-        public string extension;
-        public bool processHidden;
+        private int oldScreenWidth;
+        private int oldScreenHeight;
+        private float oldSystemScale;
+
+        public class SetValue
+        {
+            public string currentLanguage { get; set; }
+            public float systemScale { get; set; }
+            public string scale { get; set; }
+            public string model { get; set; }
+            public string extension { get; set; }
+            public bool processHidden { get; set; }
+            public string filePath { get; set; }
+            public string directoryPath { get; set; }
+            public string fileName { get; set; }
+            public string realesrganPath { get; set; }
+        }
+
+        SetValue setValue = new SetValue();
 
         public MainForm(string[] args)
         {
             InitializeComponent();
             this.AutoScaleMode = AutoScaleMode.Dpi;
 
-            GET_SYSTEM_SCALE();
+            systemScale = GET_SYSTEM_SCALE();
+            setValue.systemScale = systemScale;
             SET_BUTTON_CONFIG_SIZE();
             SET_COMBOBOX_SIZE();
             SET_CLIENT_SIZE();
@@ -77,6 +85,7 @@ namespace Real_ESRGAN_GUI
             CHECK_XML_LEGAL(xmlPath);
 
             currentLanguage = GET_CURRENT_LANGUAGE(xmlPath);
+            setValue.currentLanguage = currentLanguage;
 
             oldScreenWidth = GET_SCREEN_WIDTH(xmlPath);
             oldScreenHeight = GET_SCREEN_HEIGHT(xmlPath);
@@ -104,6 +113,7 @@ namespace Real_ESRGAN_GUI
 
             string realesrgan = @"realesrgan.exe";
             realesrganPath = Path.Combine(workPath, realesrgan);
+            setValue.realesrganPath = realesrganPath;
 
             string vcomp140 = @"vcomp140.dll";
             vcomp140Path = Path.Combine(workPath, vcomp140);
@@ -144,15 +154,19 @@ namespace Real_ESRGAN_GUI
             string realesrgan_x4plus_anime_param = @"realesrgan-x4plus-anime.param";
             realesrgan_x4plus_anime_paramPath = Path.Combine(modelsPath, realesrgan_x4plus_anime_param);
 
-            scale = GET_SCALE(xmlPath);
-            model = GET_MODEL(xmlPath);
-            extension = GET_EXTENSION(xmlPath);
-            processHidden = GET_PROCESS_HIDDEN(xmlPath);
+            string scale = GET_SCALE(xmlPath);
+            string model = GET_MODEL(xmlPath);
+            string extension = GET_EXTENSION(xmlPath);
+            bool processHidden = GET_PROCESS_HIDDEN(xmlPath);
+            setValue.scale = scale;
+            setValue.model = model;
+            setValue.extension = extension;
+            setValue.processHidden = processHidden;
 
-            DEFAULT_MODEL_MENU();
-            DEFAULT_SCALE_MENU();
-            DEFAULT_EXTENSION_MENU();
-            DEFAULT_PROCESS_HIDDEN();
+            DEFAULT_MODEL_MENU(setValue);
+            DEFAULT_SCALE_MENU(setValue);
+            DEFAULT_EXTENSION_MENU(setValue);
+            DEFAULT_PROCESS_HIDDEN(setValue);
 
             if (!CHECK_REAL_ESRGAN_EXIST())
             {
@@ -168,9 +182,12 @@ namespace Real_ESRGAN_GUI
             {
                 if (!isMultipleFiles)
                 {
-                    filePath = args[0];
-                    fileName = Path.GetFileNameWithoutExtension(filePath);
-                    directoryPath = Path.GetDirectoryName(filePath);
+                    string filePath = args[0];
+                    string fileName = Path.GetFileNameWithoutExtension(filePath);
+                    string directoryPath = Path.GetDirectoryName(filePath);
+                    setValue.filePath = filePath;
+                    setValue.fileName = fileName;
+                    setValue.directoryPath = directoryPath;
 
                     if (!CHECK_REAL_ESRGAN_EXIST())
                     {
@@ -187,7 +204,7 @@ namespace Real_ESRGAN_GUI
 
                     if (isLegalFile)
                     {
-                        EXECUTE_COMMAND();
+                        GENERATE_COMMAND(setValue);
                         this.Close();
                     }
 
@@ -199,11 +216,14 @@ namespace Real_ESRGAN_GUI
 
                 else
                 {
-                    foreach (var simpleFilePath in args)
+                    foreach (var singleFilePath in args)
                     {
-                        filePath = simpleFilePath;
-                        fileName = Path.GetFileNameWithoutExtension(filePath);
-                        directoryPath = Path.GetDirectoryName(filePath);
+                        string filePath = singleFilePath;
+                        string fileName = Path.GetFileNameWithoutExtension(filePath);
+                        string directoryPath = Path.GetDirectoryName(filePath);
+                        setValue.filePath = filePath;
+                        setValue.fileName = fileName;
+                        setValue.directoryPath = directoryPath;
 
                         if (!CHECK_REAL_ESRGAN_EXIST())
                         {
@@ -215,11 +235,11 @@ namespace Real_ESRGAN_GUI
                             }
                         }
 
-                        bool isLegalFile = CHECK_EXTENSION(simpleFilePath);
+                        bool isLegalFile = CHECK_EXTENSION(singleFilePath);
 
                         if (isLegalFile)
                         {
-                            EXECUTE_COMMAND();
+                            GENERATE_COMMAND(setValue);
                         }
                     }
 
@@ -526,7 +546,7 @@ namespace Real_ESRGAN_GUI
             EXTRACT_RESOURCE(resourceName, outputPath);
         }
 
-        private void GET_SYSTEM_SCALE()
+        private float GET_SYSTEM_SCALE()
         {
             float dpi;
             using (Graphics g = this.CreateGraphics())
@@ -534,7 +554,7 @@ namespace Real_ESRGAN_GUI
                 dpi = g.DpiX;
             }
 
-            systemScale = dpi / 96.0f;
+            return dpi / 96.0f;
         }
 
         private bool CHECK_EXTENSION(string filePath)
@@ -555,9 +575,12 @@ namespace Real_ESRGAN_GUI
             return false;
         }
 
-        private void EXECUTE_COMMAND()
+        private void GENERATE_COMMAND(SetValue setValue)
         {
-            string command = $"@\"{realesrganPath}\" -i \"{filePath}\" -o \"{directoryPath}\\{fileName}_x{scale}.{extension}\" -n {model} -s {scale}";
+            string nowTime = DateTime.Now.ToString("HH-mm-ss");
+
+            string command = $"@\"{setValue.realesrganPath}\" -i \"{setValue.filePath}\" -o \"{setValue.directoryPath}\\{setValue.fileName}_x{setValue.scale}_{nowTime}.{setValue.extension}\" -n {setValue.model} -s {setValue.scale}";
+
             if (CheckBoxHideProcess.Checked)
             {
                 EXECUTE_COMMAND_HIDDEN(command);
@@ -1076,7 +1099,7 @@ namespace Real_ESRGAN_GUI
                 return 0;
             }
 
-            if (scaleToFloat == systemScale)
+            if ((int)scaleToFloat == (int)systemScale)
             {
                 return scaleToFloat;
             }
@@ -1441,13 +1464,13 @@ namespace Real_ESRGAN_GUI
             return processHiddenToBool;
         }
 
-        private void DEFAULT_SCALE_MENU()
+        private void DEFAULT_SCALE_MENU(SetValue setValue)
         {
             ComboBoxScale.Items.Clear();
 
             bool scaleAssigned = false; // 用于跟踪是否已分配scale
 
-            if (model == "realesr-animevideov3")
+            if (setValue.model == "realesr-animevideov3")
             {
                 // 添加Scale的选项菜单
                 ComboBoxScale.Items.Add("2");
@@ -1455,19 +1478,19 @@ namespace Real_ESRGAN_GUI
                 ComboBoxScale.Items.Add("4");
 
                 // 定义Scale的默认显示选项菜单
-                if (scale == "2")
+                if (setValue.scale == "2")
                 {
                     ComboBoxScale.SelectedIndex = 0;
                     scaleAssigned = true;
                 }
 
-                if (scale == "3")
+                if (setValue.scale == "3")
                 {
                     ComboBoxScale.SelectedIndex = 1;
                     scaleAssigned = true;
                 }
 
-                if (scale == "4")
+                if (setValue.scale == "4")
                 {
                     ComboBoxScale.SelectedIndex = 2;
                     scaleAssigned = true;
@@ -1477,7 +1500,7 @@ namespace Real_ESRGAN_GUI
             {
                 ComboBoxScale.Items.Add("4");
 
-                if (scale == "4")
+                if (setValue.scale == "4")
                 {
                     ComboBoxScale.SelectedIndex = 0;
                     scaleAssigned = true;
@@ -1487,12 +1510,12 @@ namespace Real_ESRGAN_GUI
             // 在条件不满足时将scale强制赋值为"4"
             if (!scaleAssigned)
             {
-                scale = "4"; // 强制赋值
+                setValue.scale = "4"; // 强制赋值
                 ComboBoxScale.SelectedIndex = 0; // 设置为默认选择
             }
         }
 
-        private void DEFAULT_MODEL_MENU()
+        private void DEFAULT_MODEL_MENU(SetValue setValue)
         {
             // 添加Model的选项菜单
             ComboBoxModel.Items.Add("realesrgan-x4plus");
@@ -1500,23 +1523,23 @@ namespace Real_ESRGAN_GUI
             ComboBoxModel.Items.Add("realesr-animevideov3");
 
             // 定义Model的默认显示选项菜单
-            if (model == "realesrgan-x4plus")
+            if (setValue.model == "realesrgan-x4plus")
             {
                 ComboBoxModel.SelectedIndex = 0;
             }
 
-            if (model == "realesrgan-x4plus-anime")
+            if (setValue.model == "realesrgan-x4plus-anime")
             {
                 ComboBoxModel.SelectedIndex = 1;
             }
 
-            if (model == "realesr-animevideov3")
+            if (setValue.model == "realesr-animevideov3")
             {
                 ComboBoxModel.SelectedIndex = 2;
             }
         }
 
-        private void DEFAULT_EXTENSION_MENU()
+        private void DEFAULT_EXTENSION_MENU(SetValue setValue)
         {
             // 添加Extension的选项菜单
             ComboBoxExtension.Items.Add("jpg");
@@ -1524,26 +1547,26 @@ namespace Real_ESRGAN_GUI
             ComboBoxExtension.Items.Add("webp");
 
             // 定义Extension的默认显示选项菜单
-            if (extension == "jpg")
+            if (setValue.extension == "jpg")
             {
                 ComboBoxExtension.SelectedIndex = 0;
             }
 
-            if (extension == "png")
+            if (setValue.extension == "png")
             {
                 ComboBoxExtension.SelectedIndex = 1;
             }
 
-            if (extension == "webp")
+            if (setValue.extension == "webp")
             {
                 ComboBoxExtension.SelectedIndex = 2;
             }
         }
 
-        private void DEFAULT_PROCESS_HIDDEN()
+        private void DEFAULT_PROCESS_HIDDEN(SetValue setValue)
         {
             // 定义后台运行的默认显示状态
-            if (!processHidden)
+            if (!setValue.processHidden)
             {
                 CheckBoxHideProcess.Checked = false;
             }
@@ -1687,13 +1710,13 @@ namespace Real_ESRGAN_GUI
             }
         }
 
-        private void SAVE_CONFIG()
+        private void SAVE_CONFIG(SetValue setValue)
         {
-            UPDATE_CONFIG($"{xmlPath}", "Language", $"{currentLanguage}");
-            UPDATE_CONFIG($"{xmlPath}", "Scale", $"{scale}");
-            UPDATE_CONFIG($"{xmlPath}", "Model", $"{model}");
-            UPDATE_CONFIG($"{xmlPath}", "Extension", $"{extension}");
-            UPDATE_CONFIG($"{xmlPath}", "ProcessHidden", $"{processHidden}");
+            UPDATE_CONFIG($"{xmlPath}", "Language", $"{setValue.currentLanguage}");
+            UPDATE_CONFIG($"{xmlPath}", "Scale", $"{setValue.scale}");
+            UPDATE_CONFIG($"{xmlPath}", "Model", $"{setValue.model}");
+            UPDATE_CONFIG($"{xmlPath}", "Extension", $"{setValue.extension}");
+            UPDATE_CONFIG($"{xmlPath}", "ProcessHidden", $"{setValue.processHidden}");
         }
 
         private void SET_BUTTON_CONFIG_SIZE()
@@ -1757,6 +1780,9 @@ namespace Real_ESRGAN_GUI
 
         private void SET_MAINFORM_LOCATION()
         {
+            int locationX;
+            int locationY;
+
             if (oldScreenWidth == Screen.PrimaryScreen.Bounds.Width && oldScreenHeight == Screen.PrimaryScreen.Bounds.Height && oldSystemScale == systemScale)
             {
                 locationX = GET_LOCATION_X(xmlPath);
@@ -1831,11 +1857,14 @@ namespace Real_ESRGAN_GUI
             {
                 if (files.Length > 1)
                 {
-                    foreach (var simpleFilePath in files)
+                    foreach (var singleFilePath in files)
                     {
-                        filePath = simpleFilePath;
-                        fileName = Path.GetFileNameWithoutExtension(filePath);
-                        directoryPath = Path.GetDirectoryName(filePath);
+                        string filePath = singleFilePath;
+                        string fileName = Path.GetFileNameWithoutExtension(filePath);
+                        string directoryPath = Path.GetDirectoryName(filePath);
+                        setValue.filePath = filePath;
+                        setValue.fileName = fileName;
+                        setValue.directoryPath = directoryPath;
 
                         if (!CHECK_REAL_ESRGAN_EXIST())
                         {
@@ -1847,15 +1876,18 @@ namespace Real_ESRGAN_GUI
                             }
                         }
 
-                        await Task.Run(() => EXECUTE_COMMAND());
+                        await Task.Run(() => GENERATE_COMMAND(setValue));
                     }
                 }
 
                 else
                 {
-                    filePath = files[0];
-                    fileName = Path.GetFileNameWithoutExtension(filePath);
-                    directoryPath = Path.GetDirectoryName(filePath);
+                    string filePath = files[0];
+                    string fileName = Path.GetFileNameWithoutExtension(filePath);
+                    string directoryPath = Path.GetDirectoryName(filePath);
+                    setValue.filePath = filePath;
+                    setValue.fileName = fileName;
+                    setValue.directoryPath = directoryPath;
 
                     if (!CHECK_REAL_ESRGAN_EXIST())
                     {
@@ -1867,7 +1899,7 @@ namespace Real_ESRGAN_GUI
                         }
                     }
 
-                    await Task.Run(() => EXECUTE_COMMAND());
+                    await Task.Run(() => GENERATE_COMMAND(setValue));
                 }
             }
         }
@@ -1880,8 +1912,8 @@ namespace Real_ESRGAN_GUI
         private void BUTTON_CONFIG_CLICK(object sender, EventArgs e)
         {
             NOTICE_CONFIG_SAVED();
-            SAVE_CONFIG();
-            SAVE_LOCATION();
+            SAVE_CONFIG(setValue);
+            SAVE_LOCATION(setValue);
         }
 
         private void CHECKBOX_HIDE_PROCESS_CHECKED_CHANGED(object sender, EventArgs e)
@@ -1889,32 +1921,32 @@ namespace Real_ESRGAN_GUI
             bool isProcessHidden = CheckBoxHideProcess.Checked;
             if (isProcessHidden)
             {
-                processHidden = true;
+                setValue.processHidden = true;
             }
 
             else
             {
-                processHidden = false;
+                setValue.processHidden = false;
             }
         }
 
         private void COMBOBOX_SCALE_SELECTED_INDEX_CHANGNED(object sender, EventArgs e)
         {
             string selectedScale = ComboBoxScale.SelectedItem.ToString();
-            scale = selectedScale;
+            setValue.scale = selectedScale;
         }
 
         private void COMBOBOX_MODEL_SELECTED_INDEX_CHANGED(object sender, EventArgs e)
         {
             string selectedModel = ComboBoxModel.SelectedItem.ToString();
-            model = selectedModel;
-            DEFAULT_SCALE_MENU();
+            setValue.model = selectedModel;
+            DEFAULT_SCALE_MENU(setValue);
         }
 
         private void COMBOBOX_EXTENSION_SELECTED_INDEX_CHANGED(object sender, EventArgs e)
         {
             string selectedExtension = ComboBoxExtension.SelectedItem.ToString();
-            extension = selectedExtension;
+            setValue.extension = selectedExtension;
         }
 
         private async void MAINMENU_OPENFILES_CLICK(object sender, EventArgs e)
@@ -1929,9 +1961,12 @@ namespace Real_ESRGAN_GUI
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 // 获取选中文件的完整路径
-                filePath = openFileDialog.FileName;
-                fileName = Path.GetFileNameWithoutExtension(filePath);
-                directoryPath = Path.GetDirectoryName(filePath);
+                string filePath = openFileDialog.FileName;
+                string fileName = Path.GetFileNameWithoutExtension(filePath);
+                string directoryPath = Path.GetDirectoryName(filePath);
+                setValue.filePath = filePath;
+                setValue.fileName = fileName;
+                setValue.directoryPath = directoryPath;
 
                 if (!CHECK_REAL_ESRGAN_EXIST())
                 {
@@ -1943,13 +1978,13 @@ namespace Real_ESRGAN_GUI
                     }
                 }
 
-                await Task.Run(() => EXECUTE_COMMAND());
+                await Task.Run(() => GENERATE_COMMAND(setValue));
             }
         }
 
         private void MAINMENU_EXIT_CLICK(object sender, EventArgs e)
         {
-            SAVE_LOCATION();
+            SAVE_LOCATION(setValue);
             this.Close();
         }
 
@@ -1982,20 +2017,20 @@ namespace Real_ESRGAN_GUI
 
         private void MAINFORM_FORM_CLOSING(object sender,FormClosingEventArgs e)
         {
-            SAVE_LOCATION();
+            SAVE_LOCATION(setValue);
         }
 
-        private void SAVE_LOCATION()
+        private void SAVE_LOCATION(SetValue setValue)
         {
-            locationX = this.Location.X;
-            locationY = this.Location.Y;
+            int locationX = this.Location.X;
+            int locationY = this.Location.Y;
 
             int width = Screen.PrimaryScreen.Bounds.Width;
             int height = Screen.PrimaryScreen.Bounds.Height;
 
             UPDATE_CONFIG($"{xmlPath}", "ScreenWidth", $"{width}");
             UPDATE_CONFIG($"{xmlPath}", "ScreenHeight", $"{height}");
-            UPDATE_CONFIG($"{xmlPath}", "SystemScale", $"{systemScale}");
+            UPDATE_CONFIG($"{xmlPath}", "SystemScale", $"{setValue.systemScale}");
             UPDATE_CONFIG($"{xmlPath}", "LocationX", $"{locationX}");
             UPDATE_CONFIG($"{xmlPath}", "LocationY", $"{locationY}");
         }

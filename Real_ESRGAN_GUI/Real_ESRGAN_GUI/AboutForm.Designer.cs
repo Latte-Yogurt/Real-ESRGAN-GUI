@@ -86,9 +86,9 @@ namespace Real_ESRGAN_GUI
             this.DeveloperLabel.Font = new System.Drawing.Font("Ink Free", 7F);
             this.DeveloperLabel.Location = new System.Drawing.Point(228, 293);
             this.DeveloperLabel.Name = "DeveloperLabel";
-            this.DeveloperLabel.Size = new System.Drawing.Size(327, 18);
+            this.DeveloperLabel.Size = new System.Drawing.Size(368, 18);
             this.DeveloperLabel.TabIndex = 3;
-            this.DeveloperLabel.Text = "Copyright© 2024 LatteYogurt , All rights reserved.";
+            this.DeveloperLabel.Text = "Copyright© 2024-2025 LatteYogurt , All rights reserved.";
             // 
             // LabelWebsite
             // 

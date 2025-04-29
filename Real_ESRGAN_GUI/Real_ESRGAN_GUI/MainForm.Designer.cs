@@ -50,7 +50,6 @@ namespace Real_ESRGAN_GUI
             this.LanguageMenuSelectenUS = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenuAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.MainPanel.SuspendLayout();
             this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -179,13 +178,11 @@ namespace Real_ESRGAN_GUI
             // 
             this.MenuStrip.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.MenuStrip.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MenuStrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.MenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MainMenu,
             this.LanguageMenu,
-            this.AboutMenu,
-            this.toolStripMenuItem1});
+            this.AboutMenu});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Padding = new System.Windows.Forms.Padding(11, 4, 0, 4);
@@ -207,14 +204,14 @@ namespace Real_ESRGAN_GUI
             // MainMenuOpenFiles
             // 
             this.MainMenuOpenFiles.Name = "MainMenuOpenFiles";
-            this.MainMenuOpenFiles.Size = new System.Drawing.Size(146, 34);
+            this.MainMenuOpenFiles.Size = new System.Drawing.Size(270, 34);
             this.MainMenuOpenFiles.Text = "打开";
             this.MainMenuOpenFiles.Click += new System.EventHandler(this.MAINMENU_OPENFILES_CLICK);
             // 
             // MainMenuExit
             // 
             this.MainMenuExit.Name = "MainMenuExit";
-            this.MainMenuExit.Size = new System.Drawing.Size(146, 34);
+            this.MainMenuExit.Size = new System.Drawing.Size(270, 34);
             this.MainMenuExit.Text = "退出";
             this.MainMenuExit.Click += new System.EventHandler(this.MAINMENU_EXIT_CLICK);
             // 
@@ -272,11 +269,6 @@ namespace Real_ESRGAN_GUI
             this.AboutMenuAbout.Text = "Real ESRGAN GUI";
             this.AboutMenuAbout.Click += new System.EventHandler(this.ABOUTMENU_ABOUT);
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(16, 28);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -323,7 +315,6 @@ namespace Real_ESRGAN_GUI
         private System.Windows.Forms.ToolStripMenuItem AboutMenuAbout;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenu;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelect;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelectzhCN;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelectzhTW;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelectenUS;
