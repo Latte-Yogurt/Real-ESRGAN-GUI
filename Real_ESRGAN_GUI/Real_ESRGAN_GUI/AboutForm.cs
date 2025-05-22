@@ -18,8 +18,8 @@ namespace Real_ESRGAN_GUI
         {
             InitializeComponent();
 
-            currentLanguage = MainForm.currentLanguage;
-            systemScale = MainForm.systemScale;
+            currentLanguage = MainForm.SetValue.currentLanguage;
+            systemScale = MainForm.SetValue.systemScale;
 
             SET_BUTTON_CONFIRM_SIZE();
             SET_CLIENT_SIZE();
@@ -64,14 +64,14 @@ namespace Real_ESRGAN_GUI
 
         private void SET_CLIENT_SIZE()
         {
-            this.ClientSize = new Size((DeveloperLabel.Width + (int)(20.0f * systemScale) * 2) * 2, DeveloperLabel.Width + (int)(20.0f * systemScale) * 2);
-            this.MaximumSize = this.ClientSize;
-            this.MinimumSize = new Size(this.ClientSize.Width / 2, DeveloperLabel.Width + (int)(20.0f * systemScale) * 2);
+            ClientSize = new Size((DeveloperLabel.Width + (int)(20.0f * systemScale) * 2) * 2, DeveloperLabel.Width + (int)(20.0f * systemScale) * 2);
+            MaximumSize = ClientSize;
+            MinimumSize = new Size(ClientSize.Width / 2, DeveloperLabel.Width + (int)(20.0f * systemScale) * 2);
         }
 
         private void UpdateLanguage()
         {
-            this.Text = languageTexts[currentLanguage]["Title"];
+            Text = languageTexts[currentLanguage]["Title"];
             LabelWebsite.Text = languageTexts[currentLanguage]["LabelWebsite"];
             LabelLicense.Text = languageTexts[currentLanguage]["LabelLicense"];
         }
@@ -86,43 +86,12 @@ namespace Real_ESRGAN_GUI
             DeveloperLabel.Location = new Point(PanelAbout.Width / 2 - DeveloperLabel.Width / 2, PanelAbout.Height / 2 - DeveloperLabel.Height / 2 + (int)(84.0f * systemScale));
         }
 
-        private void ERROR_IMAGE_NOT_FOUND()
-        {
-            switch (currentLanguage)
-            {
-                case "zh-CN":
-                    MessageBox.Show("图像未找到！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-                case "zh-TW":
-                    MessageBox.Show("圖像未找到！", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-                case "en-US":
-                    MessageBox.Show("Can not Find Image File！", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-            }
-        }
-
         private void ABOUT_FORM_LOAD(object sender, EventArgs e)
         {
-            int locationX = Screen.PrimaryScreen.Bounds.Width / 2 - this.Width / 2;
-            int locationY = Screen.PrimaryScreen.Bounds.Height / 2 - this.Height / 2;
+            int locationX = Screen.PrimaryScreen.Bounds.Width / 2 - Width / 2;
+            int locationY = Screen.PrimaryScreen.Bounds.Height / 2 - Height / 2;
 
-            this.Location = new Point(locationX, locationY);
-
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Real_ESRGAN_GUI.Resource.icon.Yoimiya64-1.png"; // 具体的命名空间和资源名称
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            {
-                if (stream != null)
-                {
-                    MainPic.Image = Image.FromStream(stream); // 将图像显示到PictureBox中
-                }
-                else
-                {
-                    ERROR_IMAGE_NOT_FOUND();
-                }
-            }
+            Location = new Point(locationX, locationY);
         }
 
         private void WEBSITE_LABEL_LINK_CLICKED(object sender, LinkLabelLinkClickedEventArgs e)
@@ -145,7 +114,7 @@ namespace Real_ESRGAN_GUI
 
         private void CONFIRM_BUTTON_CLICK(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

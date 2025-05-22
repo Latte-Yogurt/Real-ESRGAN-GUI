@@ -118,10 +118,12 @@ namespace Real_ESRGAN_GUI
             // 
             this.MainPic.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.MainPic.ErrorImage = null;
+            this.MainPic.Image = ((System.Drawing.Image)(resources.GetObject("MainPic.Image")));
             this.MainPic.InitialImage = null;
             this.MainPic.Location = new System.Drawing.Point(223, 34);
             this.MainPic.Name = "MainPic";
             this.MainPic.Size = new System.Drawing.Size(64, 64);
+            this.MainPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.MainPic.TabIndex = 2;
             this.MainPic.TabStop = false;
             // 

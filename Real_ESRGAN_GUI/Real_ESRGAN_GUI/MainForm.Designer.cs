@@ -178,6 +178,7 @@ namespace Real_ESRGAN_GUI
             // 
             this.MenuStrip.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.MenuStrip.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.MenuStrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.MenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MainMenu,
@@ -204,14 +205,14 @@ namespace Real_ESRGAN_GUI
             // MainMenuOpenFiles
             // 
             this.MainMenuOpenFiles.Name = "MainMenuOpenFiles";
-            this.MainMenuOpenFiles.Size = new System.Drawing.Size(270, 34);
+            this.MainMenuOpenFiles.Size = new System.Drawing.Size(146, 34);
             this.MainMenuOpenFiles.Text = "打开";
             this.MainMenuOpenFiles.Click += new System.EventHandler(this.MAINMENU_OPENFILES_CLICK);
             // 
             // MainMenuExit
             // 
             this.MainMenuExit.Name = "MainMenuExit";
-            this.MainMenuExit.Size = new System.Drawing.Size(270, 34);
+            this.MainMenuExit.Size = new System.Drawing.Size(146, 34);
             this.MainMenuExit.Text = "退出";
             this.MainMenuExit.Click += new System.EventHandler(this.MAINMENU_EXIT_CLICK);
             // 
@@ -286,7 +287,10 @@ namespace Real_ESRGAN_GUI
             this.MinimumSize = new System.Drawing.Size(400, 400);
             this.Name = "MainForm";
             this.Text = "Real ESRGAN";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MAINFORM_FORM_CLOSING);
             this.Load += new System.EventHandler(this.MAINFORM_LOAD);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MAINFORM_DRAGDROP);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MAINFORM_DRAGENTER);
             this.Resize += new System.EventHandler(this.MAINFORM_RESIZE);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
