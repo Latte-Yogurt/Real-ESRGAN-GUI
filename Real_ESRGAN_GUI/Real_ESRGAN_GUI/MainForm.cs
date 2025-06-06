@@ -533,7 +533,7 @@ namespace Real_ESRGAN_GUI
         {
             string nowTime = DateTime.Now.ToString("HH-mm-ss");
 
-            string command = $"@\"{SetValue.realesrganPath}\" -i \"{SetValue.filePath}\" -o \"{SetValue.directoryPath}\\{SetValue.fileName}_x{SetValue.scale}_{nowTime}.{SetValue.extension}\" -n {SetValue.model} -s {SetValue.scale}";
+            string command = $"-i \"{SetValue.filePath}\" -o \"{SetValue.directoryPath}\\{SetValue.fileName}_x{SetValue.scale}_{nowTime}.{SetValue.extension}\" -n {SetValue.model} -s {SetValue.scale}";
 
             if (CheckBoxHideProcess.Checked)
             {
@@ -550,24 +550,21 @@ namespace Real_ESRGAN_GUI
         {
             // 创建进程
             var process = new Process();
-            process.StartInfo.FileName = @"cmd.exe";
-            process.StartInfo.Arguments = $"/C \"{command}\""; // /K 表示执行后保留窗口 /C 表示执行后不保留窗口(注意！！！给command添加双引号才可以正常运行！！！)
-            process.StartInfo.RedirectStandardOutput = true; // 重定向输出
+            process.StartInfo.FileName = $"\"{SetValue.realesrganPath}\"";
+            process.StartInfo.Arguments = command;
             process.StartInfo.UseShellExecute = false; // 不使用操作系统外壳启动
             process.StartInfo.CreateNoWindow = false; // 显示命令行窗口
 
             // 启动进程
             process.Start();
-            string output = process.StandardOutput.ReadToEnd();
-            Console.WriteLine(output);
         }
 
         private void EXECUTE_COMMAND_HIDDEN(string command)
         {
             // 创建进程
             var process = new Process();
-            process.StartInfo.FileName = @"cmd.exe"; // 调用系统文件夹中的cmd而非从工作路径调用cmd，避免工作路径下空格带来的影响
-            process.StartInfo.Arguments = $"/C \"{command}\""; // /C 表示执行后不保留窗口(注意！！！给command添加双引号才可以正常运行！！！)
+            process.StartInfo.FileName = $"\"{SetValue.realesrganPath}\"";
+            process.StartInfo.Arguments = command;
             process.StartInfo.UseShellExecute = false; // 不使用操作系统外壳启动
             process.StartInfo.CreateNoWindow = true; // 不显示命令行窗口
 
