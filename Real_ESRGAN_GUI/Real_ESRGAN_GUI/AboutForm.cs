@@ -92,6 +92,7 @@ namespace Real_ESRGAN_GUI
             int locationY = Screen.PrimaryScreen.Bounds.Height / 2 - Height / 2;
 
             Location = new Point(locationX, locationY);
+            COPYRIGHT_REFRESH();
         }
 
         private void WEBSITE_LABEL_LINK_CLICKED(object sender, LinkLabelLinkClickedEventArgs e)
@@ -115,6 +116,25 @@ namespace Real_ESRGAN_GUI
         private void CONFIRM_BUTTON_CLICK(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void COPYRIGHT_REFRESH()
+        {
+            int startYear = 2024;
+            int currentYear = DateTime.Now.Year;
+            string copyrightText;
+
+            if (currentYear == startYear)
+            {
+                copyrightText = $"Copyright© {startYear} LatteYogurt , All rights reserved.";
+            }
+
+            else
+            {
+                copyrightText = $"Copyright© {startYear}-{currentYear} LatteYogurt , All rights reserved.";
+            }
+
+            DeveloperLabel.Text = copyrightText;
         }
     }
 }
