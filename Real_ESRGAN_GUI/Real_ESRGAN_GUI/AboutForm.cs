@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -14,19 +12,41 @@ namespace Real_ESRGAN_GUI
         private readonly string currentLanguage;
         private readonly float systemScale;
 
+        protected override void OnDpiChanged(DpiChangedEventArgs e)
+        {
+            base.OnDpiChanged(e);
+
+            // 获取新的 DPI 缩放因子
+            float newScale = e.DeviceDpiNew / 96.0f;
+            Bounds = e.SuggestedRectangle;
+
+            INITIALIZE_MAINFORM_SIZE(newScale);
+
+            // 强制重绘界面以适应新 DPI 下的字体和控件
+            Invalidate();
+            Update();
+        }
+
         public AboutForm()
         {
             InitializeComponent();
 
-            currentLanguage = MainForm.SetValue.currentLanguage;
-            systemScale = MainForm.SetValue.systemScale;
-
-            SET_BUTTON_CONFIRM_SIZE();
-            SET_CLIENT_SIZE();
+            currentLanguage = MainForm.Parameters.currentLanguage;
+            systemScale = MainForm.Parameters.systemScale;
 
             InitializeLanguageTexts();
             UpdateLanguage();
-            UpdateUI();
+        }
+
+        private float GET_SCALE()
+        {
+            float dpi;
+            using (Graphics g = CreateGraphics())
+            {
+                dpi = g.DpiX;
+            }
+
+            return dpi / 96.0f;
         }
 
         private void InitializeLanguageTexts()
@@ -57,33 +77,11 @@ namespace Real_ESRGAN_GUI
             };
         }
 
-        private void SET_BUTTON_CONFIRM_SIZE()
-        {
-            ButtonConfirm.Size = new Size((int)(100 * systemScale), (int)(30 * systemScale));
-        }
-
-        private void SET_CLIENT_SIZE()
-        {
-            ClientSize = new Size((DeveloperLabel.Width + (int)(20.0f * systemScale) * 2) * 2, DeveloperLabel.Width + (int)(20.0f * systemScale) * 2);
-            MaximumSize = ClientSize;
-            MinimumSize = new Size(ClientSize.Width / 2, DeveloperLabel.Width + (int)(20.0f * systemScale) * 2);
-        }
-
         private void UpdateLanguage()
         {
             Text = languageTexts[currentLanguage]["Title"];
-            LabelWebsite.Text = languageTexts[currentLanguage]["LabelWebsite"];
-            LabelLicense.Text = languageTexts[currentLanguage]["LabelLicense"];
-        }
-
-        private void UpdateUI()
-        {
-            MainPic.Location = new Point(PanelAbout.Width / 2 - MainPic.Width / 2 - MainLabel.Width / 2, PanelAbout.Height / 2 - MainPic.Height / 2 - (int)(57.0f * systemScale));
-            MainLabel.Location = new Point(PanelAbout.Width / 2 + MainPic.Width / 2 - MainLabel.Width / 2, PanelAbout.Height / 2 - MainLabel.Height / 2 - (int)(57.0f * systemScale));
-            LabelWebsite.Location = new Point(PanelAbout.Width / 2 - LabelWebsite.Width / 2, PanelAbout.Height / 2 - LabelWebsite.Height / 2 - (int)(17.0f * systemScale));
-            LabelLicense.Location = new Point(PanelAbout.Width / 2 - LabelLicense.Width / 2, PanelAbout.Height / 2 - LabelLicense.Height / 2 + (int)(14.0f * systemScale));
-            ButtonConfirm.Location = new Point(PanelAbout.Width / 2 - ButtonConfirm.Width / 2, PanelAbout.Height / 2 - ButtonConfirm.Height / 2 + (int)(54.0f * systemScale));
-            DeveloperLabel.Location = new Point(PanelAbout.Width / 2 - DeveloperLabel.Width / 2, PanelAbout.Height / 2 - DeveloperLabel.Height / 2 + (int)(84.0f * systemScale));
+            LinkLabelGitHub.Text = languageTexts[currentLanguage]["LabelWebsite"];
+            LinkLabelLicense.Text = languageTexts[currentLanguage]["LabelLicense"];
         }
 
         private void ABOUT_FORM_LOAD(object sender, EventArgs e)
@@ -92,6 +90,7 @@ namespace Real_ESRGAN_GUI
             int locationY = Screen.PrimaryScreen.Bounds.Height / 2 - Height / 2;
 
             Location = new Point(locationX, locationY);
+            INITIALIZE_MAINFORM_SIZE(systemScale);
             COPYRIGHT_REFRESH();
         }
 
@@ -101,7 +100,7 @@ namespace Real_ESRGAN_GUI
             System.Diagnostics.Process.Start("https://github.com/Latte-Yogurt");
 
             // 标记为已访问
-            LabelWebsite.LinkVisited = true;
+            LinkLabelGitHub.LinkVisited = true;
         }
 
         private void TELEGRAM_LABEL_LINK_CLICKED(object sender, LinkLabelLinkClickedEventArgs e)
@@ -110,7 +109,7 @@ namespace Real_ESRGAN_GUI
             System.Diagnostics.Process.Start("https://www.gnu.org/licenses/gpl-3.0.html");
 
             // 标记为已访问
-            LabelWebsite.LinkVisited = true;
+            LinkLabelGitHub.LinkVisited = true;
         }
 
         private void CONFIRM_BUTTON_CLICK(object sender, EventArgs e)
@@ -134,7 +133,80 @@ namespace Real_ESRGAN_GUI
                 copyrightText = $"Copyright© {startYear}-{currentYear} LatteYogurt , All rights reserved.";
             }
 
-            DeveloperLabel.Text = copyrightText;
+            LabelCopyRight.Text = copyrightText;
+        }
+
+        private void INITIALIZE_MAINFORM_SIZE(float scale)
+        {
+            // 设置自动缩放模式
+            AutoScaleMode = AutoScaleMode.Dpi;
+
+            MinimumSize = new Size(0, 0);
+            MaximumSize = MinimumSize;
+            UPDATE_MIN_MAX_SIZE(scale);
+
+            float baseWidth = 510f;
+            float baseHeight = 280f;
+            Size = new Size((int)(baseWidth * scale), (int)(baseHeight * scale));
+
+            INITIALIZE_TABLE_LAYOUT_PANEL_PIXEL();
+            INITIALIZE_UI_FONT_SIZE();
+        }
+
+        private void UPDATE_MIN_MAX_SIZE(float scale)
+        {
+            int width = (int)(300 * scale);
+            int height = (int)(280 * scale);
+            MinimumSize = new Size(width, height);
+            MaximumSize = new Size((int)(width * 1.7), height);
+        }
+
+        private void INITIALIZE_TABLE_LAYOUT_PANEL_PIXEL()
+        {
+            // 索引从0开始，即第一行或列的索引号为0
+
+            // 对列的定义
+            SET_COLUMN_SIZE(tableLayoutPanel, 0, SizeType.Percent, 20f);
+            SET_COLUMN_SIZE(tableLayoutPanel, 1, SizeType.Percent, 20f);
+            SET_COLUMN_SIZE(tableLayoutPanel, 2, SizeType.Percent, 20f);
+            SET_COLUMN_SIZE(tableLayoutPanel, 3, SizeType.Percent, 20f);
+            SET_COLUMN_SIZE(tableLayoutPanel, 4, SizeType.Percent, 20f);
+
+            // 对行的定义
+            SET_ROW_SIZE(tableLayoutPanel, 0, SizeType.Absolute, 15f);
+            SET_ROW_SIZE(tableLayoutPanel, 1, SizeType.Percent, 17f);
+            SET_ROW_SIZE(tableLayoutPanel, 2, SizeType.Percent, 16f);
+            SET_ROW_SIZE(tableLayoutPanel, 3, SizeType.Percent, 17f);
+            SET_ROW_SIZE(tableLayoutPanel, 4, SizeType.Percent, 17f);
+            SET_ROW_SIZE(tableLayoutPanel, 5, SizeType.Percent, 16f);
+            SET_ROW_SIZE(tableLayoutPanel, 6, SizeType.Percent, 17f);
+            SET_ROW_SIZE(tableLayoutPanel, 7, SizeType.Absolute, 15f);
+        }
+
+        private void SET_COLUMN_SIZE(TableLayoutPanel panel, int num, SizeType type, float fontSize)
+        {
+            panel.ColumnStyles[num].SizeType = type;
+            panel.ColumnStyles[num].Width = fontSize;
+        }
+
+        private void SET_ROW_SIZE(TableLayoutPanel panel, int num, SizeType type, float fontSize)
+        {
+            panel.RowStyles[num].SizeType = type;
+            panel.RowStyles[num].Height = fontSize;
+        }
+
+        private void INITIALIZE_UI_FONT_SIZE()
+        {
+            SET_FONT_SIZE(MainLabel, Font.Size);
+            SET_FONT_SIZE(LinkLabelGitHub, Font.Size);
+            SET_FONT_SIZE(LinkLabelLicense, Font.Size);
+            SET_FONT_SIZE(LabelCopyRight, Font.Size / 2);
+            ButtonConfirm.Font = new Font(ButtonConfirm.Font.FontFamily, Font.Size, ButtonConfirm.Font.Style);
+        }
+
+        private void SET_FONT_SIZE(Control obj, float fontSize)// 使用dynamic或Control绕过编译时的类型检查，直到运行时才解析
+        {
+            obj.Font = new Font(obj.Font.FontFamily, fontSize * systemScale, obj.Font.Style);
         }
     }
 }

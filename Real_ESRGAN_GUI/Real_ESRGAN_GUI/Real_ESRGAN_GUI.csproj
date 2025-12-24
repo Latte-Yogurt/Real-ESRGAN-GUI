@@ -155,6 +155,7 @@
     <EmbeddedResource Include="Resource\models\realesrgan-x4plus-anime.param" />
     <EmbeddedResource Include="Resource\models\realesrgan-x4plus.bin" />
     <EmbeddedResource Include="Resource\models\realesrgan-x4plus.param" />
+    <EmbeddedResource Include="Resource\Real_ESRGAN_GUI.exe.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -30,15 +30,11 @@ namespace Real_ESRGAN_GUI
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.MainPanel = new System.Windows.Forms.Panel();
             this.ComboBoxExtension = new System.Windows.Forms.ComboBox();
-            this.LabelExtension = new System.Windows.Forms.Label();
             this.ComboBoxModel = new System.Windows.Forms.ComboBox();
-            this.LabelModel = new System.Windows.Forms.Label();
-            this.LabelScale = new System.Windows.Forms.Label();
             this.ComboBoxScale = new System.Windows.Forms.ComboBox();
-            this.CheckBoxHideProcess = new System.Windows.Forms.CheckBox();
             this.ButtonConfig = new System.Windows.Forms.Button();
+            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.MainMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenuOpenFiles = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,133 +46,116 @@ namespace Real_ESRGAN_GUI
             this.LanguageMenuSelectenUS = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenuAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.MainPanel.SuspendLayout();
+            this.LabelScale = new System.Windows.Forms.Label();
+            this.LabelModel = new System.Windows.Forms.Label();
+            this.LabelExtension = new System.Windows.Forms.Label();
+            this.CheckBoxHideProcess = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel.SuspendLayout();
             this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // MainPanel
-            // 
-            this.MainPanel.Controls.Add(this.ComboBoxExtension);
-            this.MainPanel.Controls.Add(this.LabelExtension);
-            this.MainPanel.Controls.Add(this.ComboBoxModel);
-            this.MainPanel.Controls.Add(this.LabelModel);
-            this.MainPanel.Controls.Add(this.LabelScale);
-            this.MainPanel.Controls.Add(this.ComboBoxScale);
-            this.MainPanel.Controls.Add(this.CheckBoxHideProcess);
-            this.MainPanel.Controls.Add(this.ButtonConfig);
-            this.MainPanel.Controls.Add(this.MenuStrip);
-            this.MainPanel.Cursor = System.Windows.Forms.Cursors.Default;
-            this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainPanel.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MainPanel.Location = new System.Drawing.Point(0, 0);
-            this.MainPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(378, 344);
-            this.MainPanel.TabIndex = 0;
-            // 
             // ComboBoxExtension
             // 
-            this.ComboBoxExtension.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ComboBoxExtension.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel.SetColumnSpan(this.ComboBoxExtension, 4);
+            this.ComboBoxExtension.Cursor = System.Windows.Forms.Cursors.Default;
             this.ComboBoxExtension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxExtension.FormattingEnabled = true;
-            this.ComboBoxExtension.Location = new System.Drawing.Point(121, 218);
+            this.ComboBoxExtension.Location = new System.Drawing.Point(114, 297);
             this.ComboBoxExtension.Margin = new System.Windows.Forms.Padding(4);
             this.ComboBoxExtension.Name = "ComboBoxExtension";
-            this.ComboBoxExtension.Size = new System.Drawing.Size(242, 32);
+            this.ComboBoxExtension.Size = new System.Drawing.Size(329, 32);
             this.ComboBoxExtension.TabIndex = 8;
             this.ComboBoxExtension.SelectedIndexChanged += new System.EventHandler(this.COMBOBOX_EXTENSION_SELECTED_INDEX_CHANGED);
             // 
-            // LabelExtension
-            // 
-            this.LabelExtension.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.LabelExtension.AutoSize = true;
-            this.LabelExtension.Location = new System.Drawing.Point(17, 222);
-            this.LabelExtension.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelExtension.Name = "LabelExtension";
-            this.LabelExtension.Size = new System.Drawing.Size(82, 24);
-            this.LabelExtension.TabIndex = 7;
-            this.LabelExtension.Text = "生成格式";
-            // 
             // ComboBoxModel
             // 
-            this.ComboBoxModel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ComboBoxModel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel.SetColumnSpan(this.ComboBoxModel, 4);
+            this.ComboBoxModel.Cursor = System.Windows.Forms.Cursors.Default;
             this.ComboBoxModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxModel.FormattingEnabled = true;
-            this.ComboBoxModel.Location = new System.Drawing.Point(121, 148);
+            this.ComboBoxModel.Location = new System.Drawing.Point(114, 194);
             this.ComboBoxModel.Margin = new System.Windows.Forms.Padding(4);
-            this.ComboBoxModel.MaximumSize = new System.Drawing.Size(400, 0);
             this.ComboBoxModel.Name = "ComboBoxModel";
-            this.ComboBoxModel.Size = new System.Drawing.Size(242, 32);
+            this.ComboBoxModel.Size = new System.Drawing.Size(329, 32);
             this.ComboBoxModel.TabIndex = 5;
             this.ComboBoxModel.SelectedIndexChanged += new System.EventHandler(this.COMBOBOX_MODEL_SELECTED_INDEX_CHANGED);
             // 
-            // LabelModel
-            // 
-            this.LabelModel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.LabelModel.AutoSize = true;
-            this.LabelModel.Location = new System.Drawing.Point(17, 152);
-            this.LabelModel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelModel.Name = "LabelModel";
-            this.LabelModel.Size = new System.Drawing.Size(82, 24);
-            this.LabelModel.TabIndex = 4;
-            this.LabelModel.Text = "放大算法";
-            // 
-            // LabelScale
-            // 
-            this.LabelScale.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.LabelScale.AutoSize = true;
-            this.LabelScale.Location = new System.Drawing.Point(17, 80);
-            this.LabelScale.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelScale.Name = "LabelScale";
-            this.LabelScale.Size = new System.Drawing.Size(82, 24);
-            this.LabelScale.TabIndex = 3;
-            this.LabelScale.Text = "放大倍数";
-            // 
             // ComboBoxScale
             // 
-            this.ComboBoxScale.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ComboBoxScale.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ComboBoxScale.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel.SetColumnSpan(this.ComboBoxScale, 4);
+            this.ComboBoxScale.Cursor = System.Windows.Forms.Cursors.Default;
             this.ComboBoxScale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxScale.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ComboBoxScale.FormattingEnabled = true;
             this.ComboBoxScale.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ComboBoxScale.Location = new System.Drawing.Point(121, 76);
+            this.ComboBoxScale.Location = new System.Drawing.Point(114, 88);
             this.ComboBoxScale.Margin = new System.Windows.Forms.Padding(4);
             this.ComboBoxScale.Name = "ComboBoxScale";
-            this.ComboBoxScale.Size = new System.Drawing.Size(242, 32);
+            this.ComboBoxScale.Size = new System.Drawing.Size(329, 32);
             this.ComboBoxScale.TabIndex = 2;
             this.ComboBoxScale.SelectedIndexChanged += new System.EventHandler(this.COMBOBOX_SCALE_SELECTED_INDEX_CHANGNED);
-            // 
-            // CheckBoxHideProcess
-            // 
-            this.CheckBoxHideProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CheckBoxHideProcess.AutoSize = true;
-            this.CheckBoxHideProcess.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CheckBoxHideProcess.Location = new System.Drawing.Point(21, 295);
-            this.CheckBoxHideProcess.Margin = new System.Windows.Forms.Padding(4);
-            this.CheckBoxHideProcess.Name = "CheckBoxHideProcess";
-            this.CheckBoxHideProcess.Size = new System.Drawing.Size(108, 28);
-            this.CheckBoxHideProcess.TabIndex = 1;
-            this.CheckBoxHideProcess.Text = "后台运行";
-            this.CheckBoxHideProcess.UseVisualStyleBackColor = true;
-            this.CheckBoxHideProcess.CheckedChanged += new System.EventHandler(this.CHECKBOX_HIDE_PROCESS_CHECKED_CHANGED);
             // 
             // ButtonConfig
             // 
             this.ButtonConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel.SetColumnSpan(this.ButtonConfig, 4);
             this.ButtonConfig.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ButtonConfig.Location = new System.Drawing.Point(243, 291);
+            this.ButtonConfig.Location = new System.Drawing.Point(303, 389);
             this.ButtonConfig.Margin = new System.Windows.Forms.Padding(4);
             this.ButtonConfig.Name = "ButtonConfig";
-            this.ButtonConfig.Size = new System.Drawing.Size(120, 40);
+            this.ButtonConfig.Size = new System.Drawing.Size(157, 44);
             this.ButtonConfig.TabIndex = 0;
             this.ButtonConfig.Text = "保存配置";
             this.ButtonConfig.UseVisualStyleBackColor = true;
             this.ButtonConfig.Click += new System.EventHandler(this.BUTTON_CONFIG_CLICK);
             // 
+            // tableLayoutPanel
+            // 
+            this.tableLayoutPanel.ColumnCount = 8;
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 13F));
+            this.tableLayoutPanel.Controls.Add(this.MenuStrip, 0, 0);
+            this.tableLayoutPanel.Controls.Add(this.ComboBoxExtension, 2, 6);
+            this.tableLayoutPanel.Controls.Add(this.ComboBoxScale, 2, 2);
+            this.tableLayoutPanel.Controls.Add(this.ComboBoxModel, 2, 4);
+            this.tableLayoutPanel.Controls.Add(this.ButtonConfig, 3, 8);
+            this.tableLayoutPanel.Controls.Add(this.LabelScale, 1, 2);
+            this.tableLayoutPanel.Controls.Add(this.LabelModel, 1, 4);
+            this.tableLayoutPanel.Controls.Add(this.LabelExtension, 1, 6);
+            this.tableLayoutPanel.Controls.Add(this.CheckBoxHideProcess, 1, 8);
+            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel.Name = "tableLayoutPanel";
+            this.tableLayoutPanel.RowCount = 10;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel.Size = new System.Drawing.Size(478, 444);
+            this.tableLayoutPanel.TabIndex = 1;
+            // 
             // MenuStrip
             // 
+            this.MenuStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.MenuStrip.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tableLayoutPanel.SetColumnSpan(this.MenuStrip, 8);
+            this.MenuStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.MenuStrip.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MenuStrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.MenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
@@ -187,8 +166,8 @@ namespace Real_ESRGAN_GUI
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Padding = new System.Windows.Forms.Padding(11, 4, 0, 4);
-            this.MenuStrip.Size = new System.Drawing.Size(378, 36);
-            this.MenuStrip.TabIndex = 6;
+            this.MenuStrip.Size = new System.Drawing.Size(478, 36);
+            this.MenuStrip.TabIndex = 7;
             this.MenuStrip.Text = "MenuStrip";
             // 
             // MainMenu
@@ -270,30 +249,70 @@ namespace Real_ESRGAN_GUI
             this.AboutMenuAbout.Text = "Real ESRGAN GUI";
             this.AboutMenuAbout.Click += new System.EventHandler(this.ABOUTMENU_ABOUT);
             // 
+            // LabelScale
+            // 
+            this.LabelScale.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.LabelScale.AutoSize = true;
+            this.LabelScale.Location = new System.Drawing.Point(25, 92);
+            this.LabelScale.Name = "LabelScale";
+            this.LabelScale.Size = new System.Drawing.Size(82, 24);
+            this.LabelScale.TabIndex = 9;
+            this.LabelScale.Text = "放大倍数";
+            // 
+            // LabelModel
+            // 
+            this.LabelModel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.LabelModel.AutoSize = true;
+            this.LabelModel.Location = new System.Drawing.Point(25, 195);
+            this.LabelModel.Name = "LabelModel";
+            this.LabelModel.Size = new System.Drawing.Size(82, 24);
+            this.LabelModel.TabIndex = 10;
+            this.LabelModel.Text = "放大算法";
+            // 
+            // LabelExtension
+            // 
+            this.LabelExtension.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.LabelExtension.AutoSize = true;
+            this.LabelExtension.Location = new System.Drawing.Point(25, 298);
+            this.LabelExtension.Name = "LabelExtension";
+            this.LabelExtension.Size = new System.Drawing.Size(82, 24);
+            this.LabelExtension.TabIndex = 11;
+            this.LabelExtension.Text = "生成格式";
+            // 
+            // CheckBoxHideProcess
+            // 
+            this.CheckBoxHideProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CheckBoxHideProcess.AutoSize = true;
+            this.tableLayoutPanel.SetColumnSpan(this.CheckBoxHideProcess, 2);
+            this.CheckBoxHideProcess.Location = new System.Drawing.Point(13, 406);
+            this.CheckBoxHideProcess.Name = "CheckBoxHideProcess";
+            this.CheckBoxHideProcess.Size = new System.Drawing.Size(108, 28);
+            this.CheckBoxHideProcess.TabIndex = 12;
+            this.CheckBoxHideProcess.Text = "后台运行";
+            this.CheckBoxHideProcess.UseVisualStyleBackColor = true;
+            this.CheckBoxHideProcess.CheckedChanged += new System.EventHandler(this.CHECKBOX_HIDE_PROCESS_CHECKED_CHANGED);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 344);
-            this.Controls.Add(this.MainPanel);
+            this.ClientSize = new System.Drawing.Size(478, 444);
+            this.Controls.Add(this.tableLayoutPanel);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.MainMenuStrip = this.MenuStrip;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(400, 400);
-            this.MinimumSize = new System.Drawing.Size(400, 400);
+            this.MinimumSize = new System.Drawing.Size(500, 500);
             this.Name = "MainForm";
             this.Text = "Real ESRGAN";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MAINFORM_FORM_CLOSING);
             this.Load += new System.EventHandler(this.MAINFORM_LOAD);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MAINFORM_DRAGDROP);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MAINFORM_DRAGENTER);
-            this.Resize += new System.EventHandler(this.MAINFORM_RESIZE);
-            this.MainPanel.ResumeLayout(false);
-            this.MainPanel.PerformLayout();
+            this.tableLayoutPanel.ResumeLayout(false);
+            this.tableLayoutPanel.PerformLayout();
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -301,27 +320,26 @@ namespace Real_ESRGAN_GUI
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel MainPanel;
         private System.Windows.Forms.Button ButtonConfig;
-        private System.Windows.Forms.CheckBox CheckBoxHideProcess;
         private System.Windows.Forms.ComboBox ComboBoxScale;
-        private System.Windows.Forms.Label LabelScale;
         private System.Windows.Forms.ComboBox ComboBoxModel;
-        private System.Windows.Forms.Label LabelModel;
+        private System.Windows.Forms.ComboBox ComboBoxExtension;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.ToolStripMenuItem MainMenu;
         private System.Windows.Forms.ToolStripMenuItem MainMenuOpenFiles;
         private System.Windows.Forms.ToolStripMenuItem MainMenuExit;
-        private System.Windows.Forms.ComboBox ComboBoxExtension;
-        private System.Windows.Forms.Label LabelExtension;
-        private System.Windows.Forms.ToolStripMenuItem AboutMenu;
-        private System.Windows.Forms.ToolStripMenuItem AboutMenuAbout;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenu;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelect;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelectzhCN;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelectzhTW;
         private System.Windows.Forms.ToolStripMenuItem LanguageMenuSelectenUS;
+        private System.Windows.Forms.ToolStripMenuItem AboutMenu;
+        private System.Windows.Forms.ToolStripMenuItem AboutMenuAbout;
+        private System.Windows.Forms.Label LabelScale;
+        private System.Windows.Forms.Label LabelModel;
+        private System.Windows.Forms.Label LabelExtension;
+        private System.Windows.Forms.CheckBox CheckBoxHideProcess;
     }
 }
 
