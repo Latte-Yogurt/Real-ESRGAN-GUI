@@ -686,8 +686,8 @@ namespace Real_ESRGAN_GUI
                 }
             }
 
-            int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - Width / 2;
-            int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - Height / 2;
+            int newLocationX = Screen.FromControl(this).Bounds.Width / 2 - Width / 2;
+            int newLocationY = Screen.FromControl(this).Bounds.Height / 2 - Height / 2;
 
             // 获取当前系统的显示语言
             var currentCulture = CultureInfo.CurrentUICulture;
@@ -901,7 +901,7 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            int newWidth = Screen.PrimaryScreen.Bounds.Width;
+            int newWidth = Screen.FromControl(this).Bounds.Width;
 
             XDocument xdoc;
 
@@ -951,7 +951,7 @@ namespace Real_ESRGAN_GUI
                 return 0;
             }
 
-            if (widthToInt == Screen.PrimaryScreen.Bounds.Width)
+            if (widthToInt == Screen.FromControl(this).Bounds.Width)
             {
                 return widthToInt;
             }
@@ -966,7 +966,7 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            int newHeight = Screen.PrimaryScreen.Bounds.Height;
+            int newHeight = Screen.FromControl(this).Bounds.Height;
 
             XDocument xdoc;
 
@@ -1016,7 +1016,7 @@ namespace Real_ESRGAN_GUI
                 return 0;
             }
 
-            if (heightToInt == Screen.PrimaryScreen.Bounds.Height)
+            if (heightToInt == Screen.FromControl(this).Bounds.Height)
             {
                 return heightToInt;
             }
@@ -1094,7 +1094,7 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            int newLocationX = Screen.PrimaryScreen.Bounds.Width / 2 - Size.Width / 2;
+            int newLocationX = Screen.FromControl(this).Bounds.Width / 2 - Size.Width / 2;
 
             XDocument xdoc;
 
@@ -1139,7 +1139,7 @@ namespace Real_ESRGAN_GUI
                 return newLocationX;
             }
 
-            if (locationXToInt > Screen.PrimaryScreen.Bounds.Width - Size.Width || locationXToInt < -10)
+            if (locationXToInt > Screen.FromControl(this).Bounds.Width - Size.Width || locationXToInt < -10)
             {
                 return newLocationX;
             }
@@ -1154,7 +1154,7 @@ namespace Real_ESRGAN_GUI
                 CREATE_DEFAULT_CONFIG(configFilePath);
             }
 
-            int newLocationY = Screen.PrimaryScreen.Bounds.Height / 2 - Size.Height / 2;
+            int newLocationY = Screen.FromControl(this).Bounds.Height / 2 - Size.Height / 2;
 
             XDocument xdoc;
 
@@ -1198,7 +1198,7 @@ namespace Real_ESRGAN_GUI
                 return newLocationY;
             }
 
-            if (locationYToInt > Screen.PrimaryScreen.Bounds.Height - Size.Height || locationYToInt < 0)
+            if (locationYToInt > Screen.FromControl(this).Bounds.Height - Size.Height || locationYToInt < 0)
             {
                 return newLocationY;
             }
@@ -1714,6 +1714,9 @@ namespace Real_ESRGAN_GUI
 
             INITIALIZE_TABLE_LAYOUT_PANEL_PIXEL(scale);
             ButtonConfig.Font = new Font(ButtonConfig.Font.FontFamily, Font.Size, ButtonConfig.Font.Style);
+            ComboBoxScale.Font = new Font(ComboBoxScale.Font.FontFamily, Font.Size, ComboBoxScale.Font.Style);
+            ComboBoxModel.Font = new Font(ComboBoxModel.Font.FontFamily, Font.Size, ComboBoxModel.Font.Style);
+            ComboBoxExtension.Font = new Font(ComboBoxExtension.Font.FontFamily, Font.Size, ComboBoxExtension.Font.Style);
         }
 
         private void UPDATE_MIN_MAX_SIZE(float scale)
@@ -1797,7 +1800,7 @@ namespace Real_ESRGAN_GUI
             int locationX;
             int locationY;
 
-            if (Parameters.oldScreenWidth == Screen.PrimaryScreen.Bounds.Width && Parameters.oldScreenHeight == Screen.PrimaryScreen.Bounds.Height && Parameters.oldSystemScale == Parameters.systemScale)
+            if (Parameters.oldScreenWidth == Screen.FromControl(this).Bounds.Width && Parameters.oldScreenHeight == Screen.FromControl(this).Bounds.Height && Parameters.oldSystemScale == Parameters.systemScale)
             {
                 locationX = GET_LOCATION_X(Parameters.xmlPath);
                 locationY = GET_LOCATION_Y(Parameters.xmlPath);
@@ -1807,8 +1810,8 @@ namespace Real_ESRGAN_GUI
 
             else
             {
-                locationX = Screen.PrimaryScreen.Bounds.Width / 2 - Size.Width / 2;
-                locationY = Screen.PrimaryScreen.Bounds.Height / 2 - Size.Height / 2;
+                locationX = Screen.FromControl(this).Bounds.Width / 2 - Size.Width / 2;
+                locationY = Screen.FromControl(this).Bounds.Height / 2 - Size.Height / 2;
 
                 Location = new Point(locationX, locationY);
             }
@@ -1982,8 +1985,8 @@ namespace Real_ESRGAN_GUI
             int locationX = Location.X;
             int locationY = Location.Y;
 
-            int width = Screen.PrimaryScreen.Bounds.Width;
-            int height = Screen.PrimaryScreen.Bounds.Height;
+            int width = Screen.FromControl(this).Bounds.Width;
+            int height = Screen.FromControl(this).Bounds.Height;
 
             UPDATE_CONFIG($"{Parameters.xmlPath}", "ScreenWidth", $"{width}");
             UPDATE_CONFIG($"{Parameters.xmlPath}", "ScreenHeight", $"{height}");
